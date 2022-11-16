@@ -39,7 +39,7 @@ function drawHex (hex, x, y, no) {
   ctx.lineWidth = 5;
   ctx.fillText(no, x-12, y+9);
   ctx.stroke();
-  //ctx.onClick = function() { ctx.fillStyle = 'green'; };
+  ctx.canvas.addEventListener = clickOnRect();
   /*ctx.addEventListener('click', function() {
     if (ctx.isPointInPath()) {
       ctx.fillStyle = 'green';
@@ -64,7 +64,7 @@ function windowToCanvas(canvas, x, y) {
 }
 
 function clickOnRect(event){
-
+  console.log("click on rect");
 }
 
 
