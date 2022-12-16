@@ -1,22 +1,32 @@
 
 class Hex {
-  constructor(r, name, col, row) {
+  constructor(r, name, col, row, centerX, centerY) {
       this.r = r;
       this.name = name;
       this.col = col;
-      this.raw = row
+      this.raw = row;
+      this.centerX = centerX;
+      this.centerY = centerY;
   }
 
   name (){
-    return this.name;
+    return this._name;
   };
 
-  coords(){
-    return (this.col, this.raw)
+  get coords (){
+    return (this._col, this._raw)
+  };
+
+  get centerCoords (){
+    return (this.centerX, this.centerY)
   }
   
 };
 
+
+function Point(x, y) {
+  return {x: x, y: y};
+};
 
 
 const canvas = document.getElementById('mainCanvas');
@@ -25,7 +35,7 @@ const a = 2 * Math.PI / 6;
 const r = 31;
 const linesABC = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'];
 
-var Hexs = [];
+var Hexes = [];
 
 function drawHex (hex, x, y, no) { 
   
@@ -38,34 +48,59 @@ function drawHex (hex, x, y, no) {
   ctx.font = "20px Arial";
   ctx.lineWidth = 5;
   ctx.fillText(no, x-12, y+9);
-  ctx.stroke();
-  ctx.canvas.addEventListener = clickOnRect();
-  /*ctx.addEventListener('click', function() {
-    if (ctx.isPointInPath()) {
-      ctx.fillStyle = 'green';
-      ctx.fill();
-    }
-    else {
-      ctx.fillStyle = 'red';
-      ctx.fill();
-    }
-  }, false);*/
-  /*ctx.canvas.addEventListener('click',function(no) {
-    this.style.backgroundColor = "red";
-    console.log("click1", no);
-  }, false);*/
+  ctx.stroke()
 };
 
-function windowToCanvas(canvas, x, y) {
-  var bbox = canvas.getBoundingClientRect();
-  return { x: x - bbox.left * (canvas.width  / bbox.width),
-           y: y - bbox.top  * (canvas.height / bbox.height)
-         };
-}
+const coords = document.querySelector('#mainCanvas');
 
-function clickOnRect(event){
-  console.log("click on rect");
-}
+const getCoords = (event) => {
+  const container = canvas.getBoundingClientRect();
+  const x = (event.clientX - container.left);
+  const y = (event.clientY - container.top);
+
+  coords.textContent = `${x}, ${y}`;
+  console.log("click on rect,", {x}, {y});
+  console.log("call pixel_to_hex", pixel_to_hex(x,y));
+};
+
+ctx.canvas.addEventListener('click', getCoords);
+
+function pixel_to_hex(x,y)
+{
+    var size = Point(870.0, 1400.0);
+    var origin = Point(870.0, 31.5);
+    for (const i in Hexes) {
+        console.log("Define Hex 1:",Hexes[i].name, Hexes[i].centerX, Hexes[i].centerY);
+        var x1 = Math.abs(x - Hexes[i].centerX);
+        var y1 = Math.abs(y - Hexes[i].centerY);
+
+        const r = 31;
+
+        var py1 = r * 0.86602540378;
+        var px2 = r * 0.2588190451;
+        var py2 = r * 0.96592582628;
+
+        var p_angle_01 = -x1 * (py1 - y1) - x1 * y1;
+        var p_angle_20 = -y1 * (px2 - x1) + x1 * (py2 - y1);
+        var p_angle_03 = y1 * r;
+        var p_angle_12 = -x1 * (py2 - y1) - (px2 - x1) * (py1 - y1);
+        var p_angle_32 = (r - x1) * (py2 - y1) + y1 * (px2 - x1);
+
+        var is_inside_1 = (p_angle_01 * p_angle_12 >= 0) && (p_angle_12 * p_angle_20 >= 0);
+        var is_inside_2 = (p_angle_03 * p_angle_32 >= 0) && (p_angle_32 * p_angle_20 >= 0);
+
+        console.log("is inside; ",r, x1, y1, py1, p_angle_01, p_angle_20, p_angle_03, p_angle_12, p_angle_32, is_inside_1, is_inside_2, );
+
+        if (is_inside_1 || is_inside_2) {
+          return Hexes[i].name;
+        }
+    };
+    var col = x / 30;
+    var r = -1.0 / 3.0 * x + Math.sqrt(3.0) / 3.0 * y;
+    console.log("Define Hex 2:" ,col, x, y);
+    return true;
+};
+
 
 
 
@@ -77,10 +112,10 @@ function drawMap(lines, colomns, r) {
     console.log(y, r,y + r * Math.sin(a), y += r * Math.sin(a), 'here1');
     for (let x = r + 20, j = 1; x + r * (1 + Math.cos(a)) < lines ; x += r * (1 + Math.cos(a)), y += (-1) ** j++ * r * Math.sin(a)) {
       var cellName = linesABC[abcNo] + no;
-      hexCurrent = new Hex(r,cellName, no, linesABC[abcNo]);
-      Hexs.push(hexCurrent);
+      hexCurrent = new Hex(r,cellName, no, linesABC[abcNo], x, y);
+      Hexes.push(hexCurrent);
       drawHex(hexCurrent, x, y, cellName);
-      console.log(hexCurrent.name,x,y,j, 'here2');
+      console.log('drawHex',hexCurrent.name,x,y,j);
       no+=1;
     };
     no = 1;
@@ -94,3 +129,4 @@ map.onload = function(){
   ctx.drawImage(map,0,0,canvas.width, canvas.height);  
   drawMap(canvas.width, canvas.height, r); 
 };
+console.log("hexes:" ,Hexes);
