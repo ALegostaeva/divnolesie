@@ -35,19 +35,19 @@ const a = 2 * Math.PI / 6;
 const r = 31;
 const linesABC = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'];
 
-var Hexes = [];
+let Hexes = [];
 
 function drawHex (hex, x, y, no) { 
   
   ctx.beginPath();
-  for (var i = 0; i < 6; i++) {
+  for (let i = 0; i < 6; i++) {
     ctx.lineTo(x + hex.r * Math.cos(a * i), y + hex.r * Math.sin(a * i));
   }
   ctx.closePath();
   ctx.strokeStyle = 'green';
-  ctx.font = "20px Arial";
-  ctx.lineWidth = 5;
-  ctx.fillText(no, x-12, y+9);
+  //ctx.font = "20px Arial";
+  ctx.lineWidth = 0;
+  //ctx.fillText(no, x-12, y+9);
   ctx.stroke()
 };
 
@@ -92,16 +92,19 @@ function pixel_to_hex(x,y)
         console.log("is inside; ",r, x1, y1, py1, p_angle_01, p_angle_20, p_angle_03, p_angle_12, p_angle_32, is_inside_1, is_inside_2, );
 
         if (is_inside_1 || is_inside_2) {
+          openDescription(Hexes[i].name);
           return Hexes[i].name;
         }
     };
-    var col = x / 30;
-    var r = -1.0 / 3.0 * x + Math.sqrt(3.0) / 3.0 * y;
+    let col = x / 30;
+    let r = -1.0 / 3.0 * x + Math.sqrt(3.0) / 3.0 * y;
     console.log("Define Hex 2:" ,col, x, y);
     return true;
 };
 
-
+function openDescription(address){
+  window.open('/description.html')
+};
 
 
 function drawMap(lines, colomns, r) {
@@ -124,7 +127,7 @@ function drawMap(lines, colomns, r) {
 };
 
 let map = new Image();
-map.src = 'src/map.jpg';
+map.src = 'assets/map.jpg';
 map.onload = function(){
   ctx.drawImage(map,0,0,canvas.width, canvas.height);  
   drawMap(canvas.width, canvas.height, r); 
