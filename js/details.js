@@ -3,7 +3,7 @@ const container = document.querySelector('.details');
 const deleteBtn = document.querySelector('.delete');
 
 const getDetails = async () => {
-    const res = await fetch(`http://localhost:3000/cells?name=${id}`);
+    const res = await fetch(`https://my-json-server.typicode.com/alegostaeva/alegostaeva-dbBooks/cells?name=${id}`);
     const cell = await res.json();
     console.log(id,cell[0].id);
 

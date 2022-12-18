@@ -8,7 +8,7 @@ searchForm.addEventListener('submit', e => {
 
 
 const renderList = async (term) => {
-    let uri = 'http://localhost:3000/cells?_sort=name&_order=desc';
+    let uri = 'https://my-json-server.typicode.com/alegostaeva/alegostaeva-dbBooks/cells?_sort=name&_order=desc';
     if (term) {
         uri += `&q=${term}`;
     };

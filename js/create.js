@@ -8,7 +8,7 @@ const createPost = async (e) => {
         name: nA,
         task: form.task.value
     };
-    await fetch('http://localhost:3000/cells', {
+    await fetch('https://my-json-server.typicode.com/alegostaeva/alegostaeva-dbBooks/cells', {
         method: 'POST',
         body: JSON.stringify(doc),
         headers: { 'Content-Type': 'application/json' }
