@@ -128,10 +128,10 @@ function drawMap(lines, colomns, r) {
   };
 };
 
-let map = new Image();
-map.src = 'assets/map.jpg';
-map.onload = function(){
-  ctx.drawImage(map,0,0,canvas.width, canvas.height);  
+//let map = new Image();
+//map.src = 'assets/map.jpg';
+window.onload = function(){
+ // ctx.drawImage(map,0,0,canvas.width, canvas.height);  
   drawMap(canvas.width, canvas.height, r); 
 };
 console.log("hexes:" ,Hexes);
