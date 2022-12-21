@@ -4,28 +4,56 @@
 
     <head>
         <meta charset="utf-8">
-        <title></title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <meta property="og:title" content="Дивнолесье: книжный квест">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://vk.com/polkasknigami">
+        <meta property="og:description" content="Дивнолесье: книжный квест. Путешествие для больших ценителей чтения.">
+        <meta property="og:image" content="logo.png">
+        <link rel="icon" type="image/x-icon" href="assets/logo1.jpg">
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ruslan Display">
         <title>Дивнолесье</title>
+
+        
     </head>
 
     <body>
         <header>
-            <img src="assets/logo.jpg" alt="Unicorn" style="width: 3em;height: 3em;float: left;">
-            <h1 style="font-family: 'Ruslan Display'; font-weight: bold;font-size: 3em; text-decoration-line: overline;">Дивнолесье</h1>
+            
+            <nav class="site-menu">
+                <button class="site-menu__button" data-js-menu="">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Menu</span>
+                </button>
+                <div class="site-menu__content">
+                    <a class="site-menu__item" href="#">Карта</a>
+                    <a class="site-menu__item" href="#">Общие правила</a>
+                    <a class="site-menu__item" href="#">Квесты</a>
+                    <a class="site-menu__item" href="#">Конкурсы</a>
+                    <a class="site-menu__item" href="#">Об Авторах</a>
+                </div>
+            </nav>
+
+            <h1 style="font-family: 'Ruslan Display'; font-weight: bold;">Дивнолесье</h1>
+
         </header>
 
-        <img style="z-index: 0;position: absolute" src="assets/map.jpg" width="1400" height="870">
+
+        <img class="imgMap" style="z-index: 0;position: absolute" src="assets/map.jpg" width="1400" height="870">
         <canvas style="z-index: 100;position: absolute" id="mainCanvas" width="1400" height="870"></canvas>
 
+        
         <footer>
-            <p><small>Copyright © 2023 All rigths reserved by —
+            <p><small>2023 Made with ♥ for —
                 <a href="https://vk.com/polkasknigami">Книжная полка</a></small></p>
         </footer>
 
-        <script src="main.js"></script>
+        <script src="main.js" defer></script>
+        
         <noscript>Sorry, your browser does not support JavaScript!</noscript>
     </body>
 

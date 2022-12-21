@@ -21,7 +21,7 @@ const renderList = async (term) => {
             <div class="post">
                 <h1>${cell.name}</h1>
                 <p>${cell.task}</p>
-                <a href="/info.html?id=${ cell.id }">Read more...</a>
+                <a href="..pages/info.html?id=${ cell.id }" title = "${ cell.name }">Read more...</a>
             </div>
         `
     });

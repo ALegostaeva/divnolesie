@@ -5,15 +5,13 @@ const deleteBtn = document.querySelector('.delete');
 const getDetails = async () => {
     const res = await fetch(`https://my-json-server.typicode.com/alegostaeva/alegostaeva-dbBooks/cells?name=${id}`);
     const cell = await res.json();
-    console.log(id,cell[0].id);
 
     const template = `
         <img src=${cell[0].img} height=100px>
         <h1>${cell[0].name}</h1>
         <p>${cell[0].task}</p>
-        
         `
-    console.log(template);
+
         container.innerHTML = template;
 }
 
