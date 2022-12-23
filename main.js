@@ -28,7 +28,7 @@ function Point(x, y) {
   return {x: x, y: y};
 };
 
-
+//переменные для отрисовки канваса
 const canvas = document.getElementById('mainCanvas');
 const ctx = canvas.getContext('2d'); 
 const a = 2 * Math.PI / 6;
@@ -37,6 +37,7 @@ const linesABC = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'];
 
 let Hexes = [];
 
+// Функция для открисовки одного гексагона
 function drawHex (hex, x, y, no, withText) { 
   
   ctx.beginPath();
@@ -48,11 +49,13 @@ function drawHex (hex, x, y, no, withText) {
   ctx.lineWidth = 0;
   if (withText == true) {
     ctx.font = "20px Arial";
+    ctx.fillStyle = "darkgreen";
     ctx.fillText(no, x-12, y+9);
   };
   ctx.stroke()
 };
 
+//функция для получения координат клика пользователя
 const coords = document.querySelector('#mainCanvas');
 
 const getCoords = (event) => {
@@ -67,6 +70,8 @@ const getCoords = (event) => {
 
 ctx.canvas.addEventListener('click', getCoords);
 
+
+//функция для определения гексагона, куда был клик
 function pixel_to_hex(x,y)
 {
     
@@ -138,7 +143,20 @@ menuOpener.addEventListener('click', function () {
 
 //drawScreen
 window.onload = function(){  
-  console.log('main');
   drawMap(canvas.width, canvas.height, r, false); 
 };
 
+//переменные для управления кнопками "Скрыть/показать названия ячеек"
+const btnShowLabels = document.querySelector('.addLabels');
+const btnHideLabels = document.getElementById('hideLabels');
+
+btnShowLabels.addEventListener ('change', () => {
+  if (btnShowLabels.checked) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawMap(canvas.width, canvas.height, r, true); 
+  } else {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawMap(canvas.width, canvas.height, r, false); 
+  }
+}
+)

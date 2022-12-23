@@ -1,6 +1,7 @@
+//Страница с информацией по ячейке для пользователя
+
 const id = new URLSearchParams(window.location.search).get('id');
 const container = document.querySelector('.details');
-const deleteBtn = document.querySelector('.delete');
 
 const getDetails = async () => {
     const res = await fetch(`https://my-json-server.typicode.com/alegostaeva/alegostaeva-dbBooks/cells?name=${id}`);

@@ -3,6 +3,7 @@
 <html>
 
     <head>
+        
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -10,14 +11,12 @@
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://vk.com/polkasknigami">
         <meta property="og:description" content="Дивнолесье: книжный квест. Путешествие для больших ценителей чтения.">
-        <meta property="og:image" content="logo.png">
-        <link rel="icon" type="image/x-icon" href="assets/logo.png">
+        <meta property="og:image" content="../assets/logo.png">
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="../styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ruslan Display">
         <title>Дивнолесье</title>
-
         
     </head>
 
@@ -42,23 +41,14 @@
 
         </header>
 
-        <div class="manage">
-            <input type="checkbox" class="addLabels">
-            <label for="addLabels"> Показать названия ячеек </label>
-            <button id="hideLabels" hidden>Скрыть названия ячеек</button>
-        </div>
+        <form class="details"></form>
 
-        <img class="imgMap" style="z-index: 0;position: absolute" src="assets/map.jpg" width="1400" height="870">
-        <canvas style="z-index: 100;position: absolute" id="mainCanvas" width="1400" height="870"></canvas>
-
-        
         <footer>
             <p><small>2023 Made with ♥ for —
                 <a href="https://vk.com/polkasknigami">Книжная полка</a></small></p>
         </footer>
 
-        <script src="main.js" defer></script>
-        
+        <script src="../js/editCell.js"></script>
         <noscript>Sorry, your browser does not support JavaScript!</noscript>
     </body>
 
