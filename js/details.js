@@ -16,24 +16,26 @@ const getDetails = async () => {
     };
 
     let template = `
-        <img src="${cell.img}" style="height:100px" alt="Изображение соты">
-        <span class="fa fa-map-marker location"></span><p>${cell.loc}</p>
-        <h2 class="name_cell">${cell.name}</h2>
-        <p class="task">${cell.task}</p><br/>
-        <p>Следующий ход возможен на одну из сот:</p>
+        <img class="cellImg" src="${cell.img}" style="height:100px" alt="Изображение соты">
+        <div class="body-details">
+            <span class="fa fa-map-marker location" labels="${cell.loc}"></span><span class="location">${cell.loc}</span>
+            <h2 class="name_cell">${cell.name}</h2>
+            <p class="task">${cell.task}</p><br/>
+            <p>Следующий ход возможен на одну из сот:</p>
+        </div>
         `
     
         container.innerHTML = template;
     
     let nextSteps = document.createElement('div');
     nextSteps.className = "next-steps";
-    //document.getElementsByClassName("next-steps");
 
     for ( const i in cell.next ) {
-        const el = document.createElement("a");
+        const el = document.createElement("button");
         el.textContent = cell.next[i];
         el.href = "info.html?id="+ cell.next[i];
         el.className = "next-steps-links";
+        el.style.content = cell.next[i];
         console.log(el);
         nextSteps.appendChild(el)
     }
