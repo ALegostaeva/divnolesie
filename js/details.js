@@ -11,16 +11,12 @@ const getDetails = async () => {
 
     console.log(cell);
 
-    if ( cell.img == null) {
+    if ( cell.img == "") {
         cell.img = "../assets/a1.png"
     };
 
-    const cellnameh1 = document.createElement('h2');
-    cellnameh1.textContent = 'hi';
-    container.appendChild(cellnameh1);
-
     let template = `
-        <img src=${cell.img} height=100px alt="Изображение соты">
+        <img src="${cell.img}" style="height:100px" alt="Изображение соты">
         <span class="fa fa-map-marker location"></span><p>${cell.loc}</p>
         <h2 class="name_cell">${cell.name}</h2>
         <p class="task">${cell.task}</p><br/>
