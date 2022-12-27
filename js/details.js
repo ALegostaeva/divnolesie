@@ -5,9 +5,10 @@ const container = document.querySelector('.details');
 
 const getDetails = async () => {
     const res = await fetch(`https://alegostaeva.github.io/data/db.json`);
+    console.log('await get');
     const cells = await res.json();
-    
-    let cell = cells.find( cell => cell.name === id);
+    console.log('await parse',cells);
+    let cell = await cells.find( cell => cell.name === id);
 
     console.log(cell);
 

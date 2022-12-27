@@ -9,7 +9,7 @@
       "B2",
       "A2"
     ],
-    "img": "../assets/a1.png"
+    "img": "../assets/a/a1.png"
   },
   {
     "id": 2,
@@ -21,7 +21,7 @@
       "B2",
       "A3"
     ],
-    "img": "../assets/a2.png"
+    "img": "../assets/a/a2.png"
   },
   {
     "id": 3,
@@ -35,7 +35,7 @@
       "A2",
       "A4"
     ],
-    "img": "../assets/a1.png"
+    "img": "../assets/a/a3.png"
   },
   {
     "id": 4,
