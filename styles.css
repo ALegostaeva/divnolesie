@@ -194,7 +194,7 @@ body.-menu-open .site-menu__item {
   top: -2px;
   left: -2px;
   animation: rotateSmall 2s linear infinite;
-  z-index: 2;
+  z-index: 99;
 }
 
 .hex-loader::after {
@@ -212,7 +212,7 @@ body.-menu-open .site-menu__item {
   animation: rotateLarge 1s linear infinite;
 }
 
-.hex-loader-block {
+.hex-loader-blocks {
   position: relative;
   border-radius: 100%;
   padding: 5%;
