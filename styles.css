@@ -346,3 +346,11 @@ body.-menu-open .site-menu__item {
   margin: 2rem;
   padding: 10px;
 }
+
+/** Общие правила **/
+.about-game{
+  margin: 2rem;
+}
+.cover{
+  box-shadow: 5px 10px 5px rgb(255, 255, 255,10) inset;
+}

@@ -13,6 +13,25 @@ const getDetails = async () => {
     console.log(cell);
 
     if ( cell.img == "") {
+        switch (cell.location) {
+            case "Снежный перевал":
+                cell.img = "../assets/a/a1.png";
+                break;
+            case "Пустыня":
+                cell.img = "../assets/k/k26.png";
+                break;
+            case "Междумирье":
+                cell.img = "../assets/g/g13.png";
+                break;
+            case "Мавкино болото":
+                cell.img = "../assets/k/k3.png";
+                break;
+            case "Каменное плато":
+                cell.img = "../assets/c/c22.png";
+                break;
+            default:
+                cell.img = "../assets/e/e14.png";
+        }
         cell.img = "../assets/a1.png"
     };
 
