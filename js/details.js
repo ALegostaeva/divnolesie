@@ -13,7 +13,8 @@ const getDetails = async () => {
     console.log(cell);
 
     if ( cell.img == "") {
-        switch (cell.location) {
+        console.log(cell.loc, cell.loc==="Каменное плато");
+        switch (cell.loc) {
             case "Снежный перевал":
                 cell.img = "../assets/a/a1.png";
                 break;
@@ -27,12 +28,11 @@ const getDetails = async () => {
                 cell.img = "../assets/k/k3.png";
                 break;
             case "Каменное плато":
-                cell.img = "../assets/c/c22.png";
+                cell.img = "../assets/c/c18.png";
                 break;
             default:
                 cell.img = "../assets/e/e14.png";
         }
-        cell.img = "../assets/a1.png"
     };
 
     let template = `
@@ -75,16 +75,3 @@ function removeLoader(){
       $( ".hex-loader" ).remove(); //makes page more lightweight 
   });   
 }
-
-// Menu
-const body = document.querySelector('body');
-const menuOpener = document.querySelector('[data-js-menu]');
-const menuIcon = menuOpener.querySelector('.fa');
-
-menuOpener.addEventListener('click', function () {
-	menuIcon.classList.toggle('fa-bars');
-	menuIcon.classList.toggle('fa-times');
-
-	console.log(body);
-	body.classList.toggle('-menu-open');
-});

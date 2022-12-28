@@ -3,6 +3,7 @@
 <html>
 
     <head>
+        
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -11,13 +12,12 @@
         <meta property="og:url" content="https://vk.com/polkasknigami">
         <meta property="og:description" content="Дивнолесье: книжный квест. Путешествие для больших ценителей чтения.">
         <meta property="og:image" content="logo.png">
-        <link rel="icon" type="image/x-icon" href="assets/logo.png">
+        <link rel="icon" type="image/x-icon" href="../assets/logo.png">
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="../styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ruslan Display">
         <title>Дивнолесье</title>
-
         
     </head>
 
@@ -31,46 +31,39 @@
                 </button>
                 <div class="site-menu__content">
                     <a class="site-menu__item" href="../index.html">Карта</a>
-                    <a class="site-menu__item" href="pages/rules.html">Общие правила</a>
-                    <a class="site-menu__item" href="pages/quests.html">Квесты</a>
-                    <a class="site-menu__item" href="pages/contests.html">Конкурсы</a>
-                    <a class="site-menu__item" href="pages/about.html">Об Авторах</a>
+                    <a class="site-menu__item" href="../pages/rules.html">Общие правила</a>
+                    <a class="site-menu__item" href="../pages/quests.html">Квесты</a>
+                    <a class="site-menu__item" href="../pages/contests.html">Конкурсы</a>
+                    <a class="site-menu__item" href="../pages/about.html">Об Авторах</a>
                 </div>
             </nav>
 
             <h1 style="font-family: 'Ruslan Display'; font-weight: bold;">Дивнолесье</h1>
 
         </header>
+        <img class="cover" src="../assets/withlove.png" style="background-color: antiquewhite;">
 
-        <div class="hex-loader">
-            <div class="hex-loader-blocks">
-              <div class="hex-loader-block"></div>
-              <div class="hex-loader-block"></div>
-              <div class="hex-loader-block"></div>
-              <div class="hex-loader-block"></div>
-              <div class="hex-loader-block"></div>
-              <div class="hex-loader-block"></div>
-              <div class="hex-loader-block"></div>
+        <div class="about">
+            
+            <div>
+                <p><a href="https://vk.com/polkasknigami">Книжная полка</a> сделана людьми, которые любят книги для людей, которые любят книги.</p></br>
+                <p>Авторами и кураторами данного проекта являются:</p></br>
+                <a href="https://vk.com/kassandrion">Ксения aka Царица Залесья</a></br>
+                <a href="https://vk.com/anka_knigomanka">Анна aka Аннушка Людоедка</a>
+                </br>
+                <p>Техническое исполнение и автор иллюстраций:</p></br>
+                <a href="https://github.com/ALegostaeva">Александра</a>
             </div>
         </div>
-
-        <div class="manage">
-            <input type="checkbox" class="addLabels">
-            <label for="addLabels"> Показать названия ячеек </label>
-        </div>
-
-        <img class="imgMap" style="z-index: 0;position: absolute" src="assets/map.jpg" width="1400" height="870">
-        <canvas style="z-index: 100;position: absolute" id="mainCanvas" width="1400" height="870"></canvas>
-
         
+
         <footer>
             <p><small>2023 Made with ♥ for —
                 <a href="https://vk.com/polkasknigami">Книжная полка</a></small></p>
         </footer>
 
-        <script src="main.js" defer></script>
-        <script src="./js/menu.js" defer></script>
-        
+        <script src="../js/main.js"></script>
+        <script src="../js/menu.js" defer></script>
         <noscript>Sorry, your browser does not support JavaScript!</noscript>
     </body>
 

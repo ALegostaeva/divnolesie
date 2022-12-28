@@ -348,9 +348,11 @@ body.-menu-open .site-menu__item {
 }
 
 /** Общие правила **/
-.about-game{
+.about{
   margin: 2rem;
 }
 .cover{
-  box-shadow: 5px 10px 5px rgb(255, 255, 255,10) inset;
+  align-content: center;
+  box-shadow: 5px 5px 10px 10px rgb(255, 255, 255) inset;
+  width: 100vw;
 }
