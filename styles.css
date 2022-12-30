@@ -356,3 +356,50 @@ body.-menu-open .site-menu__item {
   box-shadow: 5px 5px 10px 10px rgb(255, 255, 255) inset;
   width: 100vw;
 }
+
+/** Артефакты **/
+.artefacts-list{
+  display: grid;
+  box-sizing: inherit;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  align-items: start;
+  margin: 1rem;
+}
+.artefact{
+  border: 1px;
+  border-color: #222831;
+  box-shadow: -1px 15px 30px -12px black;
+  border-radius: 14px;
+  width: 23rem;
+}
+.artefact-price{
+  background: #deb890;
+  font-weight: 700;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  padding: 20px 15px;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 12px;
+}
+.artefact img{
+  text-align: center;
+  padding: 0px;
+  border-top-left-radius: 14px ;
+  border-top-right-radius: 14px;
+  width: 23rem;
+}
+.artefact:hover {
+  transform: translateY(-0.5%);
+  box-shadow: 0 4rem 8rem rgba(0, 0, 0, 0.2);
+}
+.artefact-name{
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #0d0d0d;
+  margin-bottom: 1.5rem;
+}
+.artefact-description{
+
+}
