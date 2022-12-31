@@ -361,7 +361,7 @@ body.-menu-open .site-menu__item {
 .artefacts-list{
   display: grid;
   box-sizing: inherit;
-  grid-gap: 1rem;
+  grid-gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   align-items: start;
   margin: 1rem;
@@ -371,7 +371,7 @@ body.-menu-open .site-menu__item {
   border-color: #222831;
   box-shadow: -1px 15px 30px -12px black;
   border-radius: 14px;
-  width: 23rem;
+  width: 20rem;
 }
 .artefact-price{
   background: #deb890;
@@ -388,7 +388,7 @@ body.-menu-open .site-menu__item {
   padding: 0px;
   border-top-left-radius: 14px ;
   border-top-right-radius: 14px;
-  width: 23rem;
+  width: 20rem;
 }
 .artefact-name{
   font-size: 1.5rem;
