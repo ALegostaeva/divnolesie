@@ -390,16 +390,14 @@ body.-menu-open .site-menu__item {
   border-top-right-radius: 14px;
   width: 23rem;
 }
-.artefact:hover {
-  transform: translateY(-0.5%);
-  box-shadow: 0 4rem 8rem rgba(0, 0, 0, 0.2);
-}
 .artefact-name{
   font-size: 1.5rem;
   font-weight: 500;
   color: #0d0d0d;
   margin-bottom: 1.5rem;
+  padding: 5px;
 }
 .artefact-description{
-
+  padding: 5px;
+  color:#222831;
 }
