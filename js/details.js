@@ -12,11 +12,35 @@ const getDetails = async () => {
 
     console.log(cell);
 
+    switch (cell.loc) {
+        case "Снежный перевал":
+            cell.weather = "snow";
+            console.log("2",cell.weather);
+            break;
+        case "Пустыня":
+            cell.weather = "snow";
+            break;
+        case "Междумирье":
+            cell.weather = "pollen";
+            break;
+        case "Мавкино болото":
+            cell.weather = "rain";
+            break;
+        case "Каменное плато":
+            cell.weather = "snow";
+            break;
+        default:
+            cell.weather = "";
+    }
+
+
     if ( cell.img == "") {
         console.log(cell.loc, cell.loc==="Каменное плато");
         switch (cell.loc) {
             case "Снежный перевал":
                 cell.img = "../assets/a/a1.png";
+                cell.weather = "snow";
+                console.log("2",cell.weather);
                 break;
             case "Пустыня":
                 cell.img = "../assets/k/k26.png";
@@ -38,6 +62,7 @@ const getDetails = async () => {
     let template = `
         <img class="cellImg" src="${cell.img}" style="height:100px" alt="Изображение соты">
         <div class="body-details">
+            <div class=${cell.weather}></div>
             <span class="fa fa-map-marker location" labels="${cell.loc}"></span><span class="location">${cell.loc}</span>
             <h2 class="name_cell">${cell.name}</h2>
             <p class="task">${cell.task}</p><br/>
