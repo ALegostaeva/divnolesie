@@ -27,7 +27,7 @@ const getDetails = async () => {
             cell.weather = "rain";
             break;
         case "Каменное плато":
-            cell.weather = "snow";
+            cell.weather = "";
             break;
         default:
             cell.weather = "";
