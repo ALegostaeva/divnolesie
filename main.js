@@ -49,7 +49,7 @@ function drawHex (hex, x, y, no, withText) {
   ctx.lineWidth = 0;
   if (withText == true) {
     ctx.font = "20px Arial";
-    ctx.fillStyle = "darkgreen";
+    ctx.fillStyle = "rgba(30,40,0,.5)";
     ctx.fillText(no, x-12, y+9);
   };
   ctx.stroke()

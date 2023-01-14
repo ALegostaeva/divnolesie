@@ -34,8 +34,8 @@ const getDetails = async () => {
     }
 
 
-    if ( cell.img == "") {
-        console.log(cell.loc, cell.loc==="Каменное плато");
+    if ( cell.img == "")  {
+        
         switch (cell.loc) {
             case "Снежный перевал":
                 cell.img = "../assets/a/a1.png";
