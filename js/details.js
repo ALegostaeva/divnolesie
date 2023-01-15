@@ -35,12 +35,9 @@ const getDetails = async () => {
 
 
     if ( cell.img == "")  {
-        
         switch (cell.loc) {
             case "Снежный перевал":
                 cell.img = "../assets/a/a1.png";
-                cell.weather = "snow";
-                console.log("2",cell.weather);
                 break;
             case "Пустыня":
                 cell.img = "../assets/k/k26.png";
