@@ -11,27 +11,37 @@ const getDetails = async () => {
     let cell = await cells.find( cell => cell.name === id);
 
     console.log(cell);
+    let cellWeather = document.getElementById('cell-weather');
+    
 
     switch (cell.loc) {
         case "Снежный перевал":
-            cell.weather = "snow";
-            console.log("2",cell.weather);
+            cellWeather.classList.add('snow');
+            cell.color = "#2d3c51";
             break;
         case "Пустыня":
-            cell.weather = "snow";
+            cellWeather.classList.add('snow');
+            cell.color = "#d5aa6f";
             break;
         case "Междумирье":
-            cell.weather = "pollen";
+            cellWeather.classList.add('fireflies');
+            cell.color = "#154225";
+            createFireflies();
             break;
         case "Мавкино болото":
-            cell.weather = "rain";
+            cellWeather.classList.add('rain');
+            cell.color = "#244530";
+            createRain();
             break;
         case "Каменное плато":
-            cell.weather = "";
+            cellWeather.classList.add('rain');
+            cell.color = "#3f4044";
             break;
         default:
+            cell.color = "#222831";
             cell.weather = "";
     }
+
 
 
     if ( cell.img == "")  {
@@ -53,13 +63,13 @@ const getDetails = async () => {
                 break;
             default:
                 cell.img = "../assets/e/e14.png";
+                
         }
     };
 
     let template = `
         <img class="cellImg" src="${cell.img}" style="height:100px" alt="Изображение соты">
-        <div class="body-details">
-            <div class=${cell.weather}></div>
+        <div class="body-details" style="background-color:${cell.color}">
             <span class="fa fa-map-marker location" labels="${cell.loc}"></span><span class="location">${cell.loc}</span>
             <h2 class="name_cell">${cell.name}</h2>
             <p class="task">${cell.task}</p><br/>
@@ -67,22 +77,25 @@ const getDetails = async () => {
         </div>
         `
     
-        container.innerHTML = template;
+    container.innerHTML = template;
     
     let nextSteps = document.createElement('div');
     nextSteps.className = "next-steps";
 
     for ( const i in cell.next ) {
-        const el = document.createElement("button");
+        const el = document.createElement("a");
         el.textContent = cell.next[i];
-        el.href = "info.html?id="+ cell.next[i];
+        el.href="info.html?id="+ cell.next[i];
         el.className = "next-steps-links";
         el.style.content = cell.next[i];
-        console.log(el);
+        console.log(el, el.href);
         nextSteps.appendChild(el)
     }
     console.log(nextSteps);
     container.appendChild(nextSteps);
+
+    //let bodyDetails = document.getElementsByClassName('details');
+    //bodyDetails[0].appendChild(cellWeather);
 }
 
 window.addEventListener('DOMContentLoaded', () => getDetails());
@@ -96,4 +109,40 @@ function removeLoader(){
       // fadeOut complete. Remove the loading div
       $( ".hex-loader" ).remove(); //makes page more lightweight 
   });   
+}
+
+//rain
+
+function randRange( minNum, maxNum) {
+  return (Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum);
+}
+function createRain() {
+    let nbDrop = 858; 
+
+	for( i=1;i<nbDrop;i++) {
+        let dropLeft = randRange(0,100);
+        let dropTop = randRange(-100,100);
+
+        let drop = document.createElement('div');
+        drop.classList.add('drop');
+        drop.id = "drop" + i;
+
+        document.getElementsByClassName('rain')[0].append(drop);
+        drop.style.left=dropLeft + 'vw';
+        drop.style.top=dropTop + 'vw';
+        console.log('drops',dropTop,dropLeft)
+	}
+
+}
+
+//fireflies
+function createFireflies(){
+    for( i=1;i<10;i++) {
+
+
+        let fly = document.createElement('div');
+        fly.classList.add('firefly');
+
+        document.getElementsByClassName('fireflies')[0].append(fly);
+	}
 }
