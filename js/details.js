@@ -9,68 +9,59 @@ const getDetails = async () => {
     const cells = await res.json();
     console.log('await parse',cells);
     let cell = await cells.find( cell => cell.name === id);
-
-    console.log(cell);
-    let cellWeather = document.getElementById('cell-weather');
     
 
     switch (cell.loc) {
         case "Снежный перевал":
-            cellWeather.classList.add('snow');
+            cell.class='snow';
             cell.color = "#2d3c51";
+            cell.bckg = "radial-gradient(67.84% 58.16% at 50% 41.84%, rgba(200, 254, 251, 1) 0%, rgba(45, 60, 81, 1) 60.94%)";
+            cell.textColor = '#646464';
+            cell.horizon = '../assets/hor_snow.png';
             break;
         case "Пустыня":
-            cellWeather.classList.add('snow');
-            cell.color = "#d5aa6f";
+            cell.class='desert';
+            cell.color = "#e9b973";
+            cell.bckg = "radial-gradient(50% 64.75% at 50% 35.25%, #6D7880 0%, #1D2F36 100%)";
+            cell.textColor = 'white';
+            cell.horizon = '../assets/hor_desert.png';
             break;
         case "Междумирье":
-            cellWeather.classList.add('fireflies');
+            cell.class='fireflies';
             cell.color = "#154225";
+            cell.bckg = 'radial-gradient(50% 64.75% at 50% 35.25%, rgba(238, 238, 160, 1) 0%, rgba(28, 73, 60, 1) 100%)';
+            cell.horizon = '../assets/hor_fireflies.png';
             createFireflies();
             break;
         case "Мавкино болото":
-            cellWeather.classList.add('rain');
+            cell.class='rain';
             cell.color = "#244530";
+            cell.bckg = 'radial-gradient(47.28% 53.35% at 50% 46.65%, rgba(243, 255, 247, 1) 0%, rgba(91, 106, 122, 1) 100%)';
+            cell.horizon = '../assets/hor_boloto.png';
             createRain();
             break;
         case "Каменное плато":
-            cellWeather.classList.add('rain');
-            cell.color = "#3f4044";
+            cell.class='stones';
+            cell.color = "#09090F";
+            cell.bckg = "radial-gradient(50% 64.75% at 50% 35.25%, rgba(238, 170, 231, 1) 0%, rgba(32, 49, 59, 1) 100%)";
+            cell.textColor = 'white';
+            cell.horizon = '../assets/hor_stones.png';
             break;
         default:
+            cell.class='desert';
             cell.color = "#222831";
-            cell.weather = "";
     }
 
 
 
-    if ( cell.img == "")  {
-        switch (cell.loc) {
-            case "Снежный перевал":
-                cell.img = "../assets/a/a1.png";
-                break;
-            case "Пустыня":
-                cell.img = "../assets/k/k26.png";
-                break;
-            case "Междумирье":
-                cell.img = "../assets/g/g13.png";
-                break;
-            case "Мавкино болото":
-                cell.img = "../assets/k/k3.png";
-                break;
-            case "Каменное плато":
-                cell.img = "../assets/c/c18.png";
-                break;
-            default:
-                cell.img = "../assets/e/e14.png";
-                
-        }
-    };
-
     let template = `
-        <img class="cellImg" src="${cell.img}" style="height:100px" alt="Изображение соты">
-        <div class="body-details" style="background-color:${cell.color}">
-            <span class="fa fa-map-marker location" labels="${cell.loc}"></span><span class="location">${cell.loc}</span>
+        <div class='card-image'>
+            <img class="horizon horizon-${cell.class}" src="${cell.horizon}">
+        </div>
+        
+
+        <div class="body-details body-${cell.class}">
+            <div class='location'><span class="fa fa-map-marker location" labels="${cell.loc}"></span><span>${cell.loc}</span></div>
             <h2 class="name_cell">${cell.name}</h2>
             <p class="task">${cell.task}</p><br/>
             <p>Следующий ход возможен на одну из сот:</p>
@@ -78,7 +69,36 @@ const getDetails = async () => {
         `
     
     container.innerHTML = template;
-    
+
+    //add weather effect
+    let cellWeather = document.getElementById('cell-weather');
+    cellWeather.classList.add(cell.class);
+
+    //change body background color
+    let b = document.getElementsByTagName('body')[0];
+    document.body.style.color.background = cell.bckg;
+    b.style.background = cell.bckg;
+
+    //change color of the header and footer
+    let h = document.getElementsByTagName('h1')[0];
+    h.style.color = 'white';
+    let burger = document.getElementsByClassName('site-menu__button')[0];
+    burger.style.color = 'white';
+    let f = document.getElementsByTagName('small')[0];
+    f.style.color = 'white';
+
+    //add image in the cell if it exist
+    if (cell.img !=='') {
+        let c = document.getElementsByClassName('card-image')[0];
+        let addedImg = document.createElement('img');
+        addedImg.src = cell.img;
+        addedImg.alt = "Изображение соты";
+        addedImg.classList.add("cellImg");
+        c.appendChild(addedImg);
+        console.log('img detected', cell.img);
+    }
+
+    //add links to next steps
     let nextSteps = document.createElement('div');
     nextSteps.className = "next-steps";
 
@@ -94,8 +114,6 @@ const getDetails = async () => {
     console.log(nextSteps);
     container.appendChild(nextSteps);
 
-    //let bodyDetails = document.getElementsByClassName('details');
-    //bodyDetails[0].appendChild(cellWeather);
 }
 
 window.addEventListener('DOMContentLoaded', () => getDetails());
@@ -117,7 +135,7 @@ function randRange( minNum, maxNum) {
   return (Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum);
 }
 function createRain() {
-    let nbDrop = 858; 
+    let nbDrop = 60; 
 
 	for( i=1;i<nbDrop;i++) {
         let dropLeft = randRange(0,100);
@@ -127,7 +145,7 @@ function createRain() {
         drop.classList.add('drop');
         drop.id = "drop" + i;
 
-        document.getElementsByClassName('rain')[0].append(drop);
+        document.getElementById('cell-weather').append(drop);
         drop.style.left=dropLeft + 'vw';
         drop.style.top=dropTop + 'vw';
         console.log('drops',dropTop,dropLeft)
@@ -137,12 +155,12 @@ function createRain() {
 
 //fireflies
 function createFireflies(){
-    for( i=1;i<10;i++) {
+    for( i=1;i<100;i++) {
 
 
         let fly = document.createElement('div');
         fly.classList.add('firefly');
 
-        document.getElementsByClassName('fireflies')[0].append(fly);
+        document.getElementById('cell-weather').append(fly);
 	}
 }
