@@ -14,25 +14,25 @@
 
   footer{
     display: block;
-    position: end;
+    position: absolute;
   }
 
   /*** header ***/
   header {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
+    position: relative;
     width: 100%;
     height: 4em;
     z-index: 99;
+    margin-top: 0px;
   }
   h1 {
     color: #366453;
     text-decoration-line: overline;
     margin: 0;
     padding-left: 10px;
-    font-size: xxx-large;
+    font-size: 2rem;
+    align-self: center;
   }
 
 /** Menu **/
@@ -136,7 +136,7 @@ body.-menu-open .site-menu__item {
 .horizon{
   width: 150%;
   left: -25%;
-  bottom: -5rem;
+  bottom: -3rem;
   position: absolute;
 }
 .cellImg{
