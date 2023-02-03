@@ -4,7 +4,7 @@ const id = new URLSearchParams(window.location.search).get('id');
 const container = document.querySelector('.details');
 
 const getDetails = async () => {
-    const res = await fetch(`https://alegostaeva.github.io/data/db.json`);
+    const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
     console.log('await get');
     const cells = await res.json();
     console.log('await parse',cells);
