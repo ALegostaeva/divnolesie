@@ -5,13 +5,14 @@ const searchForm = document.querySelector('.search');
 
 // поиск. не работает
 searchForm.addEventListener('submit', e => {
+    console.log('search', searchForm.term.value, searchForm.term.value.trim())
     e.preventDefault();
     renderList(searchForm.term.value.trim())
 })
 
 // рендер списка ячеек в админке
 const renderList = async (term) => {
-    let uri = 'https://my-json-server.typicode.com/alegostaeva/alegostaeva-dbBooks/cells?_sort=name&_order=desc';
+    let uri = 'https://divnolesie.pages.dev/data/db.json';
     if (term) {
         uri += `&q=${term}`;
     };
@@ -21,10 +22,10 @@ const renderList = async (term) => {
     data.forEach(cell => {
         console.log(cell.name);
         template += `
-            <div class="post">
-                <h1>${cell.name}</h1>
+            <div class="cell">
+                <h2>${cell.name}</h2>
                 <p>${cell.task}</p>
-                <a href="cell.html?id=${ cell.name }" title = "${ cell.name }">Редактировать</a>
+                <a href="../pages/info.html?id=${ cell.name }" title = "${ cell.name }">Подробнее</a>
             </div>
         `
     });

@@ -10,11 +10,12 @@
   }
   #mainCanvas{
     box-shadow: 5px 10px 5px rgb(255, 255, 255,10) inset;
+    position: sticky;
+    z-index: 98
   }
-
-  footer{
-    display: block;
-    position: absolute;
+  .imgMap {
+    z-index: 0;
+    position: absolute
   }
 
   /*** header ***/
