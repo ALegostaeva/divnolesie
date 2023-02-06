@@ -95,7 +95,6 @@ const getDetails = async () => {
         addedImg.alt = "Изображение соты";
         addedImg.classList.add("cellImg");
         c.appendChild(addedImg);
-        console.log('img detected', cell.img);
     }
 
     //add links to next steps
