@@ -36,9 +36,19 @@ const r = 31;
 const linesABC = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'];
 
 let Hexes = [];
+let cells = [];
 
-// Функция для открисовки одного гексагона
-function drawHex (hex, x, y, no, withText) { 
+async function getCells() {
+  
+  
+    const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
+    console.log('await get');
+    cells = await res.json();
+    console.log('await parse',cells);
+}
+
+// Функция для отрисовки одного гексагона
+function drawHex (hex, x, y, no, withText, isPath) { 
   
   ctx.beginPath();
   for (let i = 0; i < 6; i++) {
@@ -46,6 +56,9 @@ function drawHex (hex, x, y, no, withText) {
   }
   ctx.closePath();
   ctx.strokeStyle = 'green';
+  if (isPath == true) {
+    ctx.strokeStyle = 'red';
+  }
   ctx.lineWidth = 0;
   if (withText == true) {
     ctx.font = "20px Arial";
@@ -109,7 +122,12 @@ function openDescription(address){
 };
 
 
-function drawMap(lines, colomns, r, withText) {
+async function drawMap(lines, colomns, r, withText) {
+
+  const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
+  console.log('await get');
+  cells = await res.json();
+  console.log('await parse',cells);
 
   var no = 1;
   var abcNo = 0;
@@ -119,7 +137,14 @@ function drawMap(lines, colomns, r, withText) {
       var cellName = linesABC[abcNo] + no;
       hexCurrent = new Hex(r,cellName, no, linesABC[abcNo], x, y);
       Hexes.push(hexCurrent);
-      drawHex(hexCurrent, x, y, cellName, withText);
+      let cCell = cells.find(cell => cell.name === cellName);
+      if (cCell.isPath == true) {
+        isPath = true;
+        console.log('draw red hex', cCell);
+      } else {
+        isPath = false;
+      }
+      drawHex(hexCurrent, x, y, cellName, withText, isPath);
       no+=1;
     };
     no = 1;
