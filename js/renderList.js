@@ -4,11 +4,11 @@ const list = document.querySelector('.list');
 const searchForm = document.querySelector('.search');
 
 // поиск. не работает
-searchForm.addEventListener('submit', e => {
+/*searchForm.addEventListener('submit', e => {
     console.log('search', searchForm.term.value, searchForm.term.value.trim())
     e.preventDefault();
     renderList(searchForm.term.value.trim())
-})
+})*/
 
 // рендер списка ячеек в админке
 const renderList = async (term) => {
