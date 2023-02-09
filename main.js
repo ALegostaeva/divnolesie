@@ -40,25 +40,25 @@ let cells = [];
 let showLabels = false;
 let showPaths = false;
 
-async function getCells() {
-    const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
-    cells = await res.json();
-}
 
 // Функция для отрисовки одного гексагона
 function drawHex (hex, x, y, no, withText, paths, isPath) { 
   
   ctx.beginPath();
+  
   for (let i = 0; i < 6; i++) {
     ctx.lineTo(x + hex.r * Math.cos(a * i), y + hex.r * Math.sin(a * i));
   }
+  
   ctx.closePath();
 
+   
   
   if (paths == true){
     if (isPath == true) {
-      ctx.strokeStyle = 'red';
-      ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+      ctx.strokeStyle = 'rgb(249,249,8,1)';
+      ctx.fillStyle = "rgb(249,249,8,0.5)";
+      ctx.fill();
     } else {
       ctx.strokeStyle = 'green';
     }
@@ -133,9 +133,7 @@ function openDescription(address){
 async function drawMap(lines, colomns, r, withText, paths) {
 
   const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
-  console.log('await get');
   cells = await res.json();
-  console.log('await parse',cells);
 
   var no = 1;
   var abcNo = 0;
@@ -148,7 +146,6 @@ async function drawMap(lines, colomns, r, withText, paths) {
       let cCell = cells.find(cell => cell.name === cellName);
       if (cCell.isPath == true) {
         isPath = true;
-        console.log('draw red hex', cCell, paths,isPath);
       } else {
         isPath = false;
       }
