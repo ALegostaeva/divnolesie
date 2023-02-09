@@ -510,7 +510,7 @@
       "8С"
     ],
     "img": "../assets/b/b7.png",
-    "isPath": true
+    "isPath": false
   },
   {
     "id": 37,
@@ -750,7 +750,7 @@
       "B23"
     ],
     "img": "../assets/b/b22.png",
-    "isPath": true
+    "isPath": false
   },
   {
     "id": 52,
