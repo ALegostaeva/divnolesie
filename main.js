@@ -37,29 +37,37 @@ const linesABC = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'];
 
 let Hexes = [];
 let cells = [];
+let showLabels = false;
+let showPaths = false;
 
 async function getCells() {
-  
-  
     const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
-    console.log('await get');
     cells = await res.json();
-    console.log('await parse',cells);
 }
 
 // Функция для отрисовки одного гексагона
-function drawHex (hex, x, y, no, withText, isPath) { 
+function drawHex (hex, x, y, no, withText, paths, isPath) { 
   
   ctx.beginPath();
   for (let i = 0; i < 6; i++) {
     ctx.lineTo(x + hex.r * Math.cos(a * i), y + hex.r * Math.sin(a * i));
   }
   ctx.closePath();
-  ctx.strokeStyle = 'green';
-  if (isPath == true) {
-    ctx.strokeStyle = 'red';
+
+  
+  if (paths == true){
+    if (isPath == true) {
+      ctx.strokeStyle = 'red';
+      ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+    } else {
+      ctx.strokeStyle = 'green';
+    }
+  } else {
+    ctx.strokeStyle = 'green';
   }
+  
   ctx.lineWidth = 0;
+  
   if (withText == true) {
     ctx.font = "20px Arial";
     ctx.fillStyle = "rgba(30,40,0,.5)";
@@ -122,7 +130,7 @@ function openDescription(address){
 };
 
 
-async function drawMap(lines, colomns, r, withText) {
+async function drawMap(lines, colomns, r, withText, paths) {
 
   const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
   console.log('await get');
@@ -140,11 +148,11 @@ async function drawMap(lines, colomns, r, withText) {
       let cCell = cells.find(cell => cell.name === cellName);
       if (cCell.isPath == true) {
         isPath = true;
-        console.log('draw red hex', cCell);
+        console.log('draw red hex', cCell, paths,isPath);
       } else {
         isPath = false;
       }
-      drawHex(hexCurrent, x, y, cellName, withText, isPath);
+      drawHex(hexCurrent, x, y, cellName, withText, paths, isPath);
       no+=1;
     };
     no = 1;
@@ -154,24 +162,40 @@ async function drawMap(lines, colomns, r, withText) {
 
 
 
-
 //drawScreen
 window.onload = function(){  
-  drawMap(canvas.width, canvas.height, r, false); 
+  drawMap(canvas.width, canvas.height, r, showLabels, showPaths); 
 };
 
 
 //переменные для управления кнопками "Скрыть/показать названия ячеек"
-const btnShowLabels = document.querySelector('.addLabels');
-const btnHideLabels = document.getElementById('hideLabels');
+
+const btnShowLabels = document.querySelector('#addLabels');
 
 btnShowLabels.addEventListener ('change', () => {
   if (btnShowLabels.checked) {
+    showLabels = true;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawMap(canvas.width, canvas.height, r, true); 
+    drawMap(canvas.width, canvas.height, r, showLabels, showPaths); 
   } else {
+    showLabels = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawMap(canvas.width, canvas.height, r, false); 
+    drawMap(canvas.width, canvas.height, r, showLabels, showPaths); 
+  }
+}
+)
+
+const btnShowPaths = document.querySelector('#showPaths');
+
+btnShowPaths.addEventListener ('change', () => {
+  if (btnShowPaths.checked) {
+    showPaths = true;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawMap(canvas.width, canvas.height, r, showLabels, showPaths); 
+  } else {
+    showPaths = false;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawMap(canvas.width, canvas.height, r, showLabels, showPaths); 
   }
 }
 )
