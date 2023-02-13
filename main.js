@@ -196,3 +196,10 @@ btnShowPaths.addEventListener ('change', () => {
   }
 }
 )
+
+const btnContact = document.querySelector('#contact');
+
+btnContact.addEventListener ('click', () => {
+  
+}
+)
