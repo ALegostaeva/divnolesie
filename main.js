@@ -125,7 +125,8 @@ function pixel_to_hex(x,y)
 };
 
 function openDescription(address){
-  let pageDescription = window.open("pages/info.html?id="+ address, address);
+  let pageDescription = window.open("pages/info.html?id="+ address, "_self", address);
+  pageDescription.ta
   pageDescription.window.open()
 };
 
@@ -200,6 +201,6 @@ btnShowPaths.addEventListener ('change', () => {
 const btnContact = document.querySelector('#contact');
 
 btnContact.addEventListener ('click', () => {
-  
+
 }
 )
