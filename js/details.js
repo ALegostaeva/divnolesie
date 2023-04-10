@@ -11,36 +11,37 @@ const getDetails = async () => {
     let cell = await cells.find( cell => cell.name === id);
     
 
-    switch (cell.loc) {
-        case "Снежный перевал":
+    locKey = toString(cell.loc);
+    switch (locKey) {
+        case locKey.includes("Снежный перевал"):
             cell.class='snow';
             cell.color = "#2d3c51";
             cell.bckg = "radial-gradient(67.84% 58.16% at 50% 41.84%, rgba(200, 254, 251, 1) 0%, rgba(45, 60, 81, 1) 60.94%)";
             cell.textColor = '#646464';
             cell.horizon = '../assets/hor_snow.png';
             break;
-        case "Пустыня":
+        case locKey.includes("Пустыня"):
             cell.class='desert';
             cell.color = "#e9b973";
             cell.bckg = "radial-gradient(50% 64.75% at 50% 35.25%, #6D7880 0%, #1D2F36 100%)";
             cell.textColor = 'white';
             cell.horizon = '../assets/hor_desert.png';
             break;
-        case "Междумирье":
+        case locKey.includes("Междумирье"):
             cell.class='fireflies';
             cell.color = "#154225";
             cell.bckg = 'radial-gradient(50% 64.75% at 50% 35.25%, rgba(238, 238, 160, 1) 0%, rgba(28, 73, 60, 1) 100%)';
             cell.horizon = '../assets/hor_fireflies.png';
             createFireflies();
             break;
-        case "Мавкино болото":
+        case locKey.includes("Мавкино болото"):
             cell.class='rain';
             cell.color = "#244530";
             cell.bckg = 'radial-gradient(47.28% 53.35% at 50% 46.65%, rgba(243, 255, 247, 1) 0%, rgba(91, 106, 122, 1) 100%)';
             cell.horizon = '../assets/hor_boloto.png';
             createRain();
             break;
-        case "Каменное плато":
+        case locKey.includes("Каменное плато"):
             cell.class='stones';
             cell.color = "#09090F";
             cell.bckg = "radial-gradient(50% 64.75% at 50% 35.25%, rgba(238, 170, 231, 1) 0%, rgba(32, 49, 59, 1) 100%)";
@@ -48,10 +49,12 @@ const getDetails = async () => {
             cell.horizon = '../assets/hor_stones.png';
             break;
         default:
-            cell.class='desert';
-            cell.color = "#222831";
+            cell.class='fireflies';
+            cell.color = "#154225";
+            cell.bckg = 'radial-gradient(50% 64.75% at 50% 35.25%, rgba(238, 238, 160, 1) 0%, rgba(28, 73, 60, 1) 100%)';
+            cell.horizon = '../assets/hor_fireflies.png';
+            createFireflies();
     }
-
 
 
     let template = `
