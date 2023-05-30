@@ -22,8 +22,10 @@ export async function onRequest(context: {
   ) {
     // Correct hash in cookie, allowed path, or no password set.
     // Continue to next middleware.
+    console.log("i see psw");
     return await next();
   } else {
+    console.log("psw needed");
     // No cookie or incorrect hash in cookie. Redirect to login.
     return new Response(getTemplate({ redirectPath: pathname, withError: error === '1' }), {
       headers: {
