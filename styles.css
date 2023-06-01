@@ -1859,3 +1859,35 @@ body.-menu-open .site-menu__item {
     box-shadow: 0 0 2vw 0.4vw yellow;
   }
 }
+
+/** Unicorns **/
+.unicorns-list{
+  position: relative;
+  text-align: center;
+}
+.unicorn {
+  margin-top: 30px;
+  margin-left: 10px;
+  background-color: rgb(21, 22, 23);
+  box-shadow: 5px 5px 10px #4d4d4d17, -5px -5px 10px #4545450e;
+  color: whitesmoke;
+  /*display: inline-flex;*/
+  align-items: center;
+}
+.unicorn-name{
+  font-weight: bold;
+}
+.unicorn-info{
+  text-align: left;
+  margin: 7px;
+}
+.unicorn-avatar{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.unicorn-avatar-img{
+  height: 50vh;
+}
+
+

@@ -42,15 +42,16 @@ export function getTemplate({
         <main>
           <article>
             <hgroup>
-              <h1>Пароль</h1>
+              <h1>Дивнолесье</h1>
               <h2>Введите пароль</h2>
             </hgroup>
             ${withError ? `<p class="error">Неверный пароль, попробуйте снова.</p>` : ''}
             <form method="post" action="/cfp_login">
               <input type="hidden" name="redirect" value="${redirectPath}" />
               <input type="password" name="password" placeholder="Пароль" aria-label="Пароль" autocomplete="current-password" required autofocus>
-              <button type="submit" class="contrast">Войти</button>
+              <button type="submit" class="contrast">Отправиться в путешествие</button>
             </form>
+            <a id="contact" title="Перейти в чат с куратором" href="https://vk.com/im?sel=-155728712">Хочу участвовать</a>
           </article>
         </main>
       </body>
