@@ -126,8 +126,8 @@ function pixel_to_hex(x,y)
 
 function openDescription(address){
   let pageDescription = window.open("pages/info.html?id="+ address,"_top", address);
-  pageDescription.ta
-  pageDescription.window.open()
+  //pageDescription.ta
+  //pageDescription.window.open()
 };
 
 
