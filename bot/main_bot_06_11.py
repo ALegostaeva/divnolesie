@@ -29,7 +29,7 @@ def load_local_data():
         with open(JSON_PATH, 'r') as f:
             return json.load(f)
     except FileNotFoundError:
-        logger.error("25 Local JSON file not found.")
+        logger.error("32 Local BD JSON file not found.")
         return None
 
 # Загрузка данных из локального JSON
@@ -161,6 +161,102 @@ def update_user(vk_id, first_name=None, last_name=None, is_participant=None, cur
                     user['won_seasons'].append(int(current_season))
             break
     save_users(users)
+
+def get_info_message_about_user_admin(selected_user):
+    users = load_users()
+    if selected_user['is_participant']:
+        participant = 'Участвует в текущем сезоне'
+    else:
+        participant = 'Не участвует в текущем сезоне'
+
+    current_season = str(load_info_marathon()['current_season'])
+
+    # Получить имя и фамилию куратора
+    kurator = next((u for u in users if u.get('vk_id') == selected_user.get('kurator')), None)
+    if kurator:
+        kurator_name = f"{kurator['first_name']} {kurator['last_name']}"
+    else:
+        kurator_name = "не назначен"
+
+    visited_cells = selected_user['visited_cells'].get(current_season, [])
+    if visited_cells:
+        visited_cells_str = ', '.join(visited_cells)
+    else:
+        visited_cells_str = 'В этом сезоне еще нет посещенных сот'
+    current_cell = selected_user.get('current_cell', "Нет")
+
+    visited_cells_all_seasons = selected_user.get('visited_cells', {})
+    visited_cells_message = ""
+
+    # Скрыли от пользователей Посещенные соты за все сезоны "Посещенные соты за все сезоны: {visited_cells_message}"
+    for season, cells in visited_cells_all_seasons.items():
+        season_cells_str = ', '.join(cells)
+        visited_cells_message += f"\nСезон {season}: {season_cells_str}"
+
+    won_seasons = selected_user.get('won_seasons',[])
+    if won_seasons:
+        won_seasons_str = ', '.join(str(season) for season in won_seasons)
+    else:
+        won_seasons_str = 'Нет завершенных сезонов'
+
+    unicoins = selected_user['coins']
+
+    if len(selected_user.get('artefacts', [])) < 1:
+        artefacts = "Нет артефактов"
+    else:
+        all_artefacts = load_artefacts()
+        # Создаем словарь для быстрого поиска артефактов по ID
+        artefact_dict = {artefact['id']: artefact['name'] for artefact in all_artefacts}
+
+        # Получаем список названий артефактов, соответствующих ID, которые хранятся у пользователя
+        artefact_names = [artefact_dict[artefact_id] for artefact_id in selected_user.get('artefacts', []) if artefact_id in artefact_dict]
+        artefacts = ', '.join(artefact_names)
+
+    # Для отбражения яйц, 1 стадии и 2 стадии
+    all_unicorns = load_unicorns()
+    # Создаем словарь для быстрого поиска единорогов по ID
+    unicorn_dict = {unicorn['id']: unicorn['name'] for unicorn in all_unicorns}
+    if len(selected_user.get('eggs', [])) < 1:
+        eggs = "Нет яиц"
+    else:
+    # Получаем список названий единорогов, соответствующих ID, которые хранятся у пользователя
+        unicorns_names = [unicorn_dict[unicorn_id] for unicorn_id in selected_user.get('eggs', []) if unicorn_id in unicorn_dict]
+        eggs = ', '.join(unicorns_names)
+    if len(selected_user.get('unicorns_baby', [])) < 1:
+        unicorns_baby = "Нет единорогов 2 стадии"
+    else:
+    # Получаем список названий единорогов, соответствующих ID, которые хранятся у пользователя
+        unicorns_names = [unicorn_dict[unicorn_id] for unicorn_id in selected_user.get('unicorns_baby', []) if unicorn_id in unicorn_dict]
+        unicorns_baby = ', '.join(unicorns_names)
+    if len(selected_user.get('unicorns', [])) < 1:
+        unicorns = "Нет взрослых единорогов 3 стадии"
+    else:
+    # Получаем список названий единорогов, соответствующих ID, которые хранятся у пользователя
+        unicorns_names = [unicorn_dict[unicorn_id] for unicorn_id in selected_user.get('unicorns', []) if unicorn_id in unicorn_dict]
+        unicorns = ', '.join(unicorns_names)
+
+    user_info_message = (f"Участник: {selected_user['first_name']} {selected_user['last_name']} (ID: {selected_user['vk_id']}),\n"
+                        f"Текущий сезон №{current_season}: {participant} \n"
+                        f"Куратор: {kurator_name},\n"
+                        f"Находится на соте {current_cell}. \n"
+                        f"Посещенные соты в этом сезоне: {visited_cells_str}.\n"
+                        f"Артефакты: {artefacts}.\n "
+                        f"На счету: {unicoins} юникоинов.\n"
+                        f"____Единороги_____\n"
+                        f"Яйца: {eggs},\n"
+                        f"Единороги (2 стадия): {unicorns_baby},\n"
+                        f"Взрослые единороги (3 стадия): {unicorns},\n"
+                        f"______Опыт_______\n"
+                        f"Опыт для яиц: {selected_user['exp_egg']},\n"
+                        f"Уникальный опыт для Каменного единорога: {selected_user['exp_kamen']},\n"
+                        f"Уникальный опыт для Лесного единорога: {selected_user['exp_les']},\n"
+                        f"Уникальный опыт для Болотного единорога: {selected_user['exp_boloto']},\n"
+                        f"Уникальный опыт для Пустынного единорога: {selected_user['exp_pustyn']},\n"
+                        f"Уникальный опыт для Снежного единорога: {selected_user['exp_snow']}\n"
+                        f"__________________\n"
+                        f"Завершенные сезоны: {won_seasons_str}")
+    return(user_info_message)
+
 
 def get_users_unicorns(selected_user_id, stage='eggs'):
     users = load_users()
@@ -313,7 +409,6 @@ def get_users_inline_buttons(users, page=0, action_call=''):
             "buttons": []
         }
     for u in items_for_page:
-        logger.info("inline_buttons %s %s %s", u['last_name'], str(u['vk_id']), action_call)
         users_keyboard['buttons'].append([{"action": {
             "type": "callback",
             "label": f"{u['first_name']} {u['last_name']}",
@@ -349,13 +444,18 @@ def remove_artefact_from_user(user_id, artefact_id):
 def remove_unicorn_from_user(user_id, stage = None, id_for_remove = None):
     users = load_users()
     if id_for_remove is None:
-        return
+        logger.info("447 remove_unicorn_from_user -  id_for_remove is None")
+        return False
     for user in users:
         if user['vk_id'] == user_id:
             if id_for_remove in user[stage]:
                 user[stage].remove(id_for_remove)
-            break
+                break
+            else:
+                logger.info("455 remove_unicorn_from_user - no user id")
+                return False
     save_users(users)
+    return True
 
 # добавить единорога
 def add_unicorn_to_user(user_id, stage = None, unicorn_id = None):
@@ -527,7 +627,7 @@ def webhook():
         else:
             command = message.strip()
 
-        logger.info(f"54 Processed command: {command}")
+        logger.info(f"630 Processed command: {command}")
 
         # список команд простых смертых
         if command.lower() == 'старт' or not message:
@@ -556,12 +656,12 @@ def webhook():
                 if 'error' in response:
                     error_code = response['error']['error_code']
                     error_msg = response['error']['error_msg']
-                    logger.error(f"Error {error_code}: {error_msg}")
+                    logger.error(f"659 Error {error_code}: {error_msg}")
                     # Обработка ошибки отправки сообщения
                     if error_code == 901:
                         send_message(peer_id, "Пожалуйста, подпишитесь на сообщения от нашего сообщества, чтобы получать уведомления.")
                 else:
-                    logger.info(f"71 Sent message: {response}")
+                    logger.info(f"664 Sent message: {response}")
             else:
                 send_message(peer_id, "Упс, что-то пошло не так.")
                 logger.error("Failed to get user info from VK")
@@ -668,7 +768,6 @@ def webhook():
                             send_message(peer_id, not_found_message, keyboard)
                     else:
                         send_message(peer_id, "Пожалуйста, укажи номер соты в формате [латинская буква][число]. Например, 'сота A1'.")
-                        logger.info(f"126 Sent message: {response}")
             else:
                 send_message(peer_id, "Карта выдается только путникам Дивнолесья. Если ты хочешь путешествовать с нами по Дивнолесью, то подай заявку на участие.")
 
@@ -931,12 +1030,34 @@ def webhook():
             else:
                 send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
+        # Чужой id для админа
+        elif command.lower().startswith('id'):
+            if not user.get('admin'):
+                send_message(peer_id, "У вас нет прав для выполнения этой команды.")
+                return
+
+            try:
+                _, name = message.split(maxsplit=1)
+                last_name = name.lower().replace('ё', 'е')
+                users = load_users()
+                selected_user = None
+                for user in users:
+                    if user.get('last_name', '').lower() == last_name:
+                        selected_user = user
+
+                if not selected_user:
+                    send_message(peer_id, f"Пользователь с фамилией {last_name} не найден.")
+                else:
+                    user_info_message = selected_user.get('vk_id', 'Нет ID')
+                    send_message(peer_id, user_info_message)
+            except ValueError:
+                send_message(peer_id, "Неверный формат команды. Используйте: id [фамилия]")
+
         # Чужой профиль для админа
         elif command.lower().startswith('profile'):
 
             if user and user.get('admin'):
                 _, selected_user_id = message.split()
-                logger.info(f"Запрос профиля: {selected_user_id}")
 
                 users = load_users()
                 selected_user = next((u for u in users if u['vk_id'] == int(selected_user_id)), None)
@@ -1113,7 +1234,6 @@ def webhook():
                         messages.append(message)
 
                     for message in messages:
-                        logger.info("Отправляю сообщения с участниками %s", len(message))
                         send_message(peer_id, message)
                 else:
                     message = "Нет участников в марафоне."
@@ -1192,7 +1312,6 @@ def webhook():
                 try:
                     _, user_id, coins = message.split()
                     add_coins = int(coins)
-                    logger.info(f"добавить: {user_id},{add_coins}")
 
                     users = load_users()
                     selected_user = next((u for u in users if u['vk_id'] == int(user_id)), None)
@@ -1201,9 +1320,7 @@ def webhook():
                         response = send_message(peer_id, f"Пользователь с ID: {user_id} не найден.")
                     else:
                         selected_user['coins'] += int(add_coins)
-                        logger.info("total_coins: %s for user_id: %s", selected_user['coins'], user_id)
                         update_user(user_id, coins = selected_user['coins'])
-                        logger.info("total updated user: %s ", {selected_user['coins']})
                         response = send_message(peer_id, f"Пользователю ID: {user_id} добавлено {add_coins} юникоинов. Теперь у {selected_user['first_name']} {selected_user['last_name']} есть {selected_user['coins']} юникоинов.")
                 except ValueError:
                     response = send_message(peer_id, "Используйте формат: 'add_coins [ID пользователя] [количество]'")
@@ -1212,7 +1329,6 @@ def webhook():
 
         # Вычесть юникоины
         elif command.lower().startswith('remove_coins'):
-            logger.info(f"Sent message: {message.split()}")
             if user.get('admin', False):
                 try:
                     _, user_id, coins = message.split()
@@ -1225,9 +1341,7 @@ def webhook():
                         response = send_message(peer_id, f"У пользователя с ID: {user_id} {selected_user['first_name']} не достаточно средств для выполнения операции. Текущий баланс юникоинов: {selected_user['coins']}.")
                     else:
                         selected_user['coins'] -= int(coins)
-                        logger.info("total_coins: %s for user_id: %s", selected_user['coins'], user_id)
                         update_user(user_id, coins = selected_user['coins'])
-                        logger.info("total updated user: %s ", {selected_user['coins']})
                         response = send_message(peer_id, f"Пользователю ID: {user_id} удалено {coins} юникоинов. Теперь у {selected_user['first_name']} {selected_user['last_name']} есть {selected_user['coins']} юникоинов.")
                 except ValueError:
                     response = send_message(peer_id, "Используйте формат: 'remove_coins [ID пользователя] [количество]'")
@@ -1236,7 +1350,6 @@ def webhook():
 
         # Задать новое значение для юникоинов
         elif command.lower().startswith('update_coins'):
-            logger.info(f"Sent message: {message.split()}")
             if user.get('admin', False):
                 try:
                     _, user_id, coins = message.split()
@@ -1247,9 +1360,7 @@ def webhook():
                         response = send_message(peer_id, f"Пользователь с ID: {user_id} не найден.")
                     else:
                         selected_user['coins'] = int(coins)
-                        logger.info("total_coins: %s for user_id: %s", selected_user['coins'], user_id)
                         update_user(user_id, coins = selected_user['coins'])
-                        logger.info("total updated user: %s ", {selected_user['coins']})
                         response = send_message(peer_id, f"Пользователю ID: {user_id} обновлен баланс юникоинов. Теперь у {selected_user['first_name']} {selected_user['last_name']} есть {selected_user['coins']} юникоинов.")
                 except ValueError:
                     response = send_message(peer_id, "Используйте формат: 'update_coins [ID пользователя] [количество]'")
@@ -1261,7 +1372,6 @@ def webhook():
             if user.get('admin', False):
                 try:
                     _, type_exp, user_exp_id, amount = message.split()
-                    logger.info(f"добавить: {type_exp}, {user_exp_id},{amount}")
 
                     users = load_users()
                     selected_user = next((u for u in users if u['vk_id'] == int(user_exp_id)), None)
@@ -1381,7 +1491,6 @@ def webhook():
                 try:
                     _, user_id = message.split()
                     previous_cell = revert_last_move(user_id)
-                    logger.info("in revert_last_move: %s", previous_cell)
                     
                     if previous_cell:
                         admin_message = f"Перемещение пользователя {user_id} отменено. Пользователь перемещен обратно на соту {previous_cell}."
@@ -1452,8 +1561,6 @@ def webhook():
                     "buttons": []
                 }
 
-                logger.info("artefacts_keyboard %s", len(items_for_page))
-
                 for artefact in items_for_page:
                     button = {"action": {"type":"callback",
                             "label":f"{artefact['name']}",
@@ -1464,22 +1571,18 @@ def webhook():
                 if has_more:
                     artefacts_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more","selected_user_id": selected_user_id,"list": "artefacts","page": page+1})}}])
                 response = send_message(peer_id, "Выберите артефакт для добавления:", artefacts_keyboard)
-                logger.info(f"Sent message: {response}")
             else:
                 response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
-                logger.info(f"Sent message: {response}")
 
         # Выбор артефакта у пользователя, чтобы удалить артефакт
         elif payload['action'].lower() == 'select_user_for_deletion_art':
             selected_user_id = payload['selected_user_id']
             page = 0
             participants = get_all_participants()
-            logger.info("select_user_for_deletion_art: %s", page)
             selected_user = next((u for u in participants if u['vk_id'] == selected_user_id), None)
             if selected_user:
                 all_artefacts = load_artefacts()
                 user_artefacts_ids = selected_user.get('artefacts', [])
-                logger.info("select_user_for_deletion_art: %s", user_artefacts_ids)
                 user_artefacts = []
                 for artefact_id in user_artefacts_ids:
                     artefact = next((u for u in all_artefacts if u['id'] == artefact_id), None)
@@ -1502,7 +1605,6 @@ def webhook():
                     artefacts_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more", "selected_user_id": selected_user_id, "list": "artefacts", "page": page+1})}}])
 
                 response = send_message(peer_id, f"Выберите артефакт для удаления у пользователя ID: {selected_user_id}:", artefacts_keyboard)
-                logger.info(f"Sent message: {response}")
 
         # Выбрать тип единорога для добавления пользователю
         elif payload['action'].lower().startswith('select_type_unicorn'):
@@ -1522,10 +1624,8 @@ def webhook():
                 }
 
                 response = send_message(peer_id, "Выберите тип единорога( или яйца) для добавления:", unicorn_keyboard)
-                logger.info(f"Sent message: {response}")
             else:
                 response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
-                logger.info(f"Sent message: {response}")
 
         # Выбрать стадию единорога (дальше вызывается функция добавления и подтверждения добавления)
         elif payload['action'].lower().startswith('select_stage_unicorn'):
@@ -1553,14 +1653,11 @@ def webhook():
                     }
                     unicorn_keyboard['buttons'].append([button])
                 response = send_message(peer_id, "Выберите тип единорога( или яйца) для добавления:", unicorn_keyboard)
-                logger.info(f"Sent message: {response}")
             else:
                 response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
-                logger.info(f"Sent message: {response}")
 
         # отобразить больше пользователей или артефактов
         elif payload['action'].lower().startswith('more'):
-            logger.info('more %s', payload['list'])
             if payload['list'] == "users":
                 users = get_all_participants()
                 page = int(payload['page'])
@@ -1635,7 +1732,6 @@ def webhook():
                         artefacts_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more", "selected_user_id": selected_user_id, "list": "artefacts_delete", "page": page+1})}}])
 
                 response = send_message(peer_id, f"Выберите артефакт для удаления у пользователя {selected_user['first_name']} {selected_user['last_name']}:", artefacts_keyboard)
-                logger.info(f"Sent message: {response}")
             elif payload['list'] == "unicorns_delete":
                 selected_user_id = payload['selected_user_id']
                 stage = payload['stage']
@@ -1643,10 +1739,15 @@ def webhook():
                 selected_user = next((u for u in participants if u['vk_id'] == selected_user_id), None)
                 if selected_user:
                     all_unicorns = load_unicorns()
-                    user_unicorns = [a for a in all_unicorns if a['id'] in selected_user.get(stage, [])]
-                    items_for_page, has_more = get_page(user_unicorns, page, 4)
+                    user_unicorns_ids = selected_user.get(stage, [])
+                    user_unicorns = []
+                    for unicorn_id in user_unicorns_ids:
+                        unicorn = next((u for u in all_unicorns if u['id'] == unicorn_id), None)
+                        if unicorn:
+                            user_unicorns.append(unicorn)
                     page = int(payload['page'])
-                    artefacts_keyboard = {
+                    items_for_page, has_more = get_page(user_unicorns, page, 4)
+                    unicorns_keyboard = {
                         "inline": True,
                         "buttons": []
                     }
@@ -1657,15 +1758,15 @@ def webhook():
                                 "payload": json.dumps({"action":"delete_unicorn","selected_user_id": selected_user_id,"unicorn_id":unicorn['id']})
                             }
                         }
-                        artefacts_keyboard['buttons'].append([button])
+                        unicorns_keyboard['buttons'].append([button])
                     if has_more:
-                        artefacts_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more", "selected_user_id": selected_user_id, "list": "artefacts_delete", "page": page+1})}}])
+                        unicorns_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more", "selected_user_id": selected_user_id, "list": "unicorns_delete", "page": page+1, "stage": stage})}}])
 
-                response = send_message(peer_id, f"Выберите артефакт для удаления у пользователя {selected_user['first_name']} {selected_user['last_name']}:", artefacts_keyboard)
-                logger.info(f"Sent message: {response}")
+                response = send_message(peer_id, f"Выберите единорога для удаления у пользователя {selected_user['first_name']} {selected_user['last_name']}:", unicorns_keyboard)
             else:
                 response = send_message(peer_id, "Что-то пошло не так. (Данные об ошибке elif payload['action'].lower().startswith('more'))")
                 logger.info("В функции возврата инлайн кнопок не удалось определить какой список надо вернуть")
+            
 
 
         # Добавить выбранный артефакт выбранному пользователю
@@ -1758,9 +1859,13 @@ def webhook():
                                 update_user(selected_user_id, exp_egg=selected_user['exp_egg']) # Удаляем опыт для яиц у пользователя
                                 all_users_eggs = get_users_unicorns(selected_user_id, stage = 'eggs') # Получаем список всех яиц у пользователя
                                 egg_id_for_remove = next((u for u in all_users_eggs if all_unicorns[u-1]['type'] == unicorn_type), None) # Выбираем любое первое яйцо с типом как у добавляемого единорога у пользователя
-                                remove_unicorn_from_user(selected_user_id, 'eggs', egg_id_for_remove) # удаляем выбранное яйцо в замен добавляемому единорогу
+                                unicorn_removed = remove_unicorn_from_user(selected_user_id, 'eggs', egg_id_for_remove) # удаляем выбранное яйцо в замен добавляемому единорогу
                                 add_unicorn_to_user(selected_user_id, 'unicorns_baby', unicorn_id) # добавляем единорога
-                                message =  f"Единорог {unicorn['name']} был успешно добавлен {selected_user['first_name']} {selected_user['last_name']}. Так же у пользователя было изъято одно яйцо единорога {unicorn['type']} и был снят опыт в размере {unicorn['price_exp']}."
+                                message =  f"Единорог {unicorn['name']} был успешно добавлен {selected_user['first_name']} {selected_user['last_name']}. Был снят опыт в размере {unicorn['price_exp']}."
+                                if unicorn_removed:
+                                    message += f" Так же у пользователя было изъято одно яйцо единорога {unicorn['type']}."
+                                else: 
+                                    message += f" Не удалось удалить яйцо."
                                 user_message =  f"Поздравляем с пополнением! У вас появился {unicorn['name']}. Теперь ваш новый друг будет путешествовать с вам по Дивнолесью и позволять брать 2-ую тему соты. Вам пришлось заплатить опытом в размере {unicorn['price_exp']}, но не печальтесь, ведь новый друг того стоит. Удачного путешествия с вашим новым питомцем!"
                             else:
                                 message = f"У пользователя недостаточно опыта для вылупления единорога. Сейчас у пользователя имеется {selected_user['exp_egg']} опыта, а стоимость единорога {unicorn['price_exp']}."
@@ -1916,10 +2021,9 @@ def webhook():
                     }
                     unicorns_keyboard['buttons'].append([button])
                 if has_more:
-                    unicorns_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more", "selected_user_id": selected_user_id, "list": "unicorns_delete", "page": page+1, "stage": stage})}}])
+                    unicorns_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more", "selected_user_id": selected_user_id, "list": "unicorns_delete", "page": 1, "stage": stage})}}])
 
-                response = send_message(peer_id, f"Выберите единорога для удаления у пользователя ID: {selected_user_id}:", unicorns_keyboard)
-                logger.info(f"Sent message: {response}")
+                response = send_message(peer_id, f"Выберите единорога для удаления у пользователя {selected_user['first_name']} {selected_user['last_name']}:", unicorns_keyboard)
 
         # удалить единорога у пользователя
         elif payload['action'].lower().startswith('delete_unicorn'):
@@ -1973,7 +2077,6 @@ def get_user_info(user_id):
     }
     response = requests.get(api_url, params=params)
     response_data = response.json()
-    logger.info(f"141 VK API users.get response: {response_data}")
     if 'response' in response_data:
         return response_data['response'][0]
     return None
