@@ -274,7 +274,7 @@ def get_users_unicorns(selected_user_id, stage='eggs'):
 
     return user_unicorns
 
-# Функция админов для сброса участников
+# Функция админов для сброса участников. Вызывается в команде "старт сезона"
 def reset_participants():
     try:
         with open(USERS_FILE, 'r', encoding='utf-8') as f:
@@ -461,9 +461,9 @@ def remove_unicorn_from_user(user_id, stage = None, id_for_remove = None):
 def add_unicorn_to_user(user_id, stage = None, unicorn_id = None):
     users = load_users()
     if unicorn_id is None:
-        return
+        return False
     if stage is None:
-        return
+        return False
     for user in users:
         if user['vk_id'] == user_id:
             if stage not in user:
@@ -471,18 +471,19 @@ def add_unicorn_to_user(user_id, stage = None, unicorn_id = None):
             user[stage].append(unicorn_id)
             break
     save_users(users)
+    return True
 
 # Откат перемещения на 1 соту
 def revert_last_move(user_id):
     user_data = get_user(int(user_id))
-    
+
     if not user_data or 'current_cell' not in user_data or 'visited_cells' not in user_data:
         logger.info(f'Не удалось откатить соту, так как пользователь c ID {user_id} не найден')
         return None
-    
+
     current_season = str(load_info_marathon().get('current_season', "1"))
     visited_cells = user_data['visited_cells'].get(current_season, [])
-    
+
     if len(visited_cells) < 2:
         logger.info(f"Не получилось откатить соту, так как путник {user_data['first_name']} {user_data['last_name']} еще не двигался по сотам в этом сезоне.")
         return None
@@ -495,7 +496,7 @@ def revert_last_move(user_id):
             user['current_cell'] = previous_cell
             user['visited_cells'][current_season].pop()
             break
-    
+
     save_users(users)
     return previous_cell
 
@@ -521,7 +522,7 @@ def notify_admins(vk_id, first_name = "", last_name = "", user_exists = ""):
             ]
         }
         message = f"Пользователь {first_name} {last_name} (ID: {vk_id}) хочет участвовать в марафоне.\n" \
-                  f"Пользователь уже участвовал в марафоне: {'Да' if user_exists else 'Нет'}"
+                  f"Пользователь уже участвовал в марафоне: {'Да' if user_exists else 'Нет. Куратором будет автоматически назначен тот, кто примет заявку! Так работает только для новых участников.'}"
         send_message(admin['vk_id'], message, keyboard)
 
 
@@ -789,7 +790,7 @@ def webhook():
                     password = marathon_info['password']
 
                     user_message += (f'Привет, {mention}!\n\n Ссылка на карту: {link} \n Логин: {login} \n Пароль: {password}')
-                
+
                 else:
                     user_message = 'Вы еще не вступили на тропинки Дивнолесья. Подайте заявку на участие в марафоне и получите доступ к карте Дивнолесья.'
             else:
@@ -807,7 +808,7 @@ def webhook():
 
                 welcome_message = f"Привет, {mention}! Марафон Дивнолесье был создан много лет назад, чтобы вдохновить людей больше читать и делиться прочитанным."\
                 "Кураторами проекта являются Ксения и Анна. Ты найдешь их в группе https://vk.com/polkasknigami.\n"
-                
+
             response = send_message(peer_id, welcome_message)
             if 'error' in response:
                     error_code = response['error']['error_code']
@@ -1015,7 +1016,7 @@ def webhook():
                 new_season = int(info_marathon['current_season']) + 1
                 update_season(new_season)
                 reset_success = reset_participants()
-                response = send_message(peer_id, f"Начат новый сезон {new_season}.")
+                response = send_message(peer_id, f"Начат новый сезон №{new_season}. Не забудь сменить пароль от карты!")
                 if reset_success:
                     send_message(peer_id, "Произошла ошибка при сбросе участников.")
             else:
@@ -1436,6 +1437,7 @@ def webhook():
 
                     users = load_users()
                     selected_user = next((u for u in users if u['vk_id'] == int(user_exp_id)), None)
+                    success_message = ""
 
                     if selected_user is None:
                         response = send_message(peer_id, f"Пользователь с ID: {user_exp_id} не найден.")
@@ -1483,7 +1485,7 @@ def webhook():
                     response = send_message(peer_id, "Используйте формат: 'add_exp [тип опыта] [ID пользователя] [количество]'")
             else:
                 response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
-            
+
         # Отменить последний ход на 1 соту
         elif message.startswith('revert_move'):
             admin_message = "Что-то пошло не так"
@@ -1491,7 +1493,7 @@ def webhook():
                 try:
                     _, user_id = message.split()
                     previous_cell = revert_last_move(user_id)
-                    
+
                     if previous_cell:
                         admin_message = f"Перемещение пользователя {user_id} отменено. Пользователь перемещен обратно на соту {previous_cell}."
                         user_message = f"Дивнолесье - это очень коварное место! Какой то злой дух переместил вас на другую соту, но наши защитники-кураторы вернули тебя в безопасное место на соту {previous_cell}."
@@ -1500,10 +1502,10 @@ def webhook():
                         admin_message = "Не удалось откатить перемещение. Путик еще не перемещался в этом сезоне."
                 except Exception as e:
                     admin_message = "Произошла ошибка при обработке команды."
-                    
+
             else:
                 admin_message ="У вас нет прав для выполнения этой команды."
-            
+
             response = send_message(peer_id, admin_message)
 
 
@@ -1766,7 +1768,7 @@ def webhook():
             else:
                 response = send_message(peer_id, "Что-то пошло не так. (Данные об ошибке elif payload['action'].lower().startswith('more'))")
                 logger.info("В функции возврата инлайн кнопок не удалось определить какой список надо вернуть")
-            
+
 
 
         # Добавить выбранный артефакт выбранному пользователю
@@ -1844,14 +1846,17 @@ def webhook():
                     unicorn_type = unicorn['type']
 
                     if unicorn_stage == 'eggs':
-                        add_unicorn_to_user(selected_user_id, 'eggs', unicorn_id)
-                        message =  f"{unicorn['name']} было успешно добавлено {selected_user['first_name']} {selected_user['last_name']}."
-                        user_message =  f"Вам в руки попала редкая находка {unicorn['name']}. Если правильно за ней ухаживать и оберегать, то можно получить верного друга - Дивнолестного Единорога! Удачного путешествия с вашим новым питомцем!"
+                        added_unicorn = add_unicorn_to_user(selected_user_id, 'eggs', unicorn_id)
+                        if added_unicorn:
+                            message =  f"{unicorn['name']} было успешно добавлено {selected_user['first_name']} {selected_user['last_name']}. Нужна ли жертва? Не забудь удалить необходимую жертву из профиля путника."
+                            user_message =  f"Вам в руки попала редкая находка {unicorn['name']}. Если правильно за ней ухаживать и оберегать, то можно получить верного друга - Дивнолестного Единорога! Удачного путешествия с вашим новым питомцем!"
+                        else:
+                            message =  f"Не получилось добавить единорога путнику {selected_user['first_name']} {selected_user['last_name']}."
 
                     elif unicorn_stage == 'unicorns_baby':
                         if unicorn['type'] == 'king':
                             add_unicorn_to_user(selected_user_id, 'unicorns_baby', unicorn_id) # добавляем единорога
-                            message =  f"Единорог {unicorn['name']} был успешно добавлен {selected_user['first_name']} {selected_user['last_name']}."
+                            message =  f"Единорог {unicorn['name']} был успешно добавлен {selected_user['first_name']} {selected_user['last_name']}. Нужна ли жертва? Не забудь удалить необходимую жертву из профиля путника."
                             user_message =  f"Поздравляем с пополнением! У вас появился {unicorn['name']}. Это очень редкий зверь! Удачного путешествия с вашим новым питомцем!"
                         else:
                             if selected_user['exp_egg'] >= unicorn['price_exp']:
@@ -1864,7 +1869,7 @@ def webhook():
                                 message =  f"Единорог {unicorn['name']} был успешно добавлен {selected_user['first_name']} {selected_user['last_name']}. Был снят опыт в размере {unicorn['price_exp']}."
                                 if unicorn_removed:
                                     message += f" Так же у пользователя было изъято одно яйцо единорога {unicorn['type']}."
-                                else: 
+                                else:
                                     message += f" Не удалось удалить яйцо."
                                 user_message =  f"Поздравляем с пополнением! У вас появился {unicorn['name']}. Теперь ваш новый друг будет путешествовать с вам по Дивнолесью и позволять брать 2-ую тему соты. Вам пришлось заплатить опытом в размере {unicorn['price_exp']}, но не печальтесь, ведь новый друг того стоит. Удачного путешествия с вашим новым питомцем!"
                             else:
@@ -1873,7 +1878,7 @@ def webhook():
                     elif unicorn_stage == 'unicorns':
                         if unicorn['type'] == 'king':
                             add_unicorn_to_user(selected_user_id, 'unicorns', unicorn_id) # добавляем единорога
-                            message = f"Единорог {unicorn['name']} был успешно добавлен {selected_user['first_name']} {selected_user['last_name']}."
+                            message = f"Единорог {unicorn['name']} был успешно добавлен {selected_user['first_name']} {selected_user['last_name']}. Нужна ли жертва? Не забудь удалить необходимую жертву из профиля путника."
                             user_message = f"ОГО! Поздравляем, ваш лучший друг {unicorn['name']} совсем взрослый и готов к путешествию!"
                         else:
                             if selected_user['coins'] >= unicorn['price_coins']:

@@ -3,7 +3,7 @@
         "vk_id": 139277848,
         "first_name": "Анна",
         "last_name": "Третьякова",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 34386823,
         "current_cell": "F1",
         "visited_cells": {
@@ -38,7 +38,7 @@
         "vk_id": 34386823,
         "first_name": "Ксения",
         "last_name": "Черепанова",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 139277848,
         "current_cell": "F3",
         "visited_cells": {
@@ -119,25 +119,41 @@
         },
         "admin": true,
         "artefacts": [
-            1
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
         ],
-        "coins": 75,
+        "coins": 450,
         "eggs": [
             13,
             7,
-            10
+            4,
+            13
         ],
         "unicorns_baby": [
             5,
+            2,
+            8,
+            11,
+            2,
+            11,
             11
         ],
         "unicorns": [
-            3
+            3,
+            12
         ],
-        "exp_egg": 30,
+        "exp_egg": 0,
         "exp_boloto": 60,
         "exp_snow": 60,
-        "exp_les": 60,
+        "exp_les": 45,
         "exp_kamen": 20,
         "exp_pustyn": 60,
         "won_seasons": [
@@ -151,16 +167,20 @@
         "last_name": "Бусыгина",
         "is_participant": true,
         "kurator": 139277848,
-        "current_cell": "M9",
+        "current_cell": "N5",
         "visited_cells": {
             "16": [
                 "M11",
-                "M10"
+                "M10",
+                "M9",
+                "N8",
+                "M7",
+                "N6"
             ]
         },
         "admin": false,
         "artefacts": [],
-        "coins": 21,
+        "coins": 33,
         "eggs": [
             13
         ],
@@ -171,23 +191,29 @@
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 172808623,
         "first_name": "Олег",
         "last_name": "Булдаков",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 139277848,
-        "current_cell": "D12",
+        "current_cell": "B11",
         "visited_cells": {
             "16": [
-                "D13"
+                "D13",
+                "D12",
+                "C12",
+                "C11"
             ]
         },
         "admin": false,
         "artefacts": [],
-        "coins": 3,
+        "coins": 16,
         "eggs": [],
         "unicorns_baby": [],
         "unicorns": [],
@@ -202,7 +228,7 @@
         "vk_id": 17317359,
         "first_name": "Юлия",
         "last_name": "Клюкина",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 139277848,
         "current_cell": "F28",
         "visited_cells": {},
@@ -241,36 +267,48 @@
         "last_name": "Сироткина",
         "is_participant": true,
         "kurator": 139277848,
-        "current_cell": "I18",
+        "current_cell": "J12",
         "visited_cells": {
             "16": [
                 "G18",
-                "H18"
+                "H18",
+                "I18",
+                "J18",
+                "I17",
+                "J16",
+                "I15",
+                "J14",
+                "I13"
             ]
         },
         "admin": false,
         "artefacts": [
             8
         ],
-        "coins": 47,
+        "coins": 55,
         "eggs": [
-            1,
-            11
+            11,
+            10
         ],
-        "unicorns_baby": [],
+        "unicorns_baby": [
+            2
+        ],
         "unicorns": [],
-        "exp_egg": 14,
+        "exp_egg": 8,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
-        "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_kamen": 6,
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 32737040,
         "first_name": "Ангелина",
         "last_name": "Борисова",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 139277848,
         "current_cell": "Е20",
         "visited_cells": {},
@@ -279,7 +317,7 @@
             9,
             13
         ],
-        "coins": 37,
+        "coins": 50,
         "eggs": [
             4,
             4,
@@ -294,7 +332,7 @@
         "exp_egg": 6,
         "exp_boloto": 0,
         "exp_snow": 0,
-        "exp_les": 2,
+        "exp_les": 12,
         "exp_kamen": 0,
         "exp_pustyn": 0
     },
@@ -302,28 +340,39 @@
         "vk_id": 162779609,
         "first_name": "Виктория",
         "last_name": "Панченко",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 139277848,
-        "current_cell": "I3",
+        "current_cell": "J8",
         "visited_cells": {
             "16": [
-                "J3"
+                "J3",
+                "I3",
+                "J4",
+                "I5",
+                "J6",
+                "I6",
+                "I7"
             ]
         },
         "admin": false,
         "artefacts": [],
-        "coins": 45,
+        "coins": 35,
         "eggs": [
             13
         ],
-        "unicorns_baby": [],
+        "unicorns_baby": [
+            14
+        ],
         "unicorns": [],
-        "exp_egg": 1,
+        "exp_egg": 0,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 66756554,
@@ -331,59 +380,74 @@
         "last_name": "Спиридонова",
         "is_participant": true,
         "kurator": 34386823,
-        "current_cell": "C19",
-        "visited_cells": {},
+        "current_cell": "B19",
+        "visited_cells": {
+            "16": [
+                "C19",
+                "M24"
+            ]
+        },
         "admin": false,
         "artefacts": [
             1,
             11,
             10,
             6,
-            6,
             6
         ],
-        "coins": 31,
+        "coins": 19,
         "eggs": [
             1,
             1,
             10,
             10,
-            10,
             13
         ],
         "unicorns_baby": [
-            8
+            8,
+            11
         ],
-        "unicorns": [],
-        "exp_egg": 12,
+        "unicorns": [
+            6
+        ],
+        "exp_egg": 7,
         "exp_boloto": 0,
-        "exp_snow": 13,
+        "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 436291,
         "first_name": "Наталья",
         "last_name": "Белоусова",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 34386823,
-        "current_cell": "F18",
+        "current_cell": "F16",
         "visited_cells": {
             "16": [
                 "F21",
                 "F20",
                 "F19",
-                "G18"
+                "G18",
+                "F18",
+                "F17",
+                "F17",
+                "G16",
+                "G16"
             ]
         },
         "admin": false,
         "artefacts": [
             13,
             1,
-            9
+            9,
+            8
         ],
-        "coins": 91,
+        "coins": 80,
         "eggs": [
             1,
             4,
@@ -399,24 +463,33 @@
             12,
             9
         ],
-        "exp_egg": 9,
+        "exp_egg": 10,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 361208298,
         "first_name": "Любовь",
         "last_name": "Тинтюк",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 139277848,
-        "current_cell": "С28",
-        "visited_cells": {},
+        "current_cell": "A28",
+        "visited_cells": {
+            "16": [
+                "С28",
+                "B29",
+                "A29"
+            ]
+        },
         "admin": false,
         "artefacts": [],
-        "coins": 10,
+        "coins": 16,
         "eggs": [
             1
         ],
@@ -433,7 +506,7 @@
         "vk_id": 12756735,
         "first_name": "Вероника",
         "last_name": "Нуриева",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 34386823,
         "current_cell": "J10",
         "visited_cells": {},
@@ -459,21 +532,23 @@
         "vk_id": 11175927,
         "first_name": "Ирина",
         "last_name": "Владимировна",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 139277848,
-        "current_cell": "J5",
+        "current_cell": "C2",
         "visited_cells": {
             "16": [
                 "G5",
                 "H5",
-                "I5"
+                "I5",
+                "J5",
+                "K4",
+                "K5"
             ]
         },
         "admin": false,
         "artefacts": [],
-        "coins": 10,
+        "coins": 21,
         "eggs": [
-            10,
             10,
             10,
             10,
@@ -482,27 +557,37 @@
             1,
             13
         ],
-        "unicorns_baby": [],
+        "unicorns_baby": [
+            11
+        ],
         "unicorns": [],
-        "exp_egg": 14,
+        "exp_egg": 0,
         "exp_boloto": 0,
         "exp_snow": 0,
-        "exp_les": 0,
+        "exp_les": 1,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 284708586,
         "first_name": "Оксана",
         "last_name": "Золотарева",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 34386823,
-        "current_cell": "J15",
+        "current_cell": "C14",
         "visited_cells": {
             "16": [
                 "M12",
                 "L13",
-                "K13"
+                "K13",
+                "J15",
+                "J16",
+                "H17",
+                "G13",
+                "F12"
             ]
         },
         "admin": false,
@@ -512,16 +597,15 @@
             13,
             13,
             13,
-            13,
-            13,
-            13,
             1
         ],
-        "coins": 36,
+        "coins": 16,
         "eggs": [
             16,
             13,
-            4
+            4,
+            10,
+            10
         ],
         "unicorns_baby": [
             5,
@@ -534,12 +618,15 @@
             3,
             18
         ],
-        "exp_egg": 3,
+        "exp_egg": 5,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 469035160,
@@ -547,41 +634,54 @@
         "last_name": "Дрыгина",
         "is_participant": true,
         "kurator": 34386823,
-        "current_cell": "H11",
+        "current_cell": "K12",
         "visited_cells": {
             "16": [
                 "G9",
                 "H9",
-                "H10"
+                "H10",
+                "H11",
+                "I12",
+                "J12"
             ]
         },
         "admin": false,
         "artefacts": [],
-        "coins": 40,
+        "coins": 58,
         "eggs": [
             4
         ],
         "unicorns_baby": [],
         "unicorns": [],
-        "exp_egg": 5,
+        "exp_egg": 8,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 15953083,
         "first_name": "Наталья",
         "last_name": "Никишина",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 34386823,
-        "current_cell": "M12",
+        "current_cell": "C2",
         "visited_cells": {
             "16": [
                 "M24",
                 "L24",
-                "L12"
+                "L12",
+                "M12",
+                "L24",
+                "M11",
+                "M12",
+                "M11",
+                "N11",
+                "B3"
             ]
         },
         "admin": false,
@@ -590,24 +690,29 @@
             4,
             1
         ],
-        "coins": 59,
+        "coins": 89,
         "eggs": [
             7,
             1,
             10,
-            10
+            10,
+            4,
+            13
         ],
         "unicorns_baby": [
             11,
             14
         ],
         "unicorns": [],
-        "exp_egg": 1,
+        "exp_egg": 3,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 4,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 131930827,
@@ -615,17 +720,18 @@
         "last_name": "Кравцова",
         "is_participant": true,
         "kurator": 34386823,
-        "current_cell": "D11",
+        "current_cell": "C11",
         "visited_cells": {
             "16": [
-                "E10"
+                "E10",
+                "D11"
             ]
         },
         "admin": false,
         "artefacts": [
             8
         ],
-        "coins": 25,
+        "coins": 28,
         "eggs": [
             4
         ],
@@ -644,29 +750,39 @@
         "last_name": "Богданова",
         "is_participant": true,
         "kurator": 34386823,
-        "current_cell": "С20",
-        "visited_cells": {},
+        "current_cell": "C4",
+        "visited_cells": {
+            "16": [
+                "С20",
+                "D20",
+                "C4"
+            ]
+        },
         "admin": false,
         "artefacts": [
             7,
             9
         ],
-        "coins": 67,
+        "coins": 88,
         "eggs": [
             10,
             7,
-            1
+            1,
+            13
         ],
         "unicorns_baby": [
             5
         ],
         "unicorns": [],
-        "exp_egg": 12,
+        "exp_egg": 1,
         "exp_boloto": 0,
-        "exp_snow": 0,
+        "exp_snow": 1,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 50448780,
@@ -695,22 +811,25 @@
         "vk_id": 27539565,
         "first_name": "Даша",
         "last_name": "Шувалова",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 34386823,
-        "current_cell": "H26",
+        "current_cell": "F24",
         "visited_cells": {
             "16": [
-                "I26"
+                "I26",
+                "H26",
+                "G25",
+                "F25",
+                "E25"
             ]
         },
         "admin": false,
-        "artefacts": [
-            5
-        ],
-        "coins": 15,
+        "artefacts": [],
+        "coins": 22,
         "eggs": [
             7,
-            7
+            7,
+            1
         ],
         "unicorns_baby": [],
         "unicorns": [],
@@ -725,59 +844,77 @@
         "vk_id": 38323918,
         "first_name": "Алена",
         "last_name": "Боженко",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 34386823,
-        "current_cell": "G6",
+        "current_cell": "E9",
         "visited_cells": {
             "16": [
                 "G28",
-                "F6"
+                "F6",
+                "G6",
+                "G7",
+                "G8",
+                "F9",
+                "F8",
+                "E8"
             ]
         },
         "admin": false,
         "artefacts": [],
-        "coins": 99,
+        "coins": 121,
         "eggs": [
-            1
+            1,
+            4
         ],
         "unicorns_baby": [],
         "unicorns": [],
-        "exp_egg": 0,
+        "exp_egg": 3,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 169881203,
         "first_name": "Катя",
         "last_name": "Панкина",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 139277848,
-        "current_cell": "G19",
+        "current_cell": "H22",
         "visited_cells": {
             "16": [
                 "H17",
-                "H18"
+                "H18",
+                "G19",
+                "H20",
+                "H21",
+                "G21"
             ]
         },
         "admin": false,
         "artefacts": [],
-        "coins": 53,
+        "coins": 63,
         "eggs": [
             7,
             7,
+            10,
             10
         ],
         "unicorns_baby": [],
         "unicorns": [],
-        "exp_egg": 11,
+        "exp_egg": 13,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 8970829,
@@ -785,12 +922,22 @@
         "last_name": "Томассон",
         "is_participant": true,
         "kurator": 34386823,
-        "current_cell": "G28",
-        "visited_cells": {},
+        "current_cell": "M22",
+        "visited_cells": {
+            "16": [
+                "G28",
+                "H23",
+                "I23",
+                "K23"
+            ]
+        },
         "admin": false,
-        "artefacts": [],
-        "coins": 121,
+        "artefacts": [
+            9
+        ],
+        "coins": 92,
         "eggs": [
+            1,
             1,
             1
         ],
@@ -798,7 +945,7 @@
             11
         ],
         "unicorns": [],
-        "exp_egg": 0,
+        "exp_egg": 1,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
@@ -809,13 +956,18 @@
         "vk_id": 58174765,
         "first_name": "Марина",
         "last_name": "Демидова",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 34386823,
-        "current_cell": "K24",
+        "current_cell": "M25",
         "visited_cells": {
             "16": [
                 "К22",
-                "J23"
+                "J23",
+                "K24",
+                "K25",
+                "L26",
+                "M26",
+                "N26"
             ]
         },
         "admin": false,
@@ -823,11 +975,12 @@
             1,
             10
         ],
-        "coins": 96,
+        "coins": 110,
         "eggs": [
             10,
             1,
             10,
+            7,
             7,
             7
         ],
@@ -846,7 +999,10 @@
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 12
+        "exp_pustyn": 12,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 77080793,
@@ -854,44 +1010,50 @@
         "last_name": "Ракова",
         "is_participant": true,
         "kurator": 139277848,
-        "current_cell": "N4",
-        "visited_cells": {},
+        "current_cell": "M4",
+        "visited_cells": {
+            "16": [
+                "N4"
+            ]
+        },
         "admin": false,
         "artefacts": [
             8,
             10
         ],
-        "coins": 36,
+        "coins": 69,
         "eggs": [
-            4,
             16,
             16,
             4,
             7,
             13,
             1,
-            7,
-            10
+            7
         ],
         "unicorns_baby": [
             8,
-            11
+            11,
+            5
         ],
         "unicorns": [
             3
         ],
-        "exp_egg": 14,
+        "exp_egg": 10,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 1,
-        "exp_pustyn": 4
+        "exp_pustyn": 4,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 80072057,
         "first_name": "Маргарита",
         "last_name": "Пименова",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 34386823,
         "current_cell": "G7",
         "visited_cells": {},
@@ -909,49 +1071,70 @@
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            17,
+            17,
+            17,
+            17
+        ]
     },
     {
         "vk_id": 82123988,
         "first_name": "Елена",
         "last_name": "Аликина",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 139277848,
-        "current_cell": "G25",
-        "visited_cells": {},
+        "current_cell": "E25",
+        "visited_cells": {
+            "16": [
+                "G25",
+                "G24",
+                "F24",
+                "F23",
+                "E23",
+                "E24"
+            ]
+        },
         "admin": false,
         "artefacts": [],
-        "coins": 16,
+        "coins": 39,
         "eggs": [
             4,
+            1,
             1
         ],
         "unicorns_baby": [],
         "unicorns": [],
-        "exp_egg": 1,
+        "exp_egg": 4,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 2443330,
         "first_name": "Анастасия",
         "last_name": "Грачева",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 139277848,
-        "current_cell": "M11",
+        "current_cell": "M12",
         "visited_cells": {
             "16": [
-                "M10"
+                "M9",
+                "M10",
+                "M11"
             ]
         },
         "admin": false,
         "artefacts": [
             7
         ],
-        "coins": 51,
+        "coins": 55,
         "eggs": [
             1,
             13,
@@ -969,7 +1152,7 @@
             14
         ],
         "unicorns": [],
-        "exp_egg": 3,
+        "exp_egg": 4,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 5,
@@ -980,7 +1163,7 @@
         "vk_id": 301836,
         "first_name": "Юлёнка",
         "last_name": "Иванова",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 139277848,
         "current_cell": "J8",
         "visited_cells": {},
@@ -1001,27 +1184,35 @@
         "vk_id": 145193492,
         "first_name": "Екатерина",
         "last_name": "Рубанова",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 139277848,
-        "current_cell": "J16",
+        "current_cell": "L16",
         "visited_cells": {
             "16": [
-                    "I16"
-                ]
+                "I16",
+                "J16",
+                "J17",
+                "K18",
+                "L18",
+                "L17",
+                "M18"
+            ]
         },
         "admin": false,
         "artefacts": [
             8
         ],
-        "coins": 11,
+        "coins": 27,
         "eggs": [
             1,
             10,
             10
         ],
-        "unicorns_baby": [],
+        "unicorns_baby": [
+            11
+        ],
         "unicorns": [],
-        "exp_egg": 10,
+        "exp_egg": 3,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
@@ -1032,42 +1223,56 @@
         "vk_id": 71652964,
         "first_name": "Галина",
         "last_name": "Безруких",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 34386823,
-        "current_cell": "H28",
+        "current_cell": "F26",
         "visited_cells": {
             "16": [
-                "G28"
+                "G28",
+                "H28",
+                "I28",
+                "J28",
+                "J27",
+                "I27",
+                "H27",
+                "G27",
+                "F27"
             ]
         },
         "admin": false,
         "artefacts": [
-            9
+            9,
+            10,
+            1,
+            1
         ],
-        "coins": 270,
+        "coins": 112,
         "eggs": [
             1,
             1,
-            7,
             10,
             7,
             7,
-            4
+            4,
+            7
         ],
         "unicorns_baby": [
             5,
             11,
             8,
-            5
+            5,
+            8
         ],
         "unicorns": [],
-        "exp_egg": 11,
+        "exp_egg": 5,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
         "exp_pustyn": 0,
-        "won_seasons": []
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 46345980,
@@ -1075,34 +1280,42 @@
         "last_name": "Лавренчук",
         "is_participant": true,
         "kurator": 34386823,
-        "current_cell": "G5",
+        "current_cell": "G8",
         "visited_cells": {
             "16": [
-                "H5"
+                "H5",
+                "G5",
+                "G6",
+                "H6",
+                "G7"
             ]
         },
         "admin": false,
         "artefacts": [],
-        "coins": 29,
+        "coins": 49,
         "eggs": [
             13,
-            13
+            4
         ],
-        "unicorns_baby": [],
+        "unicorns_baby": [
+            14
+        ],
         "unicorns": [],
-        "exp_egg": 12,
+        "exp_egg": 1,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
         "exp_pustyn": 0,
-        "won_seasons": []
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 53815111,
         "first_name": "Надежда",
         "last_name": "Милотаева",
-        "is_participant": true,
+        "is_participant": false,
         "kurator": 34386823,
         "current_cell": "I2",
         "visited_cells": {},
@@ -1128,17 +1341,120 @@
         "last_name": "Тутубалина",
         "is_participant": true,
         "kurator": 34386823,
-        "current_cell": "K27",
-        "visited_cells": {},
+        "current_cell": "C1",
+        "visited_cells": {
+            "16": [
+                "K27",
+                "L26",
+                "K25",
+                "L25",
+                "L24",
+                "D2"
+            ]
+        },
         "admin": false,
-        "artefacts": [],
-        "coins": 65,
+        "artefacts": [
+            5
+        ],
+        "coins": 24,
         "eggs": [
+            7,
             7
         ],
         "unicorns_baby": [],
         "unicorns": [],
+        "exp_egg": 4,
+        "exp_boloto": 0,
+        "exp_snow": 0,
+        "exp_les": 0,
+        "exp_kamen": 0,
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
+    },
+    {
+        "vk_id": 2094281,
+        "first_name": "Анна",
+        "last_name": "Щукина",
+        "is_participant": true,
+        "kurator": 139277848,
+        "current_cell": "E12",
+        "visited_cells": {
+            "16": [
+                "",
+                "",
+                "C14",
+                "C15",
+                "D14",
+                "E14",
+                "D13",
+                "D12"
+            ]
+        },
+        "admin": false,
+        "artefacts": [],
+        "coins": 30,
+        "eggs": [
+            10
+        ],
+        "unicorns_baby": [],
+        "unicorns": [],
         "exp_egg": 1,
+        "exp_boloto": 0,
+        "exp_snow": 0,
+        "exp_les": 0,
+        "exp_kamen": 0,
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
+    },
+    {
+        "vk_id": 154183622,
+        "first_name": "Дарья",
+        "last_name": "Афанасова",
+        "is_participant": true,
+        "kurator": 34386823,
+        "current_cell": "",
+        "visited_cells": {
+            "17": [
+                ""
+            ]
+        },
+        "admin": false,
+        "artefacts": [],
+        "coins": 0,
+        "eggs": [],
+        "unicorns_baby": [],
+        "unicorns": [],
+        "exp_egg": 0,
+        "exp_boloto": 0,
+        "exp_snow": 0,
+        "exp_les": 0,
+        "exp_kamen": 0,
+        "exp_pustyn": 0,
+        "won_seasons": []
+    },
+    {
+        "vk_id": 12723968,
+        "first_name": "Светлана",
+        "last_name": "Самсонова",
+        "is_participant": true,
+        "kurator": 34386823,
+        "current_cell": "",
+        "visited_cells": {
+            "17": [
+                ""
+            ]
+        },
+        "admin": false,
+        "artefacts": [],
+        "coins": 0,
+        "eggs": [],
+        "unicorns_baby": [],
+        "unicorns": [],
+        "exp_egg": 0,
         "exp_boloto": 0,
         "exp_snow": 0,
         "exp_les": 0,
