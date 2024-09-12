@@ -159,7 +159,8 @@
         "won_seasons": [
             15,
             16
-        ]
+        ],
+        "notifications": false
     },
     {
         "vk_id": 27199213,
@@ -308,7 +309,7 @@
         "vk_id": 32737040,
         "first_name": "Ангелина",
         "last_name": "Борисова",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 139277848,
         "current_cell": "Е20",
         "visited_cells": {},
@@ -424,7 +425,7 @@
         "vk_id": 436291,
         "first_name": "Наталья",
         "last_name": "Белоусова",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 34386823,
         "current_cell": "F16",
         "visited_cells": {
@@ -532,7 +533,7 @@
         "vk_id": 11175927,
         "first_name": "Ирина",
         "last_name": "Владимировна",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 139277848,
         "current_cell": "C2",
         "visited_cells": {
@@ -575,7 +576,7 @@
         "vk_id": 284708586,
         "first_name": "Оксана",
         "last_name": "Золотарева",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 34386823,
         "current_cell": "C14",
         "visited_cells": {
@@ -667,7 +668,7 @@
         "vk_id": 15953083,
         "first_name": "Наталья",
         "last_name": "Никишина",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 34386823,
         "current_cell": "C2",
         "visited_cells": {
@@ -844,7 +845,7 @@
         "vk_id": 38323918,
         "first_name": "Алена",
         "last_name": "Боженко",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 34386823,
         "current_cell": "E9",
         "visited_cells": {
@@ -882,7 +883,7 @@
         "vk_id": 169881203,
         "first_name": "Катя",
         "last_name": "Панкина",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 139277848,
         "current_cell": "H22",
         "visited_cells": {
@@ -1076,6 +1077,8 @@
             17,
             17,
             17,
+            17,
+            17,
             17
         ]
     },
@@ -1083,7 +1086,7 @@
         "vk_id": 82123988,
         "first_name": "Елена",
         "last_name": "Аликина",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 139277848,
         "current_cell": "E25",
         "visited_cells": {
@@ -1120,7 +1123,7 @@
         "vk_id": 2443330,
         "first_name": "Анастасия",
         "last_name": "Грачева",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 139277848,
         "current_cell": "M12",
         "visited_cells": {
@@ -1184,7 +1187,7 @@
         "vk_id": 145193492,
         "first_name": "Екатерина",
         "last_name": "Рубанова",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 139277848,
         "current_cell": "L16",
         "visited_cells": {
@@ -1217,7 +1220,10 @@
         "exp_snow": 0,
         "exp_les": 0,
         "exp_kamen": 0,
-        "exp_pustyn": 0
+        "exp_pustyn": 0,
+        "won_seasons": [
+            16
+        ]
     },
     {
         "vk_id": 71652964,
@@ -1461,5 +1467,32 @@
         "exp_kamen": 0,
         "exp_pustyn": 0,
         "won_seasons": []
+    },
+    {
+        "vk_id": 386714510,
+        "first_name": "Виктория",
+        "last_name": "Бельчикова",
+        "is_participant": true,
+        "kurator": 139277848,
+        "current_cell": "",
+        "visited_cells": {
+            "17": [
+                ""
+            ]
+        },
+        "admin": false,
+        "artefacts": [],
+        "coins": 0,
+        "eggs": [],
+        "unicorns_baby": [],
+        "unicorns": [],
+        "exp_egg": 0,
+        "exp_boloto": 0,
+        "exp_snow": 0,
+        "exp_les": 0,
+        "exp_kamen": 0,
+        "exp_pustyn": 0,
+        "won_seasons": [],
+        "notifications": true
     }
 ]
