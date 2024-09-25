@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import Flask, request
 import requests
 import logging
@@ -23,6 +25,7 @@ USERS_FILE = 'users.json'
 ARTEFACTS_FILE = 'artefacts.json'
 INFO_MARATHON_FILE = 'info-marathon.json'
 UNICORNS_FILE = 'unicorns.json'
+LOG_FILE = 'log.json'
 
 def load_local_data():
     try:
@@ -66,6 +69,35 @@ def load_info_marathon():
             return json.load(file)
     else:
         return []
+
+# Функция для загрузки логов
+def load_logs():
+    try:
+        with open("log.json", "r", encoding="utf-8") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        # Логи могут быть пустыми, если файла еще нет, вернем пустой словарь
+        return {}
+    except json.JSONDecodeError as e:
+        # В случае повреждения файла с логами
+        logger.error(f"Ошибка при чтении log.json: {e}")
+        return {}
+
+# Функция для сохранения логов
+def save_logs(logs):
+    with open(LOG_FILE, 'w') as file:
+        json.dump(logs, file)
+
+# Функция для проверки, было ли сообщение уже обработано
+def is_event_processed(event_id):
+    logs = load_logs()
+    return logs.get(event_id, False)
+
+# Функция для пометки сообщения как обработанного
+def mark_event_as_processed(event_id):
+    logs = load_logs()
+    logs[str(event_id)] = 'processed'
+    save_logs(logs)
 
 # ПАГИНАЦИЯ Универсальная функция для получения данных по страницам.
 def get_page(data, page=0, page_size=8):
@@ -618,11 +650,20 @@ def clean_text_from_html(text):
 @app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.json
-    logger.info("WEBHOOK: %s %s %s:" {data['type']} {data['event_id']} data['object']['from_id'])
+    logger.info("WEBHOOK: %s %s:", data['type'], data['event_id'])
+    
+    event_id = data.get('event_id')  # получаем event_id из запроса
+
+    if event_id:  # Если event_id есть, проверяем на дубликат
+        if is_event_processed(event_id):
+            send_message(5649984,f"Сообщение {data['type']} с event_id {event_id} уже обработано.")
+            logger.info(f"Сообщение с event_id {event_id} уже обработано.")
+            return "OK", 200  # Сообщение уже обработано, отправляем 200
+    else:
+        logger.warning("event_id отсутствует, продолжаем обработку сообщения без логирования дубликатов.")
 
     if data['type'] == 'confirmation':
-        return '5537e3e0'
-
+            return '5537e3e0'
     elif data['type'] == 'wall_reply_new' or data['type'] == 'message_new' or data['type'] == 'wall_post_new':
         # Извлекаем текст сообщения
         if data['type'] == 'wall_reply_new':
@@ -1381,6 +1422,7 @@ def webhook():
 
         # Добавить юникоины
         elif command.lower().startswith('add_coins'):
+            admin_message = ('Что-то пошло не так')
             if user.get('admin', False):
                 try:
                     _, user_id, coins = message.split()
@@ -1390,15 +1432,21 @@ def webhook():
                     selected_user = next((u for u in users if u['vk_id'] == int(user_id)), None)
 
                     if selected_user is None:
-                        response = send_message(peer_id, f"Пользователь с ID: {user_id} не найден.")
+                        admin_message = (f"Пользователь с ID: {user_id} не найден.")
                     else:
                         selected_user['coins'] += int(add_coins)
                         update_user(user_id, coins = selected_user['coins'])
-                        response = send_message(peer_id, f"Пользователю {selected_user['first_name']} {selected_user['last_name']} ID: {user_id} добавлено {add_coins} юникоинов. Теперь у {selected_user['first_name']} {selected_user['last_name']} есть {selected_user['coins']} юникоинов.")
+                        user_message = (f"Ваш кошелек с юникоинами стал увесистее. Теперь там находится {selected_user['coins']} юникоинов")
+                        admin_message = (f"Пользователю {selected_user['first_name']} {selected_user['last_name']} ID: {user_id} добавлено {add_coins} юникоинов. Теперь у {selected_user['first_name']} {selected_user['last_name']} есть {selected_user['coins']} юникоинов.")
                 except ValueError:
-                    response = send_message(peer_id, "Используйте формат: 'add_coins [ID пользователя] [количество]'")
+                    admin_message = (f"Используйте формат: 'add_coins [ID пользователя] [количество]'")
             else:
-                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
+                admin_message = ("У вас нет прав для выполнения этой команды.")
+            
+            if user_message:
+                send_message(user_id, user_message)
+
+            send_message(peer_id, admin_message)
 
         # Вычесть юникоины
         elif command.lower().startswith('remove_coins'):
@@ -2186,19 +2234,37 @@ def get_user_info(user_id):
     return None
 
 # Отправка сообщения в ВК
-def send_message(peer_id, message, keyboard = None):
+def send_message(peer_id, message, keyboard = None, event_id = None):
     api_url = 'https://api.vk.com/method/messages.send'
     params = {
         'peer_id': peer_id,
-        'random_id': 0,
+        'random_id': event_id if event_id else 0,
         'message': message,
         'access_token': token,
         'v': '5.131'
     }
     if keyboard:
         params['keyboard'] = json.dumps(keyboard, ensure_ascii=False)
-    response = requests.post(api_url, params=params)
-    return response.json()
+    
+    try:
+        response = requests.post(api_url, params=params)
+        response.raise_for_status()  # Проверяем на HTTP ошибки
+        result = response.json()
+        
+        # Проверка успешности отправки
+        if 'error' in result:
+            logger.error(f"Ошибка при отправке сообщения {peer_id}: {result['error']}")
+        else:
+            if event_id:  # Логируем успешную отправку только если есть event_id
+                logs = load_logs()
+                logs[event_id] = 'sent'
+                save_logs(logs)
+                logger.info(f"Сообщение успешно отправлено {peer_id} с event_id {event_id}")
+        
+        return result
+    except requests.RequestException as e:
+        logger.error(f"Ошибка при отправке сообщения {peer_id}: {e}")
+        return None
 
 # Функция для отправки файла через VK API
 def send_file(peer_id, file_path):
