@@ -327,7 +327,7 @@ def reset_participants():
     except FileNotFoundError:
         return False
 
-def send_notification_to_all_users(message, keyboard=None, event_id=None):
+def send_notification_to_all_users(message, keyboard=None):
     users = load_users()
     changes_made = False
     for user in users:
@@ -335,18 +335,18 @@ def send_notification_to_all_users(message, keyboard=None, event_id=None):
         if 'notifications' not in user:
             user['notifications'] = True
             changes_made = True
-            send_message(user['vk_id'], message, keyboard,event_id)
+            send_message(user['vk_id'], message, keyboard)
 
         elif user['notifications']:
             logger.info("sent to %s", user['vk_id'])
-            send_message(user['vk_id'], message, keyboard,event_id)
+            send_message(user['vk_id'], message, keyboard)
         else:
             logger.info("User %s has notifications set to False, skipping...", user['vk_id'])
 
     # Сохраняем изменения, если они были сделаны
     if changes_made:
         save_users(users)
-        
+
 
 # Функция для получения списка всех участников
 def get_all_participants():
@@ -571,7 +571,7 @@ def update_season(new_season_number):
         json.dump(info, file)
 
 # Функция для отправки уведомлений администраторам о заявке в марафоне
-def notify_admins(vk_id, first_name = "", last_name = "", user_exists = "",event_id=None):
+def notify_admins(vk_id, first_name = "", last_name = "", user_exists = ""):
     users = load_users()
     admins = [user for user in users if user.get('admin', False)]
     for admin in admins:
@@ -584,21 +584,21 @@ def notify_admins(vk_id, first_name = "", last_name = "", user_exists = "",event
             ]
         }
         message = f"Пользователь {first_name} {last_name} (ID: {vk_id}) хочет участвовать в марафоне.\n" \
-                  f"Пользователь уже участвовал в марафоне: {'Да' if user_exists else 'Нет. Куратором будет автоматически назначен тот, кто примет заявку! Так работает только для новых участников. Не забудь определить начальную соту с помощью команды move.'}"
-        send_message(admin['vk_id'], message, keyboard, event_id)
+                  f"Пользователь уже участвовал в марафоне: {'Да' if user_exists else 'Нет. Куратором будет автоматически назначен тот, кто примет заявку! Так работает только для новых участников.'}"
+        send_message(admin['vk_id'], message, keyboard)
 
 
 # Функция для отправки уведомлений администраторам любое
-def notify_admins_info(vk_id, message,event_id=None):
+def notify_admins_info(vk_id, message):
     users = load_users()
     admins = [user for user in users if user.get('admin', False)]
     for admin in admins:
         message = message
-        send_message(admin['vk_id'], message, event_id=event_id)
+        send_message(admin['vk_id'], message)
 
 
 
-def accept_marathon_request(vk_id, admin_id,event_id=None):
+def accept_marathon_request(vk_id, admin_id):
     # Получаем данные о пользователе
     user_info = get_user_info(vk_id)
     first_name = user_info.get('first_name', 'Неизвестно')
@@ -616,17 +616,17 @@ def accept_marathon_request(vk_id, admin_id,event_id=None):
     if user:
         # Обновляем информацию о пользователе
         update_user(vk_id, first_name, last_name, is_participant=True)
-        send_message(vk_id, f"Вы успешно зарегистрированы в марафоне Дивнолесье! Удачи! \n Ссылка на карту: {link} \n Логин: {login}\n Пароль: {password}. \n Вы находитесь здесь:{user.get('current_cell', '')}", event_id=event_id)
+        send_message(vk_id, f"Вы успешно зарегистрированы в марафоне Дивнолесье! Удачи! \n Ссылка на карту: {link} \n Логин: {login}\n Пароль: {password}. \n Вы находитесь здесь:{user.get('current_cell', '')}")
     else:
         # Выбираем случайное значение для current_cell из cells_data
         #current_cell = random.choice([cell['name'] for cell in cells_data])
 
         # Добавляем нового пользователя
         add_user(vk_id, first_name, last_name, is_participant=True, kurator = admin_id)
-        send_message(vk_id, f"Вы успешно зарегистрированы в марафоне Дивнолесье! Удачи! \n Ссылка на карту: {link} \n Логин: {login}\n Пароль: {password}. Скоро куратор сориентирует, на какой соте ваше путешествие начнется.",event_id=event_id)
+        send_message(vk_id, f"Вы успешно зарегистрированы в марафоне Дивнолесье! Удачи! \n Ссылка на карту: {link} \n Логин: {login}\n Пароль: {password}. Скоро куратор сориентирует, на какой соте ваше путешествие начнется.")
 
 def reject_marathon_request(vk_id):
-    send_message(vk_id, "Упс, что-то случилось и мы не смогли зарегистрировать вас в марафоне Дивнолесье. Свяжитесь с кураторами марафона.", event_id=event_id)
+    send_message(vk_id, "Упс, что-то случилось и мы не смогли зарегистрировать вас в марафоне Дивнолесье. Свяжитесь с кураторами марафона.")
 
 def split_message(text, max_length=1000):
     """Разбивает текст на части, каждая из которых не превышает max_length символов."""
@@ -656,7 +656,7 @@ def clean_text_from_html(text):
 def webhook():
     data = request.json
     logger.info("WEBHOOK: %s %s:", data['type'], data['event_id'])
-    
+
     event_id = data.get('event_id')  # получаем event_id из запроса
 
     if event_id:  # Если event_id есть, проверяем на дубликат
@@ -725,18 +725,18 @@ def webhook():
                             [{"action": {"type": "open_link","link": "https://vk.com/polkasknigami","label": "Написать Кураторам"}}]
                         ]
                     }
-                response = send_message(peer_id, welcome_message,keyboard, event_id)
+                response = send_message(peer_id, welcome_message,keyboard)
                 if 'error' in response:
                     error_code = response['error']['error_code']
                     error_msg = response['error']['error_msg']
                     logger.error(f"659 Error {error_code}: {error_msg}")
                     # Обработка ошибки отправки сообщения
                     if error_code == 901:
-                        send_message(peer_id, "Пожалуйста, подпишитесь на сообщения от нашего сообщества, чтобы получать уведомления.", event_id=event_id)
+                        send_message(peer_id, "Пожалуйста, подпишитесь на сообщения от нашего сообщества, чтобы получать уведомления.")
                 else:
                     logger.info(f"664 Sent message: {response}")
             else:
-                send_message(peer_id, "Упс, что-то пошло не так.", event_id=event_id)
+                send_message(peer_id, "Упс, что-то пошло не так.")
                 logger.error("Failed to get user info from VK")
 
         # заявка на участие в марафоне
@@ -758,30 +758,30 @@ def webhook():
                         admin_message = f"Путник {user.get('first_name', '')} {user.get('last_name', '')}(ID {user.get('vk_id', '')}) был добавлен участником в текущий сезон автоматически, так как успешно завершил предыдущий сезон."
                     else:
                         user_exists = True
-                        notify_admins(user_id, first_name, last_name, user_exists,event_id=abs(hash(f"{event_id}_admin")))
+                        notify_admins(user_id, first_name, last_name, user_exists)
                         user_message = "Ваша заявка на участие в марафоне отправлена на рассмотрение. Не забудь забежать в личные сообщения к Ксении и выдать звенящую монету за участие в марафоне!"
             else:
                 user_exists = False
-                notify_admins(user_id, first_name, last_name, user_exists,event_id=abs(hash(f"{event_id}_admin")))
+                notify_admins(user_id, first_name, last_name, user_exists)
                 user_message = "Ваша заявка на участие в марафоне отправлена на рассмотрение. Не забудь забежать в личные сообщения к Ксении и выдать звенящую монету за участие в марафоне!"
 
             if len(admin_message) > 0:
-                notify_admins_info(peer_id, admin_message,event_id=abs(hash(f"{event_id}_admin")))
-            send_message(peer_id,user_message, event_id=event_id)
+                notify_admins_info(peer_id, admin_message)
+            send_message(peer_id,user_message)
 
         elif command.lower().startswith('отключить уведомления'):
             user = get_user(user_id)
             if user:
                 update_user(user_id, notifications=False)
             user_message = "Уведомления о Залесных события успешно отключены."
-            send_message(peer_id,user_message, event_id=event_id)
-        
+            send_message(peer_id,user_message)
+
         elif command.lower().startswith('включить уведомления'):
             user = get_user(user_id)
             if user:
                 update_user(user_id, notifications=True)
             user_message = "Уведомления о Залесных события успешно включены. Теперь вы всегда будете в курсе старта нового сезона!"
-            send_message(peer_id,user_message, event_id=event_id)
+            send_message(peer_id,user_message)
 
         # команда для получения информации о соте
         elif command.lower().startswith('info'):
@@ -805,7 +805,7 @@ def webhook():
                             }]
                         ]
                     }
-                    response = send_message(peer_id, fog_message, keyboard,event_id)
+                    response = send_message(peer_id, fog_message, keyboard)
                 else:
                     parts = command.split()
                     if len(parts) > 1:
@@ -831,11 +831,10 @@ def webhook():
                             messages = split_message(message)
 
                             for i, part in enumerate(messages):
-                                message_event_id = abs(hash(f"{event_id}_{i}"))
                                 if i == len(messages) - 1:
-                                    send_message(peer_id, part, keyboard=keyboard,event_id=message_event_id)
+                                    send_message(peer_id, part, keyboard=keyboard)
                                 else:
-                                    send_message(peer_id, part,event_id=message_event_id)
+                                    send_message(peer_id, part)
 
                         else:
                             not_found_message = ("Путник, кажется ты сбился с пути. То место, о котором ты просишь информацию "
@@ -853,11 +852,11 @@ def webhook():
                                     }]
                                 ]
                             }
-                            send_message(peer_id, not_found_message, keyboard,event_id)
+                            send_message(peer_id, not_found_message, keyboard)
                     else:
-                        send_message(peer_id, "Пожалуйста, укажи номер соты в формате [латинская буква][число]. Например, 'сота A1'.",event_id=event_id)
+                        send_message(peer_id, "Пожалуйста, укажи номер соты в формате [латинская буква][число]. Например, 'сота A1'.")
             else:
-                send_message(peer_id, "Карта выдается только путникам Дивнолесья. Если ты хочешь путешествовать с нами по Дивнолесью, то подай заявку на участие.",event_id=event_id)
+                send_message(peer_id, "Карта выдается только путникам Дивнолесья. Если ты хочешь путешествовать с нами по Дивнолесью, то подай заявку на участие.")
 
         # напоминание логина и пароля от карты
         elif command.lower() == 'карта':
@@ -882,8 +881,8 @@ def webhook():
                     user_message = 'Вы еще не вступили на тропинки Дивнолесья. Подайте заявку на участие в марафоне и получите доступ к карте Дивнолесья.'
             else:
                 user_message = 'Упс, что-то пошло не так и мы не можем найти вас. Возможно вы еще не вступили на тропинки Дивнолесья. Подайте заявку на участие в марафоне и получите доступ к карте Дивнолесья.'
-            response = send_message(peer_id, user_message,event_id=event_id)
-        
+            response = send_message(peer_id, user_message)
+
         #FAQ - частые вопросы
         elif command.lower() == 'правила':
             faq_keyboard = {
@@ -897,8 +896,8 @@ def webhook():
                         [{"action": {"type": "callback", "label": "Правила игры", "payload": json.dumps({"action": "faq", "question": "allrules"})}}]
                     ]
                 }
-            response = send_message(peer_id, "Выберите один из часто задаваемых вопросов:", faq_keyboard,event_id)
-            
+            response = send_message(peer_id, "Выберите один из часто задаваемых вопросов:", faq_keyboard)
+
 
         # команда о получении информации о марафоне
         elif command.lower() == 'about':
@@ -912,20 +911,20 @@ def webhook():
                 welcome_message = f"Привет, {mention}! Марафон Дивнолесье был создан много лет назад, чтобы вдохновить людей больше читать и делиться прочитанным."\
                 "Кураторами проекта являются Ксения и Анна. Ты найдешь их в группе https://vk.com/polkasknigami.\n"
 
-            response = send_message(peer_id, welcome_message,event_id=event_id)
+            response = send_message(peer_id, welcome_message)
             if 'error' in response:
                     error_code = response['error']['error_code']
                     error_msg = response['error']['error_msg']
                     logger.error(f"Error {error_code}: {error_msg}")
                     # Обработка ошибки отправки сообщения
                     if error_code == 901:
-                        send_message(peer_id, "Пожалуйста, подпишитесь на сообщения от нашего сообщества, чтобы получать уведомления.",event_id=event_id)
+                        send_message(peer_id, "Пожалуйста, подпишитесь на сообщения от нашего сообщества, чтобы получать уведомления.")
 
         # Узнать на какой соте находишься и где уже был
         elif command.lower() == 'профиль':
 
             if not user:
-                return send_message(peer_id, "Хм, кажется мы тебя потеряли? Или ты еще не вступил на путь Дивнолесья? Напиши Кураторам и они помогут.", event_id=event_id)
+                return send_message(peer_id, "Хм, кажется мы тебя потеряли? Или ты еще не вступил на путь Дивнолесья? Напиши Кураторам и они помогут.")
 
             if user['is_participant']:
                 participant = 'Вы участвуете в текущем сезоне'
@@ -1018,8 +1017,7 @@ def webhook():
             messages = split_message(user_info_message)
 
             for i, part in enumerate(messages):
-                message_event_id =  abs(hash(f"{event_id}_{i}"))
-                send_message(peer_id, part,event_id=message_event_id)
+                send_message(peer_id, part)
 
 
 
@@ -1056,14 +1054,13 @@ def webhook():
                 messages = split_message(admin_message)
 
                 for i, part in enumerate(messages):
-                    message_event_id =  abs(hash(f"{event_id}_{i}"))
                     if i == len(messages) - 1:
-                        send_message(peer_id, part, keyboard=keyboard, event_id=message_event_id)
+                        send_message(peer_id, part, keyboard=keyboard)
                     else:
-                        send_message(peer_id, part, event_id=message_event_id)
+                        send_message(peer_id, part)
 
             else:
-                send_message(peer_id, "У вас нет прав для выполнения этой команды.", event_id=event_id)
+                send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # Переместить на соту
         elif command.lower().startswith('move'):
@@ -1109,11 +1106,10 @@ def webhook():
             else:
                 admin_message = "У вас нет прав на выполнение этой команды"
 
-            send_message(peer_id, admin_message, event_id=event_id)
+            send_message(peer_id, admin_message)
 
             if len(user_message) > 0:
-                message_event_id = abs(hash(f"{event_id}_user"))
-                send_message(selected_user_id, user_message, user_keyboard,event_id=message_event_id)
+                send_message(selected_user_id, user_message, user_keyboard)
 
         # Сброс участников марафона перед стартом сезона
         elif command.lower() == 'начать сезон':
@@ -1132,27 +1128,26 @@ def webhook():
                             [{"action": {"type": "open_link","link": "https://vk.com/polkasknigami","label": "Написать Кураторам"}}]
                         ]
                     }
-                send_notification_to_all_users(users_notification,users_notification_keyboard,event_id)
-                response = send_message(peer_id, f"Начат новый сезон №{new_season}. Не забудь сменить пароль от карты!", event_id=event_id)
+                send_notification_to_all_users(users_notification,users_notification_keyboard)
+                response = send_message(peer_id, f"Начат новый сезон №{new_season}. Не забудь сменить пароль от карты!")
                 if reset_success:
-                    message_event_id = abs(hash(f"{event_id}_user"))
-                    send_message(peer_id, "Произошла ошибка при сбросе участников.",event_id=message_event_id)
+                    send_message(peer_id, "Произошла ошибка при сбросе участников.")
             else:
-                send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # Основной код для команды "участники"
         elif command.lower().strip() == 'участники список':
             if user and user.get('admin'):
                 save_participants_to_xlsx()
-                send_file(peer_id, 'участники.xlsx',event_id=event_id)
+                send_file(peer_id, 'участники.xlsx')
                 os.remove('участники.xlsx')
             else:
-                send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # Чужой id для админа
         elif command.lower().startswith('id'):
             if not user.get('admin'):
-                send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                send_message(peer_id, "У вас нет прав для выполнения этой команды.")
                 return
 
             try:
@@ -1165,12 +1160,12 @@ def webhook():
                         selected_user = user
 
                 if not selected_user:
-                    send_message(peer_id, f"Пользователь с фамилией {last_name} не найден.",event_id=event_id)
+                    send_message(peer_id, f"Пользователь с фамилией {last_name} не найден.")
                 else:
                     user_info_message = selected_user.get('vk_id', 'Нет ID')
-                    send_message(peer_id, user_info_message,event_id=event_id)
+                    send_message(peer_id, user_info_message)
             except ValueError:
-                send_message(peer_id, "Неверный формат команды. Используйте: id [фамилия]",event_id=event_id)
+                send_message(peer_id, "Неверный формат команды. Используйте: id [фамилия]")
 
         # Чужой профиль для админа
         elif command.lower().startswith('profile'):
@@ -1286,13 +1281,12 @@ def webhook():
                     messages = split_message(user_info_message)
 
                     for i, part in enumerate(messages):
-                        message_event_id = abs(hash(f"{event_id}_{i}"))
-                        send_message(peer_id, part,event_id=message_event_id)
+                        send_message(peer_id, part)
                 else:
-                    send_message(peer_id, f"Не удалось найти пользователя с ID {selected_user_id}",event_id=event_id)
+                    send_message(peer_id, f"Не удалось найти пользователя с ID {selected_user_id}")
 
             else:
-                send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # Получение списка всех участников марафона (is_participant=true). Без пагинации (проверить ограничение вк)
         elif command.lower() == 'участники':
@@ -1358,15 +1352,14 @@ def webhook():
                     if message:
                         messages.append(message)
 
-                    for i, message in enumerate(messages):
-                        message_event_id = abs(hash(f"{event_id}_{i}"))
-                        send_message(peer_id, message,event_id=message_event_id)
+                    for message in messages:
+                        send_message(peer_id, message)
                 else:
                     message = "Нет участников в марафоне."
-                    send_message(peer_id, message,event_id=event_id)
+                    send_message(peer_id, message)
             else:
                 message = "У вас нет прав для выполнения этой команды."
-                send_message(peer_id, message,event_id=event_id)
+                send_message(peer_id, message)
 
         # Добавить единорога. С пагинацией по 9 пользователей (ограничение vk 10. +кнопка "еще").
         # Сначала пользователю показывается список участников марафона (с пагинацией) - кнопки с пользователями формируются в функции def get_users_inline_buttons и пагинация callback "more".
@@ -1378,9 +1371,9 @@ def webhook():
                 users = get_all_participants()
                 page=0
                 users_keyboard = get_users_inline_buttons(users, page,'select_type_unicorn')
-                send_message(peer_id, "Выберите пользователя для добавления единорога (или яйца):", users_keyboard,event_id)
+                send_message(peer_id, "Выберите пользователя для добавления единорога (или яйца):", users_keyboard)
             else:
-                send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # Удалить единорога. С пагинацией по 4 пользователей (ограничение vk 10. +кнопка "еще").
         # Сначала пользователю показывается список участников марафона (с пагинацией) - кнопки с пользователями формируются в функции def get_users_inline_buttons и пагинация callback "more".
@@ -1392,9 +1385,9 @@ def webhook():
                 users = get_all_participants()
                 page = 0
                 users_keyboard = get_users_inline_buttons(users, page, 'select_stage_uni_for_delete')
-                send_message(peer_id, "Выберите пользователя для удаления единорога:", users_keyboard,event_id)
+                response = send_message(peer_id, "Выберите пользователя для удаления единорога:", users_keyboard)
             else:
-                send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
 
         # Добавить артефакт. С пагинацией по 9 пользователей (ограничение vk 10. +кнопка "еще").
@@ -1405,9 +1398,9 @@ def webhook():
                 users = get_all_participants()
                 page=0
                 users_keyboard = get_users_inline_buttons(users, page,'select_artefact_for_user')
-                send_message(peer_id, "Выберите пользователя для добавления артефакта:", users_keyboard,event_id)
+                send_message(peer_id, "Выберите пользователя для добавления артефакта:", users_keyboard)
             else:
-                send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # Удалить артефакт. С пагинацией по 9 пользователей (ограничение vk 10. +кнопка "еще").
         # Обработка команды удаления артефакта
@@ -1416,9 +1409,9 @@ def webhook():
                 users = get_all_participants()
                 page = 0
                 users_keyboard = get_users_inline_buttons(users, page, 'select_user_for_deletion_art')
-                send_message(peer_id, "Выберите пользователя для удаления артефакта:", users_keyboard,event_id)
+                response = send_message(peer_id, "Выберите пользователя для удаления артефакта:", users_keyboard)
             else:
-                send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # пользователям добавляется отметка, что текущий сезон они завершили.
         # Следующий сезон такие пользователи могут начать без оплаты.
@@ -1427,9 +1420,9 @@ def webhook():
                 users = get_all_participants()
                 page=0
                 users_keyboard = get_users_inline_buttons(users, page,'won_season')
-                send_message(peer_id, "Выберите пользователей, которые завершили успешно сезон. Они смогут начать следующий сезон автоматически, без оплаты:", users_keyboard,event_id)
+                send_message(peer_id, "Выберите пользователей, которые завершили успешно сезон. Они смогут начать следующий сезон автоматически, без оплаты:", users_keyboard)
             else:
-                send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
 
         # Добавить юникоины
@@ -1454,12 +1447,11 @@ def webhook():
                     admin_message = (f"Используйте формат: 'add_coins [ID пользователя] [количество]'")
             else:
                 admin_message = ("У вас нет прав для выполнения этой команды.")
-            
-            if user_message:
-                message_event_id = abs(hash(f"{event_id}_user"))
-                send_message(user_id, user_message,event_id=message_event_id)
 
-            send_message(peer_id, admin_message,event_id=event_id)
+            if user_message:
+                send_message(user_id, user_message)
+
+            send_message(peer_id, admin_message)
 
         # Вычесть юникоины
         elif command.lower().startswith('remove_coins'):
@@ -1470,17 +1462,17 @@ def webhook():
                     selected_user = next((u for u in users if u['vk_id'] == int(user_id)), None)
 
                     if selected_user is None:
-                        response = send_message(peer_id, f"Пользователь с ID: {user_id} не найден.",event_id=event_id)
+                        response = send_message(peer_id, f"Пользователь с ID: {user_id} не найден.")
                     elif selected_user['coins'] < int(coins):
-                        response = send_message(peer_id, f"У пользователя {selected_user['first_name']} {selected_user['last_name']} с ID: {user_id} не достаточно средств для выполнения операции. Текущий баланс юникоинов: {selected_user['coins']}.",event_id=event_id)
+                        response = send_message(peer_id, f"У пользователя {selected_user['first_name']} {selected_user['last_name']} с ID: {user_id} не достаточно средств для выполнения операции. Текущий баланс юникоинов: {selected_user['coins']}.")
                     else:
                         selected_user['coins'] -= int(coins)
                         update_user(user_id, coins = selected_user['coins'])
-                        response = send_message(peer_id, f"Пользователю {selected_user['first_name']} {selected_user['last_name']} ID: {user_id} удалено {coins} юникоинов. Теперь у {selected_user['first_name']} {selected_user['last_name']} есть {selected_user['coins']} юникоинов.",event_id=event_id)
+                        response = send_message(peer_id, f"Пользователю {selected_user['first_name']} {selected_user['last_name']} ID: {user_id} удалено {coins} юникоинов. Теперь у {selected_user['first_name']} {selected_user['last_name']} есть {selected_user['coins']} юникоинов.")
                 except ValueError:
-                    response = send_message(peer_id, "Используйте формат: 'remove_coins [ID пользователя] [количество]'",event_id=event_id)
+                    response = send_message(peer_id, "Используйте формат: 'remove_coins [ID пользователя] [количество]'")
             else:
-                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # Задать новое значение для юникоинов
         elif command.lower().startswith('update_coins'):
@@ -1491,15 +1483,15 @@ def webhook():
                     selected_user = next((u for u in users if u['vk_id'] == int(user_id)), None)
 
                     if selected_user is None:
-                        response = send_message(peer_id, f"Пользователь с ID: {user_id} не найден.",event_id=event_id)
+                        response = send_message(peer_id, f"Пользователь с ID: {user_id} не найден.")
                     else:
                         selected_user['coins'] = int(coins)
                         update_user(user_id, coins = selected_user['coins'])
-                        response = send_message(peer_id, f"Пользователю {selected_user['first_name']} {selected_user['last_name']} ID: {user_id} обновлен баланс юникоинов. Теперь у {selected_user['first_name']} {selected_user['last_name']} есть {selected_user['coins']} юникоинов.",event_id=event_id)
+                        response = send_message(peer_id, f"Пользователю {selected_user['first_name']} {selected_user['last_name']} ID: {user_id} обновлен баланс юникоинов. Теперь у {selected_user['first_name']} {selected_user['last_name']} есть {selected_user['coins']} юникоинов.")
                 except ValueError:
-                    response = send_message(peer_id, "Используйте формат: 'update_coins [ID пользователя] [количество]'",event_id=event_id)
+                    response = send_message(peer_id, "Используйте формат: 'update_coins [ID пользователя] [количество]'")
             else:
-                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # Задать опыт
         elif command.lower().startswith('add_exp'):
@@ -1515,7 +1507,7 @@ def webhook():
                     nonsuccess_message = ''
 
                     if selected_user is None:
-                        response = send_message(peer_id, f"Пользователь с ID: {user_exp_id} не найден.",event_id=event_id)
+                        response = send_message(peer_id, f"Пользователь с ID: {user_exp_id} не найден.")
                     else:
                         if type_exp == 'eggs':
                             i = selected_user['exp_egg'] + int(amount)
@@ -1552,16 +1544,15 @@ def webhook():
                             nonsuccess_message = f"Пользователю ID: {user_exp_id} не удалось добавить опыт. Проверь, правильно ли указан тип опыта: egg, boloto, snow, les, kamen, pustyn."
 
                         if len(success_message) > 0:
-                            response = send_message(peer_id, success_message,event_id=event_id)
-                            message_event_id=abs(hash(f"{event_id}_notify"))
-                            send_message(user_exp_id, notification_message,event_id = message_event_id)
+                            response = send_message(peer_id, success_message)
+                            send_message(user_exp_id, notification_message)
                         else:
-                            response = send_message(peer_id, nonsuccess_message,event_id=event_id)
+                            response = send_message(peer_id, nonsuccess_message)
 
                 except ValueError:
-                    response = send_message(peer_id, "Используйте формат: 'add_exp [тип опыта] [ID пользователя] [количество]'",event_id=event_id)
+                    response = send_message(peer_id, "Используйте формат: 'add_exp [тип опыта] [ID пользователя] [количество]'")
             else:
-                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # Обновить опыт
         elif command.lower().startswith('update_exp'):
@@ -1574,7 +1565,7 @@ def webhook():
                     success_message = ""
 
                     if selected_user is None:
-                        response = send_message(peer_id, f"Пользователь с ID: {user_exp_id} не найден.",event_id=event_id)
+                        response = send_message(peer_id, f"Пользователь с ID: {user_exp_id} не найден.")
                     else:
                         if type_exp == 'egg':
                             selected_user['exp_egg'] = int(amount)
@@ -1610,16 +1601,15 @@ def webhook():
                             nonsuccess_message = f"Пользователю ID: {user_exp_id} не удалось обновить опыт. Проверь, правильно ли указан тип опыта: egg, boloto, snow, les, kamen, pustyn."
 
                         if success_message:
-                            response = send_message(peer_id, success_message,event_id=event_id)
-                            message_event_id = abs(hash(f"{event_id}_notify"))
-                            send_message(user_exp_id, notification_message,event_id = message_event_id)
+                            response = send_message(peer_id, success_message)
+                            send_message(user_exp_id, notification_message)
                         else:
-                            response = send_message(peer_id, nonsuccess_message,event_id=event_id)
+                            response = send_message(peer_id, nonsuccess_message)
 
                 except ValueError:
-                    response = send_message(peer_id, "Используйте формат: 'add_exp [тип опыта] [ID пользователя] [количество]'",event_id=event_id)
+                    response = send_message(peer_id, "Используйте формат: 'add_exp [тип опыта] [ID пользователя] [количество]'")
             else:
-                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # Отменить последний ход на 1 соту
         elif message.startswith('revert_move'):
@@ -1632,8 +1622,7 @@ def webhook():
                     if previous_cell:
                         admin_message = f"Перемещение пользователя {user_id} отменено. Пользователь перемещен обратно на соту {previous_cell}."
                         user_message = f"Дивнолесье - это очень коварное место! Какой то злой дух переместил вас на другую соту, но наши защитники-кураторы вернули тебя в безопасное место на соту {previous_cell}."
-                        message_event_id = abs(hash(f"{event_id}_user"))
-                        send_message(user_id, user_message,event_id = message_event_id)
+                        send_message(user_id, user_message)
                     else:
                         admin_message = "Не удалось откатить перемещение. Путик еще не перемещался в этом сезоне."
                 except Exception as e:
@@ -1642,7 +1631,7 @@ def webhook():
             else:
                 admin_message ="У вас нет прав для выполнения этой команды."
 
-            response = send_message(peer_id, admin_message,event_id=event_id)
+            response = send_message(peer_id, admin_message)
 
 
 
@@ -1664,7 +1653,7 @@ def webhook():
                 mention = f"[id{user_id}|{user_name}]"
             else:
                 mention = "путник"
-            response = send_message(peer_id, f"Привет, {mention}!  Напиши старт и я расскажу каким командам я обучен. Или пришли слово 'правила' и я расскажу тебе про правила марафона.", keyboard,event_id=event_id)
+            response = send_message(peer_id, f"Привет, {mention}!  Напиши старт и я расскажу каким командам я обучен. Или пришли слово 'правила' и я расскажу тебе про правила марафона.", keyboard)
 
 
         return 'ok'
@@ -1678,15 +1667,15 @@ def webhook():
         if payload['action'] == 'accept':
             vk_id = payload['user_id']
             user_name = payload['name']
-            accept_marathon_request(vk_id, admin_id = peer_id,event_id=event_id)
-            notify_admins_info(vk_id, f"Запрос на участие в марафоне от {user_name} (ID {vk_id}) принят.",event_id = abs(hash(f"{event_id}_admin")))
+            accept_marathon_request(vk_id, admin_id = peer_id)
+            notify_admins_info(vk_id, f"Запрос на участие в марафоне от {user_name} (ID {vk_id}) принят.")
 
         # команда отклонить участника в марафоне
         elif payload['action'] == 'reject':
             vk_id = payload['user_id']
             user_name = payload['name']
             reject_marathon_request(vk_id)
-            notify_admins_info(vk_id, f"Запрос на участие в марафоне от {user_name} (ID{vk_id}) отклонен.",event_id = abs(hash(f"{event_id}_admin")))
+            notify_admins_info(vk_id, f"Запрос на участие в марафоне от {user_name} (ID{vk_id}) отклонен.")
 
         # частые вопросы
         elif payload['action'] == 'faq':
@@ -1705,12 +1694,11 @@ def webhook():
 
             # Находим ответ по выбранному вопросу
             response = faq_responses.get(question, "Вопрос не найден.")
-            
+
             messages = split_message(response)
 
             for i, part in enumerate(messages):
-                message_event_id = abs(hash(f"{event_id}_{id}"))
-                send_message(peer_id, part,event_id=message_event_id)
+                send_message(peer_id, part)
 
 
 
@@ -1736,9 +1724,9 @@ def webhook():
                     artefacts_keyboard['buttons'].append([button])
                 if has_more:
                     artefacts_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more","selected_user_id": selected_user_id,"list": "artefacts","page": page+1})}}])
-                response = send_message(peer_id, "Выберите артефакт для добавления:", artefacts_keyboard,event_id)
+                response = send_message(peer_id, "Выберите артефакт для добавления:", artefacts_keyboard)
             else:
-                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # Выбор артефакта у пользователя, чтобы удалить артефакт
         elif payload['action'].lower() == 'select_user_for_deletion_art':
@@ -1770,7 +1758,7 @@ def webhook():
                 if has_more:
                     artefacts_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more", "selected_user_id": selected_user_id, "list": "artefacts", "page": page+1})}}])
 
-                response = send_message(peer_id, f"Выберите артефакт для удаления у пользователя ID: {selected_user_id}:", artefacts_keyboard,event_id=event_id)
+                response = send_message(peer_id, f"Выберите артефакт для удаления у пользователя ID: {selected_user_id}:", artefacts_keyboard)
 
         # Выбрать тип единорога для добавления пользователю
         elif payload['action'].lower().startswith('select_type_unicorn'):
@@ -1789,9 +1777,9 @@ def webhook():
                         ]
                 }
 
-                response = send_message(peer_id, "Выберите тип единорога( или яйца) для добавления:", unicorn_keyboard,event_id=event_id)
+                response = send_message(peer_id, "Выберите тип единорога( или яйца) для добавления:", unicorn_keyboard)
             else:
-                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # Выбрать стадию единорога (дальше вызывается функция добавления и подтверждения добавления)
         elif payload['action'].lower().startswith('select_stage_unicorn'):
@@ -1818,9 +1806,9 @@ def webhook():
                         }
                     }
                     unicorn_keyboard['buttons'].append([button])
-                response = send_message(peer_id, "Выберите тип единорога( или яйца) для добавления:", unicorn_keyboard,event_id=event_id)
+                response = send_message(peer_id, "Выберите тип единорога( или яйца) для добавления:", unicorn_keyboard)
             else:
-                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                response = send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # отобразить больше пользователей или артефактов
         elif payload['action'].lower().startswith('more'):
@@ -1830,17 +1818,17 @@ def webhook():
                 action_call = payload['action_call']
                 users_keyboard = get_users_inline_buttons(users, page, action_call)
                 if action_call == "select_artefact_for_user":
-                    response = send_message(peer_id, "Выберите пользователя для добавления артефакта:", users_keyboard,event_id=event_id)
+                    response = send_message(peer_id, "Выберите пользователя для добавления артефакта:", users_keyboard)
                 elif action_call == "select_user_for_deletion_art":
-                    response = send_message(peer_id, "Выберите пользователя для удаления артефакта:", users_keyboard,event_id=event_id)
+                    response = send_message(peer_id, "Выберите пользователя для удаления артефакта:", users_keyboard)
                 elif action_call == "select_stage_uni_for_delete":
-                    response = send_message(peer_id, "Выберите пользователя для удаления единорога (или яйца):", users_keyboard,event_id=event_id)
+                    response = send_message(peer_id, "Выберите пользователя для удаления единорога (или яйца):", users_keyboard)
                 elif action_call == "select_type_unicorn":
-                    response = send_message(peer_id, "Выберите пользователя для добавления единорога (или яйца):", users_keyboard,event_id=event_id)
+                    response = send_message(peer_id, "Выберите пользователя для добавления единорога (или яйца):", users_keyboard)
                 elif action_call == "won_season":
-                    response = send_message(peer_id, "Выберите пользователей, кто завершил успешно текущий сезон:", users_keyboard,event_id=event_id)
+                    response = send_message(peer_id, "Выберите пользователей, кто завершил успешно текущий сезон:", users_keyboard)
                 else:
-                    response = send_message(peer_id, "Выберите пользователя:", users_keyboard,event_id=event_id)
+                    response = send_message(peer_id, "Выберите пользователя:", users_keyboard)
             elif payload['list'] == "artefacts":
                 selected_user_id = payload['selected_user_id']
                 page = payload['page']
@@ -1860,17 +1848,17 @@ def webhook():
                     artefacts_keyboard['buttons'].append([button])
                 if has_more:
                     artefacts_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more", "selected_user_id": selected_user_id,"list": "artefacts", "page": page+1})}}])
-                response = send_message(peer_id, "Выберите артефакт для добавления:", artefacts_keyboard,event_id=event_id)
+                response = send_message(peer_id, "Выберите артефакт для добавления:", artefacts_keyboard)
             elif payload['list'] == "users_add_artefact":
                 users = get_all_participants()
                 page=payload['page']
                 users_keyboard = get_users_inline_buttons(users, page,'select_artefact_for_user')
-                response = send_message(peer_id, "Выберите пользователя для добавления артефакта:", users_keyboard,event_id=event_id)
+                response = send_message(peer_id, "Выберите пользователя для добавления артефакта:", users_keyboard)
             elif payload['list'] == "users_delete_artefact":
                 users = get_all_participants()
                 page=payload['page']
                 users_keyboard = get_users_inline_buttons(users, page,'select_user_for_deletion_art')
-                response = send_message(peer_id, "Выберите пользователя для добавления артефакта:", users_keyboard,event_id=event_id)
+                response = send_message(peer_id, "Выберите пользователя для добавления артефакта:", users_keyboard)
             elif payload['list'] == "artefacts_delete":
                 selected_user_id = payload['selected_user_id']
                 participants = get_all_participants()
@@ -1897,7 +1885,7 @@ def webhook():
                     if has_more:
                         artefacts_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more", "selected_user_id": selected_user_id, "list": "artefacts_delete", "page": page+1})}}])
 
-                response = send_message(peer_id, f"Выберите артефакт для удаления у пользователя {selected_user['first_name']} {selected_user['last_name']}:", artefacts_keyboard,event_id=event_id)
+                response = send_message(peer_id, f"Выберите артефакт для удаления у пользователя {selected_user['first_name']} {selected_user['last_name']}:", artefacts_keyboard)
             elif payload['list'] == "unicorns_delete":
                 selected_user_id = payload['selected_user_id']
                 stage = payload['stage']
@@ -1928,10 +1916,10 @@ def webhook():
                     if has_more:
                         unicorns_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more", "selected_user_id": selected_user_id, "list": "unicorns_delete", "page": page+1, "stage": stage})}}])
 
-                response = send_message(peer_id, f"Выберите единорога для удаления у пользователя {selected_user['first_name']} {selected_user['last_name']}:", unicorns_keyboard,event_id=event_id)
+                response = send_message(peer_id, f"Выберите единорога для удаления у пользователя {selected_user['first_name']} {selected_user['last_name']}:", unicorns_keyboard)
             else:
-                response = send_message(peer_id, "Что-то пошло не так. (Данные об ошибке elif payload['action'].lower().startswith('more'))",event_id=event_id)
-                logger.info("В функции возврата инлайн кнопок не удалось определить какой список надо вернуть",event_id=event_id)
+                response = send_message(peer_id, "Что-то пошло не так. (Данные об ошибке elif payload['action'].lower().startswith('more'))")
+                logger.info("В функции возврата инлайн кнопок не удалось определить какой список надо вернуть")
 
 
 
@@ -1964,9 +1952,9 @@ def webhook():
             else:
                 message = "У вас нет прав для выполнения этой команды."
 
-            send_message(peer_id, message,event_id=event_id)
+            send_message(peer_id, message)
             if len(user_message) > 0:
-                send_message(selected_user_id, user_message,event_id = abs(hash(f"{event_id}_user")))
+                send_message(selected_user_id, user_message)
 
         # удалить артефакт у пользователя
         elif payload['action'].lower().startswith('delete_artefact'):
@@ -1988,9 +1976,9 @@ def webhook():
             else:
                 message = "У вас нет прав для выполнения этой команды."
 
-            send_message(peer_id, message,event_id=event_id)
+            send_message(peer_id, message)
             if len(user_message) > 0:
-                send_message(selected_user_id, user_message,event_id = abs(hash(f"{event_id}_user")))
+                send_message(selected_user_id, user_message)
 
         # Добавить выбранного единорога выбранному пользователю
         elif payload['action'].lower().startswith('add_unicorn'):
@@ -2138,9 +2126,9 @@ def webhook():
             else:
                 message =  "У вас нет прав для выполнения этой команды."
 
-            send_message(peer_id, message,event_id=event_id)
+            send_message(peer_id, message)
             if len(user_message) > 0:
-                send_message(selected_user_id, user_message,event_id = abs(hash(f"{event_id}_user")))
+                send_message(selected_user_id, user_message)
 
         # Выбор стадии единорога для удаления
         elif payload['action'].lower() == 'select_stage_uni_for_delete':
@@ -2156,9 +2144,9 @@ def webhook():
                         ]
                 }
 
-                send_message(peer_id, "Выберите тип единорога( или яйца) для удаления:", stage_keyboard,event_id=event_id)
+                send_message(peer_id, "Выберите тип единорога( или яйца) для удаления:", stage_keyboard)
             else:
-                send_message(peer_id, "У вас недостаточно прав для этого действия.",event_id=event_id)
+                send_message(peer_id, "У вас недостаточно прав для этого действия.")
 
 
         # Выбор единорога у пользователя, чтобы удалить
@@ -2192,7 +2180,7 @@ def webhook():
                 if has_more:
                     unicorns_keyboard['buttons'].append([{"action": {"type":"callback", "label":"Ещё","payload":json.dumps({"action": "more", "selected_user_id": selected_user_id, "list": "unicorns_delete", "page": 1, "stage": stage})}}])
 
-                response = send_message(peer_id, f"Выберите единорога для удаления у пользователя {selected_user['first_name']} {selected_user['last_name']}:", unicorns_keyboard,event_id=event_id)
+                response = send_message(peer_id, f"Выберите единорога для удаления у пользователя {selected_user['first_name']} {selected_user['last_name']}:", unicorns_keyboard)
 
         # удалить единорога у пользователя
         elif payload['action'].lower().startswith('delete_unicorn'):
@@ -2207,10 +2195,10 @@ def webhook():
                 stage = unicorn['stage']
                 if unicorn:
                     remove_unicorn_from_user(selected_user_id, stage, unicorn_id)
-                    send_message(peer_id, f"{unicorn['name']} успешно удален у пользователя {selected_user['first_name']} {selected_user['last_name']}.",event_id=event_id)
+                    send_message(peer_id, f"{unicorn['name']} успешно удален у пользователя {selected_user['first_name']} {selected_user['last_name']}.")
 
             else:
-                send_message(peer_id, "У вас нет прав для выполнения этой команды.",event_id=event_id)
+                send_message(peer_id, "У вас нет прав для выполнения этой команды.")
 
         # добавить пользователю сезон как успешно завершенный
         elif payload['action'].lower().startswith('won_season'):
@@ -2225,9 +2213,9 @@ def webhook():
             else:
                 message = "У вас нет прав для выполнения этой команды."
 
-            send_message(peer_id, message,event_id=event_id)
+            send_message(peer_id, message)
             if user_message:
-                send_message(selected_user_id, user_message,event_id=abs(hash(f"{event_id}_user")))
+                send_message(selected_user_id, user_message)
 
         return 'ok'
 
@@ -2251,10 +2239,7 @@ def get_user_info(user_id):
     return None
 
 # Отправка сообщения в ВК
-def send_message(peer_id, message, keyboard = None, event_id = 0):
-    if not isinstance(event_id, int):
-        event_id = 0  # Если random_id не число, устанавливаем в 0
-
+def send_message(peer_id, message, keyboard = None, event_id = None):
     api_url = 'https://api.vk.com/method/messages.send'
     params = {
         'peer_id': peer_id,
@@ -2265,13 +2250,13 @@ def send_message(peer_id, message, keyboard = None, event_id = 0):
     }
     if keyboard:
         params['keyboard'] = json.dumps(keyboard, ensure_ascii=False)
-    
+
     try:
         response = requests.post(api_url, params=params)
         response.raise_for_status()  # Проверяем на HTTP ошибки
         result = response.json()
         logger.info(f"Сообщение успешно отправлено {peer_id} с event_id {event_id}")
-        
+
         # Проверка успешности отправки
         if 'error' in result:
             logger.error(f"Ошибка при отправке сообщения {peer_id}: {result['error']}")
@@ -2282,14 +2267,14 @@ def send_message(peer_id, message, keyboard = None, event_id = 0):
                 logs[event_id] = 'sent'
                 save_logs(logs)
                 logger.info(f"Сообщение успешно сохранено в логах {peer_id} с event_id {event_id}")
-        
+
         return result
     except requests.RequestException as e:
         logger.error(f"Ошибка при отправке сообщения {peer_id}: {e}")
         return None
 
 # Функция для отправки файла через VK API
-def send_file(peer_id, file_path,event_id=None):
+def send_file(peer_id, file_path):
     url = 'https://api.vk.com/method/docs.getMessagesUploadServer'
     params = {
         'peer_id': peer_id,
@@ -2320,7 +2305,7 @@ def send_file(peer_id, file_path,event_id=None):
 
     message_params = {
         'peer_id': peer_id,
-        'random_id': event_id,
+        'random_id': 0,
         'message': 'Список участников:',
         'attachment': attachment,
         'access_token': token,
