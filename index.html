@@ -57,14 +57,16 @@
             </div>
         </div>
 
-        <div class="addLabels">
-            <input type="checkbox" class="addLabels" id="addLabels">
-            <label for="addLabels"> Показать названия ячеек </label>
-        </div>
-        <div class="showPaths">
-            <input type="checkbox" class="showPaths" id="showPaths">
-            <label for="showPaths"> Показать торговые пути </label>
-        </div>
+        <div class="checkbox-group">
+            <label class="styled-checkbox">
+              <input type="checkbox" class="addLabels" id="addLabels">
+              <span>Показать названия ячеек</span>
+            </label>
+            <label class="styled-checkbox">
+              <input type="checkbox" class="showPaths" id="showPaths">
+              <span>Показать торговые пути</span>
+            </label>
+          </div>
 
         <img class="imgMap" src="assets/map.jpg" width="1400" height="870">
         <canvas id="mainCanvas" width="1400" height="870"></canvas>
@@ -75,7 +77,7 @@
                 <a href="https://vk.com/polkasknigami">Книжная полка</a></small></p>
         </footer>
 
-        <script src="main.js" defer></script>
+        <script src="main.js?v=1234" defer></script>
         <script src="./js/menu.js" defer></script>
         
         <noscript>Sorry, your browser does not support JavaScript!</noscript>

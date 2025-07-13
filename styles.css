@@ -3,13 +3,14 @@
   body {
     margin: 0;
     padding: 0;
+    background: rgb(27, 27, 27);
   }
   #map #list #bodyAdmin {
     margin: 2px;
     
   }
   #mainCanvas{
-    box-shadow: 5px 10px 5px rgb(255, 255, 255,10) inset;
+    box-shadow: 5px 10px 5px rgb(27, 27, 27,10) inset;
     position: sticky;
     z-index: 98
   }
@@ -20,6 +21,7 @@
 
   footer{
     text-align: center;
+    color:#f5f0dc;
   }
 
   /*** header ***/
@@ -32,13 +34,76 @@
     margin-top: 0px;
   }
   h1 {
-    color: #366453;
+    color: rgb(233, 216, 166);
     text-decoration-line: overline;
     margin: 0;
     padding-left: 10px;
     font-size: 2rem;
     align-self: center;
   }
+
+/** Чекбосы **/
+
+/* Основной контейнер */
+.checkbox-group {
+  font-family: 'Cinzel', serif;
+  color: #f5f0dc;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background-color: rgba(27, 27, 27, 0.8);
+  border: 1px solid #8a7f5a;
+  border-radius: 8px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* Стилизация одной строки */
+.styled-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  position: relative;
+}
+
+/* Скрываем стандартный checkbox */
+.styled-checkbox input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #c59c6c;
+  border-radius: 4px;
+  background-color: #2e3a29;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+/* При наведении */
+.styled-checkbox input[type="checkbox"]:hover {
+  box-shadow: 0 0 5px rgba(197, 156, 108, 0.7);
+}
+
+/* При активации */
+.styled-checkbox input[type="checkbox"]:checked {
+  background-color: #c59c6c;
+  border-color: #e9d8a6;
+}
+
+/* Галочка (псевдоэлемент) */
+.styled-checkbox input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  left: 4px;
+  top: 0;
+  color: #1b1b1b;
+  font-size: 16px;
+  font-weight: bold;
+}
+
 
 /** Menu **/
 body {
@@ -64,7 +129,7 @@ body.-menu-open .hero__image {
 .site-menu__button {
   border: 0;
   background: transparent;
-  color: rgb(28, 108, 61);
+  color: rgb(233, 216, 166);
   font-size: 3rem;
   cursor: pointer;
   outline: 0;
@@ -133,9 +198,9 @@ body.-menu-open .site-menu__item {
   text-transform: uppercase;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  border-color: rgb(28, 108, 61);
+  border-color: rgb(245, 240, 220);
   border-radius: 0;
-  color: rgb(28, 108, 61);
+  color: rgb(245, 240, 220);
   position: relative;
   overflow: hidden;
   z-index: 1;

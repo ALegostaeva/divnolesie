@@ -28,6 +28,32 @@ function Point(x, y) {
   return {x: x, y: y};
 };
 
+function showTooltip(htmlContent, x, y) {
+  tooltip.innerHTML = htmlContent;
+  tooltip.style.display = 'block';
+
+  tooltip.style.left = '0px';
+  tooltip.style.top = '0px';
+
+  const tooltipRect = tooltip.getBoundingClientRect();
+  const pageWidth = window.innerWidth;
+  const pageHeight = window.innerHeight;
+
+  let left = x + 15;
+  let top = y + 15;
+
+  if (left + tooltipRect.width > pageWidth) {
+    left = x - tooltipRect.width - 15;
+  }
+
+  if (top + tooltipRect.height > pageHeight) {
+    top = y - tooltipRect.height - 15;
+  }
+
+  tooltip.style.left = `${left}px`;
+  tooltip.style.top = `${top}px`;
+}
+
 //переменные для отрисовки канваса
 const canvas = document.getElementById('mainCanvas');
 const ctx = canvas.getContext('2d'); 
@@ -40,9 +66,26 @@ let cells = [];
 let showLabels = false;
 let showPaths = false;
 
+let activeCells = new Set(); // клетки, где есть игроки
+let statsData = []; // Массив с игроками, нужен для поиска по cellName
+
+// tooltip
+// Создаём и добавляем tooltip div к документу
+const tooltip = document.createElement('div');
+tooltip.id = 'tooltip';
+tooltip.style.position = 'absolute';
+tooltip.style.padding = '6px 10px';
+tooltip.style.background = 'rgba(30, 30, 30, 0.85)';
+tooltip.style.color = '#fff';
+tooltip.style.borderRadius = '8px';
+tooltip.style.fontSize = '14px';
+tooltip.style.pointerEvents = 'none';
+tooltip.style.display = 'none';
+tooltip.style.zIndex = 1000;
+document.body.appendChild(tooltip);
 
 // Функция для отрисовки одного гексагона
-function drawHex (hex, x, y, no, withText, paths, isPath) { 
+function drawHex (hex, x, y, no, withText, paths, isPath, strangers = false) { 
   
   ctx.beginPath();
   
@@ -51,19 +94,34 @@ function drawHex (hex, x, y, no, withText, paths, isPath) {
   }
   
   ctx.closePath();
+  console.log('stranger mode', strangers);
 
-   
-  
-  if (paths == true){
-    if (isPath == true) {
-      ctx.strokeStyle = 'rgb(249,249,8,1)';
-      ctx.fillStyle = "rgb(249,249,8,0.5)";
+  if (strangers) {
+    console.log('stranger detected')
+    const gradient = ctx.createRadialGradient(x, y, 5, x, y, hex.r);
+    ctx.font = "22px Arial";
+    ctx.fillStyle = "orange";
+    ctx.fillText("🔥", x - 10, y + 8); // символ костра
+    gradient.addColorStop(0, 'rgba(242, 255, 156, 0.6)'); // тёплый центр
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0.1)');   // внешнее свечение
+    ctx.fillStyle = gradient;
+    ctx.fill();
+    for (let i = 0; i < 4; i++) {
+      const angle = Math.random() * 2 * Math.PI;
+      const radius = 10 + Math.random() * 8;
+      const sparkX = x + Math.cos(angle) * radius;
+      const sparkY = y + Math.sin(angle) * radius;
+      ctx.beginPath();
+      ctx.arc(sparkX, sparkY, 1.5, 0, 2 * Math.PI);
+      ctx.fillStyle = "rgba(255, 200, 50, 0.8)";
       ctx.fill();
-    } else {
-      ctx.strokeStyle = 'green';
     }
+  } else if (paths === true && isPath === true) {
+    ctx.strokeStyle = 'rgb(249,249,8,1)';
+    ctx.fillStyle = "rgb(249,249,8,0.5)";
+    ctx.fill();
   } else {
-    ctx.strokeStyle = 'green';
+    ctx.strokeStyle = 'rgb(138, 127, 90)';
   }
   
   ctx.lineWidth = 0;
@@ -134,6 +192,28 @@ async function drawMap(lines, colomns, r, withText, paths) {
   const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
   cells = await res.json();
 
+  activeCells.clear(); // очищаем старые активные клетки
+
+  let stats = {};
+  try {
+    const statsRes = await fetch('./static/stats.json');
+    if (!statsRes.ok) throw new Error('Ошибка при загрузке stats.json');
+    stats = await statsRes.json();
+    console.log('Статистика:', stats);
+    statsData = stats;
+    if (Array.isArray(stats)) {
+      for (const p of stats) {
+        if (p.is_participant && p.current_cell) {
+          activeCells.add(p.current_cell);
+        }
+      }
+    }
+
+  } catch (err) {
+    console.error('Ошибка при загрузке статистики:', err);
+  }
+
+
   var no = 1;
   var abcNo = 0;
   for (let y = r+13; y + r * Math.sin(a) < colomns; y += 38+r * Math.cos(a)) {
@@ -148,7 +228,8 @@ async function drawMap(lines, colomns, r, withText, paths) {
       } else {
         isPath = false;
       }
-      drawHex(hexCurrent, x, y, cellName, withText, paths, isPath);
+      const strangers = activeCells.has(cellName); // подсвечивать ли как костерок
+      drawHex(hexCurrent, x, y, cellName, withText, paths, isPath, strangers);
       no+=1;
     };
     no = 1;
@@ -198,7 +279,65 @@ btnShowPaths.addEventListener ('change', () => {
 
 const btnContact = document.querySelector('#contact');
 
-btnContact.addEventListener ('click', () => {
+//btnContact.addEventListener ('click', () => {})
 
-}
-)
+// HOVER (десктоп)
+canvas.addEventListener('mousemove', (e) => {
+  console.log('mouse hover')
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+
+  let found = false;
+  for (const hex of Hexes) {
+    const dx = mouseX - hex.centerX;
+    const dy = mouseY - hex.centerY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance <= r) {
+      const playersOnHex = statsData.filter(p => p.current_cell === hex.name && p.is_participant);
+      console.log('participants on hex', playersOnHex);
+      if (playersOnHex.length > 0) {
+        const html = playersOnHex.map(p => `🦄 ${p.first_name} ${p.last_name}`).join('<br>');
+        showTooltip(html, e.pageX, e.pageY);
+        found = true;
+        break;
+      }
+    }
+  }
+
+  if (!found) {
+    tooltip.style.display = 'none';
+  }
+});
+
+canvas.addEventListener('mouseleave', () => {
+  tooltip.style.display = 'none';
+});
+
+// TOUCH (мобилка)
+let touchTimeout = null;
+canvas.addEventListener('touchstart', (e) => {
+  const touch = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  const x = touch.clientX - rect.left;
+  const y = touch.clientY - rect.top;
+
+  touchTimeout = setTimeout(() => {
+    for (const hex of Hexes) {
+      const dx = x - hex.centerX;
+      const dy = y - hex.centerY;
+      if (Math.sqrt(dx * dx + dy * dy) < r) {
+        const playersOnHex = statsData.filter(p => p.current_cell === hex.name && p.is_participant);
+        if (playersOnHex.length > 0) {
+          const html = playersOnHex.map(p => `👤 ${p.first_name} ${p.last_name}`).join('<br>');
+          showTooltip(html, touch.pageX, touch.pageY);
+        }
+      }
+    }
+  }, 600);
+});
+
+canvas.addEventListener('touchend', () => {
+  clearTimeout(touchTimeout);
+  tooltip.style.display = 'none';
+});

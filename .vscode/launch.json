@@ -1,15 +1,12 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.3.0",
     "configurations": [
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "file:///Users/aleksandra/Documents/GitHub/book_shelf/index.html",
-            "webRoot": "${workspaceFolder}"
-        }
+      {
+        "type": "chrome",
+        "request": "launch",
+        "name": "Launch with Live Server",
+        "url": "http://127.0.0.1:5500/index.html",
+        "webRoot": "${workspaceFolder}"
+      }
     ]
-}
+  }
