@@ -22,48 +22,7 @@
     </head>
 
     <body>
-        <div>
-            <script src="https://unpkg.com/@vkid/sdk@<3.0.0/dist-sdk/umd/index.js"></script>
-            <script type="text/javascript">
-              if ('VKIDSDK' in window) {
-                const VKID = window.VKIDSDK;
-          
-                VKID.Config.init({
-                  app: 53901589,
-                  redirectUrl: 'https://divnolesie.ru',
-                  responseMode: VKID.ConfigResponseMode.Callback,
-                  source: VKID.ConfigSource.LOWCODE,
-                  scope: '', // Заполните нужными доступами по необходимости
-                });
-          
-                const oneTap = new VKID.OneTap();
-          
-                oneTap.render({
-                  container: document.currentScript.parentElement,
-                  scheme: 'dark',
-                  showAlternativeLogin: true
-                })
-                .on(VKID.WidgetEvents.ERROR, vkidOnError)
-                .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
-                  const code = payload.code;
-                  const deviceId = payload.device_id;
-          
-                  VKID.Auth.exchangeCode(code, deviceId)
-                    .then(vkidOnSuccess)
-                    .catch(vkidOnError);
-                });
-              
-                function vkidOnSuccess(data) {
-                  console.log('auth success',data);
-                }
-              
-                function vkidOnError(error) {
-                    console.log('auth error',error);
-                }
-              }
-            </script>
-          </div>
-        <!-- <script src="js/checkAuth.js"></script>-->
+        <script src="js/checkAuth.js"></script>
         <header>
             
             <nav class="site-menu">

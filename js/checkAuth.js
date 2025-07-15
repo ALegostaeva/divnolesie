@@ -36,28 +36,32 @@
         localStorage.removeItem('vk_user_id');
         localStorage.removeItem('vk_user_date');
       
-        // Создаем окно авторизации
-        var overlay = document.createElement('div');
+        // === 3. Показываем оверлей авторизации ===
+        const overlay = document.createElement('div');
         overlay.id = 'loginOverlay';
         overlay.style = 'position:fixed;z-index:999;background:#000000dd;color:#fff;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center';
-      
-        overlay.innerHTML = `
-          <div style="text-align:center">
-            <p>Для продолжения авторизуйтесь через ВКонтакте</p>
-          `;
-      
-        document.body.innerHTML = ''; // очищаем всё, чтобы не загружалась остальная страница
 
-        var script1 = document.createElement('script');
-        script1.src = 'https://unpkg.com/@vkid/sdk@<3.0.0/dist-sdk/umd/index.js';
-        document.overlay.appendChild(script1);
+        const content = document.createElement('div');
+        content.style.textAlign = 'center';
+        content.innerHTML = `<p>Для продолжения авторизуйтесь через ВКонтакте</p>`;
 
-        var script = document.createElement('script');
-        script.src = 'js/auth.js';
-        script.type = "text/javascript";
-        document.overlay.appendChild(script);
+        // === 4. Создаем скрипты ===
+        const script1 = document.createElement('script');
+        script1.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
+        script1.defer = true;
 
+        const script2 = document.createElement('script');
+        script2.src = 'js/auth.js';
+        script2.defer = true;
+
+        // === 5. Добавляем элементы ===
+        content.appendChild(script1);
+        content.appendChild(script2);
+        overlay.appendChild(content);
+
+        document.body.innerHTML = '';
         document.body.appendChild(overlay);
-        console.log("here2" );
-      }      
+
+        console.log('here2');
+          }      
   })();
