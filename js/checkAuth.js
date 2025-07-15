@@ -1,6 +1,8 @@
 (function () {
+    console.log('vk auth checker');
     var userId = localStorage.getItem('vk_user_id');
     var lastAuthDate = localStorage.getItem('vk_user_date');
+    console.log('vk auth data:',userId, lastAuthDate);
   
     // Сезон считается с 1 числа: сентябрь, декабрь, март, июнь
     function isSeasonValid() {
@@ -27,6 +29,8 @@
         console.log("time checker", savedTime, seasonStart,savedTime >= seasonStart)
         return savedTime >= seasonStart;
       }
+    
+    console.log("here1",!isSeasonValid(),!userId, !lastAuthDate );
   
     if (!userId || !lastAuthDate || !isSeasonValid()) {
         localStorage.removeItem('vk_user_id');
@@ -44,6 +48,7 @@
       
         document.body.innerHTML = ''; // очищаем всё, чтобы не загружалась остальная страница
         document.body.appendChild(overlay);
+        console.log("here2" );
       
         // Загружаем вручную VK-авторизацию
         const script1 = document.createElement('script');

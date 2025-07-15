@@ -1,6 +1,7 @@
 // === auth.js ===
 // 1. Проверка инициализации VK SDK и запуск авторизации, если нужно
 if ('VKIDSDK' in window) {
+    console.log('vk auth');
     const VKID = window.VKIDSDK;
   
     VKID.Config.init({
@@ -40,6 +41,7 @@ if ('VKIDSDK' in window) {
           const now = new Date();
           localStorage.setItem('vk_user_id', vkid);
           localStorage.setItem('vk_user_date', now.toISOString());
+          console.log('user authorized', vkid, now.toISOString())
           window.location.href = '/index.html';
         } else {
           showDeniedMessage();

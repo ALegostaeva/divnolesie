@@ -95,10 +95,8 @@ function drawHex (hex, x, y, no, withText, paths, isPath, strangers = false) {
   }
   
   ctx.closePath();
-  console.log('stranger mode', strangers);
 
   if (strangers) {
-    console.log('stranger detected')
     const gradient = ctx.createRadialGradient(x, y, 5, x, y, hex.r);
     ctx.font = "22px Arial";
     ctx.fillStyle = "orange";
