@@ -49,15 +49,10 @@
         document.body.innerHTML = ''; // очищаем всё, чтобы не загружалась остальная страница
         document.body.appendChild(overlay);
         console.log("here2" );
-      
-        // Загружаем вручную VK-авторизацию
-        const script1 = document.createElement('script');
-        script1.src = 'https://vk.com/js/api/openapi.js?169';
-        document.body.appendChild(script1);
 
-        var script3 = document.createElement('script');
-        script3.src = 'js/auth.js';
-        document.body.appendChild(script3);
+        var script = document.createElement('script');
+        script.src = 'auth.js';
+        document.body.appendChild(script);
       }      
   })();
   

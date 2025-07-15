@@ -42,7 +42,7 @@ if ('VKIDSDK' in window) {
           localStorage.setItem('vk_user_id', vkid);
           localStorage.setItem('vk_user_date', now.toISOString());
           console.log('user authorized', vkid, now.toISOString())
-          window.location.href = '/index.html';
+          window.location.href = './index.html';
         } else {
           showDeniedMessage();
         }
