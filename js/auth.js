@@ -6,7 +6,7 @@ if ('VKIDSDK' in window) {
   
     VKID.Config.init({
       app: 53901589,
-      redirectUrl: 'https://divnolesie.ru',
+      redirectUrl: 'https://alegostaeva.github.io/divnolesie/',
       responseMode: VKID.ConfigResponseMode.Callback,
       source: VKID.ConfigSource.LOWCODE,
       scope: '',

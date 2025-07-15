@@ -59,4 +59,3 @@
         document.body.appendChild(script);
       }      
   })();
-  
