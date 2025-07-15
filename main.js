@@ -65,6 +65,7 @@ let Hexes = [];
 let cells = [];
 let showLabels = false;
 let showPaths = false;
+let showCampfires = true; // по умолчанию костёрки включены
 
 let activeCells = new Set(); // клетки, где есть игроки
 let statsData = []; // Массив с игроками, нужен для поиска по cellName
@@ -228,8 +229,8 @@ async function drawMap(lines, colomns, r, withText, paths) {
       } else {
         isPath = false;
       }
-      const strangers = activeCells.has(cellName); // подсвечивать ли как костерок
-      drawHex(hexCurrent, x, y, cellName, withText, paths, isPath, strangers);
+      const hasStrangers = activeCells.has(cellName); // подсвечивать ли как костерок
+      drawHex(hexCurrent, x, y, cellName, withText, paths, isPath, showCampfires && hasStrangers);
       no+=1;
     };
     no = 1;
@@ -276,6 +277,14 @@ btnShowPaths.addEventListener ('change', () => {
   }
 }
 )
+
+// чекбокс переключения
+const toggleCampfiresCheckbox = document.getElementById('toggleCampfires');
+toggleCampfiresCheckbox.addEventListener('change', () => {
+  showCampfires = toggleCampfiresCheckbox.checked;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawMap(canvas.width, canvas.height, r, showLabels, showPaths);
+});
 
 const btnContact = document.querySelector('#contact');
 
