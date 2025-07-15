@@ -1,5 +1,4 @@
 // === auth.js ===
-// 1. Проверка инициализации VK SDK и запуск авторизации, если нужно
 if ('VKIDSDK' in window) {
     console.log('vk auth');
     const VKID = window.VKIDSDK;

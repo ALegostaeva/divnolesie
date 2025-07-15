@@ -47,15 +47,17 @@
           `;
       
         document.body.innerHTML = ''; // очищаем всё, чтобы не загружалась остальная страница
-        document.body.appendChild(overlay);
-        console.log("here2" );
 
         var script1 = document.createElement('script');
         script1.src = 'https://unpkg.com/@vkid/sdk@<3.0.0/dist-sdk/umd/index.js';
-        document.body.appendChild(script1);
+        document.overlay.appendChild(script1);
 
         var script = document.createElement('script');
         script.src = 'js/auth.js';
-        document.body.appendChild(script);
+        script.type = "text/javascript";
+        document.overlay.appendChild(script);
+
+        document.body.appendChild(overlay);
+        console.log("here2" );
       }      
   })();
