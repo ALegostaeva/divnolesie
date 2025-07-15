@@ -11,8 +11,10 @@ if ('VKIDSDK' in window) {
       source: VKID.ConfigSource.LOWCODE,
       scope: '',
     });
+    console.log('vk auth1');
   
     const oneTap = new VKID.OneTap();
+    console.log('vk auth2');
   
     oneTap.render({
       container: document.currentScript.parentElement,
@@ -30,6 +32,7 @@ if ('VKIDSDK' in window) {
       });
   
     async function vkidOnSuccess(data) {
+      console.log('vk auth3');
       const vkid = data.user.id;
   
       try {
