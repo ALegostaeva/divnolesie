@@ -55,10 +55,6 @@
         script1.src = 'https://vk.com/js/api/openapi.js?169';
         document.body.appendChild(script1);
 
-        const script2 = document.createElement('script');
-        script2.src = 'https://id.vk.com/sdk.js';
-        document.body.appendChild(script2);
-
         var script3 = document.createElement('script');
         script3.src = 'js/auth.js';
         document.body.appendChild(script3);

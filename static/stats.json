@@ -111,7 +111,7 @@
         "vk_id": 5649984,
         "first_name": "Александра",
         "last_name": "Легостаева",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 139277848,
         "current_cell": "K15",
         "visited_cells": {
