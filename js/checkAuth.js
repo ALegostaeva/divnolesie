@@ -24,6 +24,7 @@
         const savedTimestamp = localStorage.getItem('vk_user_time');
         if (!savedTimestamp) return false;
         const savedTime = new Date(parseInt(savedTimestamp, 10));
+        console.log("time checker", savedTime, seasonStart,savedTime >= seasonStart)
         return savedTime >= seasonStart;
       }
   
@@ -50,7 +51,7 @@
         document.body.appendChild(script1);
 
         const script2 = document.createElement('script');
-        script1.src = 'https://id.vk.com/sdk.js';
+        script2.src = 'https://id.vk.com/sdk.js';
         document.body.appendChild(script2);
 
         var script3 = document.createElement('script');
