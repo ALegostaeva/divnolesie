@@ -55,7 +55,7 @@
         document.body.appendChild(script1);
 
         var script = document.createElement('script');
-        script.src = 'auth.js';
+        script.src = 'js/auth.js';
         document.body.appendChild(script);
       }      
   })();
