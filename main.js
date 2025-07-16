@@ -187,10 +187,6 @@ function openDescription(address){
 
 
 async function drawMap(lines, colomns, r, withText, paths) {
-  if (!localStorage.getItem('vk_user_id')) {
-    console.warn("Unauthorized access attempt");
-    document.body.innerHTML = '<p style="color: white; background: black; padding: 2em;">Нет доступа. Пожалуйста, авторизуйтесь через ВКонтакте.</p>';
-  }
 
   const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
   cells = await res.json();
