@@ -3,7 +3,7 @@
         "vk_id": 139277848,
         "first_name": "Анна",
         "last_name": "Третьякова",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 34386823,
         "current_cell": "F1",
         "visited_cells": {
@@ -39,7 +39,7 @@
         "vk_id": 34386823,
         "first_name": "Ксения",
         "last_name": "Черепанова",
-        "is_participant": false,
+        "is_participant": true,
         "kurator": 139277848,
         "current_cell": "F3",
         "visited_cells": {

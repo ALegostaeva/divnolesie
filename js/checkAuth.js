@@ -35,6 +35,9 @@
     if (!userId || !lastAuthDate || !isSeasonValid()) {
         localStorage.removeItem('vk_user_id');
         localStorage.removeItem('vk_user_date');
+        localStorage.removeItem('vk_user_time');
+
+        document.body.innerHTML = '';
       
         // === 3. Показываем оверлей авторизации ===
         const overlay = document.createElement('div');
@@ -45,20 +48,18 @@
         content.style.textAlign = 'center';
         content.innerHTML = `<p>Для продолжения авторизуйтесь через ВКонтакте</p>`;
 
+        overlay.appendChild(content);
+        document.body.appendChild(overlay);
+
         // === 4. Создаем скрипты ===
         const sdkScript = document.createElement('script');
         sdkScript.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
         sdkScript.onload = function () {
           const authScript = document.createElement('script');
           authScript.src = 'js/auth.js';
-          authScript.defer = true;
           document.body.appendChild(authScript);
         };
         document.body.appendChild(sdkScript);
-        overlay.appendChild(content);
-
-        document.body.innerHTML = '';
-        document.body.appendChild(overlay);
 
         console.log('here2');
           }      
