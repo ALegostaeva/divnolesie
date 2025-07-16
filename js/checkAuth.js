@@ -46,17 +46,15 @@
         content.innerHTML = `<p>Для продолжения авторизуйтесь через ВКонтакте</p>`;
 
         // === 4. Создаем скрипты ===
-        const script1 = document.createElement('script');
-        script1.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
-        script1.defer = true;
-
-        const script2 = document.createElement('script');
-        script2.src = 'js/auth.js';
-        script2.defer = true;
-
-        // === 5. Добавляем элементы ===
-        content.appendChild(script1);
-        content.appendChild(script2);
+        const sdkScript = document.createElement('script');
+        sdkScript.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
+        sdkScript.onload = function () {
+          const authScript = document.createElement('script');
+          authScript.src = 'js/auth.js';
+          authScript.defer = true;
+          document.body.appendChild(authScript);
+        };
+        document.body.appendChild(sdkScript);
         overlay.appendChild(content);
 
         document.body.innerHTML = '';
