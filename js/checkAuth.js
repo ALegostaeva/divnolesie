@@ -62,5 +62,5 @@
         document.body.appendChild(sdkScript);
 
         console.log('here2');
-          }      
+      }      
   })();

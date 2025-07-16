@@ -240,12 +240,7 @@ async function drawMap(lines, colomns, r, withText, paths) {
 
 //drawScreen
 window.onload = function(){  
-  if (!localStorage.getItem('vk_user_id')) {
-    console.warn("Unauthorized access attempt");
-    document.body.innerHTML = '<p style="color: white; background: black; padding: 2em;">Нет доступа. Пожалуйста, авторизуйтесь через ВКонтакте.</p>';
-  } else {
     drawMap(canvas.width, canvas.height, r, showLabels, showPaths); 
-  }
 };
 
 
