@@ -66,71 +66,71 @@
             scope: '',
           });
           console.log('vk auth1');
-        }
 
-        const oneTap = new VKID.OneTap();
-        console.log('vk auth2');
+          const oneTap = new VKID.OneTap();
+          console.log('vk auth2');
 
-        // Получение контейнера из разметки.
-        const container = document.getElementById('VkIdSdkOneTap');
-        console.log('VkIdSdkOneTap',container);
+          // Получение контейнера из разметки.
+          const container = document.getElementById('VkIdSdkOneTap');
+          console.log('VkIdSdkOneTap',container);
 
-        // Проверка наличия кнопки в разметке.
-        if (container) {
-          console.log('container');
-          oneTap.render({
-            container: container, 
-            scheme: 'dark',
-            showAlternativeLogin: true
-          })
-            .on(VKID.WidgetEvents.ERROR, vkidOnError)
-            .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
-              const code = payload.code;
-              const deviceId = payload.device_id;
+          // Проверка наличия кнопки в разметке.
+          if (container) {
+            console.log('container');
+            oneTap.render({
+              container: container, 
+              scheme: 'dark',
+              showAlternativeLogin: true
+            })
+              .on(VKID.WidgetEvents.ERROR, vkidOnError)
+              .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
+                const code = payload.code;
+                const deviceId = payload.device_id;
+          
+                VKID.Auth.exchangeCode(code, deviceId)
+                  .then(vkidOnSuccess)
+                  .catch(vkidOnError);
+              });
         
-              VKID.Auth.exchangeCode(code, deviceId)
-                .then(vkidOnSuccess)
-                .catch(vkidOnError);
-            });
-      
-        async function vkidOnSuccess(data) {
-          console.log('vkidOnSuccess');
-          const vkid = data.user.id;
-          console.log('user id', vkid);
-      
-          try {
-            const res = await fetch('static/stats.json');
-            const stats = await res.json();
-            console.log('stats',stats);
-      
-            const user = stats.find(p => p.vk_id === vkid);
-            if (user && user.is_participant) {
-              const now = new Date();
-              localStorage.setItem('vk_user_id', vkid);
-              localStorage.setItem('vk_user_date', now.toISOString());
-              console.log('user authorized', vkid, now.toISOString())
-              window.location.href = './index.html';
-            } else {
+          async function vkidOnSuccess(data) {
+            console.log('vkidOnSuccess');
+            const vkid = data.user.id;
+            console.log('user id', vkid);
+        
+            try {
+              const res = await fetch('static/stats.json');
+              const stats = await res.json();
+              console.log('stats',stats);
+        
+              const user = stats.find(p => p.vk_id === vkid);
+              if (user && user.is_participant) {
+                const now = new Date();
+                localStorage.setItem('vk_user_id', vkid);
+                localStorage.setItem('vk_user_date', now.toISOString());
+                console.log('user authorized', vkid, now.toISOString())
+                window.location.href = './index.html';
+              } else {
+                showDeniedMessage();
+              }
+            } catch (err) {
+              console.error('Ошибка при загрузке stats:', err);
               showDeniedMessage();
             }
-          } catch (err) {
-            console.error('Ошибка при загрузке stats:', err);
+          }
+        
+          function vkidOnError(error) {
+            console.error('VK ERROR', error);
             showDeniedMessage();
           }
-        }
-      
-        function vkidOnError(error) {
-          console.error('VK ERROR', error);
-          showDeniedMessage();
-        }
-      
-        function showDeniedMessage() {
-          document.body.innerHTML = `
-            <div style="padding: 2em; text-align: center; font-size: 1.2em; color: white; background-color: black">
-              <p>🔥 Путник, кажется ты еще не участвуешь в марафоне или мы тебя потеряли.</p>
-              <p>Обратись к администраторам марафона в группе <a href="https://vk.com/book_shelf" target="_blank">Книжная полка</a> за помощью.</p>
-            </div>
-          `;
+        
+          function showDeniedMessage() {
+            document.body.innerHTML = `
+              <div style="padding: 2em; text-align: center; font-size: 1.2em; color: white; background-color: black">
+                <p>🔥 Путник, кажется ты еще не участвуешь в марафоне или мы тебя потеряли.</p>
+                <p>Обратись к администраторам марафона в группе <a href="https://vk.com/book_shelf" target="_blank">Книжная полка</a> за помощью.</p>
+              </div>
+            `;
+          }
         }
       }
     }    
