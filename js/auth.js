@@ -44,14 +44,13 @@
         
     // Показываем оверлей
     const overlay = document.getElementById('loginOverlay');
-    console.log('login overlay', overlay);
     overlay.style.display = 'flex';
 
-    const vkContainer = document.getElementById('vk_container');
+    const vkContainer = document.getElementById('VkIdSdkOneTap');
 
-    const sdkScript = document.createElement('script');
-    sdkScript.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
-    vkContainer.appendChild(sdkScript);
+    //const sdkScript = document.createElement('script');
+    //sdkScript.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
+    //vkContainer.appendChild(sdkScript);
     
 
   // === auth.js ===
@@ -72,8 +71,8 @@
       console.log('vk auth2');
 
       // Получение контейнера из разметки.
-      const container = document.getElementById('vk_container');
-      console.log('vk_container',container);
+      const container = document.getElementById('VkIdSdkOneTap');
+      console.log('VkIdSdkOneTap',container);
 
       // Проверка наличия кнопки в разметке.
       if (container) {
@@ -133,5 +132,5 @@
         `;
       }
     }
-  }
+  }*/
 })

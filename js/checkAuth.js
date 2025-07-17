@@ -31,6 +31,12 @@
       }
     
     console.log("here1",!isSeasonValid(),!userId, !lastAuthDate );
+
+    // === Если авторизация НЕ нужна — выходим
+    if (userId && lastAuthDate && isSeasonValid()) {
+      console.log('авторизация не нужна');
+      return;
+    }
   
     if (!userId || !lastAuthDate || !isSeasonValid()) {
         localStorage.removeItem('vk_user_id');
@@ -41,18 +47,91 @@
         const overlay = document.getElementById('loginOverlay');
         overlay.style.display = 'flex';
 
-        const vkContainer = document.getElementById('vk_container');
+        const vkContainer = document.getElementById('VkIdSdkOneTap');
 
         const sdkScript = document.createElement('script');
         sdkScript.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
-        sdkScript.defer = true;
         vkContainer.appendChild(sdkScript);
-
-        const authScript = document.createElement('script');
-        authScript.src = 'js/auth.js';
-        authScript.defer = true;
-        vkContainer.appendChild(authScript);
     
         console.log('here2');
-      }      
-  })();
+        if ('VKIDSDK' in window) {
+          console.log('vk auth');
+          const VKID = window.VKIDSDK;
+    
+          VKID.Config.init({
+            app: 53901589,
+            redirectUrl: 'https://alegostaeva.github.io/divnolesie/',
+            responseMode: VKID.ConfigResponseMode.Callback,
+            source: VKID.ConfigSource.LOWCODE,
+            scope: '',
+          });
+          console.log('vk auth1');
+        }
+
+        const oneTap = new VKID.OneTap();
+        console.log('vk auth2');
+
+        // Получение контейнера из разметки.
+        const container = document.getElementById('VkIdSdkOneTap');
+        console.log('VkIdSdkOneTap',container);
+
+        // Проверка наличия кнопки в разметке.
+        if (container) {
+          console.log('container');
+          oneTap.render({
+            container: container, 
+            scheme: 'dark',
+            showAlternativeLogin: true
+          })
+            .on(VKID.WidgetEvents.ERROR, vkidOnError)
+            .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
+              const code = payload.code;
+              const deviceId = payload.device_id;
+        
+              VKID.Auth.exchangeCode(code, deviceId)
+                .then(vkidOnSuccess)
+                .catch(vkidOnError);
+            });
+      
+        async function vkidOnSuccess(data) {
+          console.log('vkidOnSuccess');
+          const vkid = data.user.id;
+          console.log('user id', vkid);
+      
+          try {
+            const res = await fetch('static/stats.json');
+            const stats = await res.json();
+            console.log('stats',stats);
+      
+            const user = stats.find(p => p.vk_id === vkid);
+            if (user && user.is_participant) {
+              const now = new Date();
+              localStorage.setItem('vk_user_id', vkid);
+              localStorage.setItem('vk_user_date', now.toISOString());
+              console.log('user authorized', vkid, now.toISOString())
+              window.location.href = './index.html';
+            } else {
+              showDeniedMessage();
+            }
+          } catch (err) {
+            console.error('Ошибка при загрузке stats:', err);
+            showDeniedMessage();
+          }
+        }
+      
+        function vkidOnError(error) {
+          console.error('VK ERROR', error);
+          showDeniedMessage();
+        }
+      
+        function showDeniedMessage() {
+          document.body.innerHTML = `
+            <div style="padding: 2em; text-align: center; font-size: 1.2em; color: white; background-color: black">
+              <p>🔥 Путник, кажется ты еще не участвуешь в марафоне или мы тебя потеряли.</p>
+              <p>Обратись к администраторам марафона в группе <a href="https://vk.com/book_shelf" target="_blank">Книжная полка</a> за помощью.</p>
+            </div>
+          `;
+        }
+      }
+    }    
+})();
