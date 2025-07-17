@@ -14,21 +14,26 @@ if ('VKIDSDK' in window) {
   
     const oneTap = new VKID.OneTap();
     console.log('vk auth2');
-  
-    oneTap.render({
-      container: document.getElementById('vk_container'), 
-      scheme: 'dark',
-      showAlternativeLogin: true
-    })
-      .on(VKID.WidgetEvents.ERROR, vkidOnError)
-      .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
-        const code = payload.code;
-        const deviceId = payload.device_id;
-  
-        VKID.Auth.exchangeCode(code, deviceId)
-          .then(vkidOnSuccess)
-          .catch(vkidOnError);
-      });
+
+    // Получение контейнера из разметки.
+    const container = document.getElementById('vk_container');
+
+    // Проверка наличия кнопки в разметке.
+    if (container) {
+      oneTap.render({
+        container: container, 
+        scheme: 'dark',
+        showAlternativeLogin: true
+      })
+        .on(VKID.WidgetEvents.ERROR, vkidOnError)
+        .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, function (payload) {
+          const code = payload.code;
+          const deviceId = payload.device_id;
+    
+          VKID.Auth.exchangeCode(code, deviceId)
+            .then(vkidOnSuccess)
+            .catch(vkidOnError);
+        });
   
     async function vkidOnSuccess(data) {
       console.log('vk auth3');
