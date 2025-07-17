@@ -36,22 +36,35 @@
         localStorage.removeItem('vk_user_id');
         localStorage.removeItem('vk_user_date');
         localStorage.removeItem('vk_user_time');
-
-        document.body.innerHTML = '';
       
-        // === 3. Показываем оверлей авторизации ===
+        // Показываем оверлей
         const overlay = document.createElement('div');
         overlay.id = 'loginOverlay';
-        overlay.style = 'position:fixed;z-index:999;background:#000000dd;color:#fff;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center';
+        overlay.style = `
+          position: fixed;
+          z-index: 9999;
+          top: 0; left: 0;
+          width: 100vw; height: 100vh;
+          background: rgba(0, 0, 0, 0.9);
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+        `;
 
-        const content = document.createElement('div');
-        content.style.textAlign = 'center';
-        content.innerHTML = `<p>Для продолжения авторизуйтесь через ВКонтакте</p>`;
+        const message = document.createElement('p');
+        message.innerText = 'Для продолжения авторизуйтесь через ВКонтакте';
+        message.style = 'margin-bottom: 2em; font-size: 1.2em;';
 
-        overlay.appendChild(content);
+        const vkContainer = document.createElement('div');
+        vkContainer.id = 'vk_container';
+
+        overlay.appendChild(message);
+        overlay.appendChild(vkContainer);
         document.body.appendChild(overlay);
 
-        // === 4. Создаем скрипты ===
+        // Подключаем VK SDK
         const sdkScript = document.createElement('script');
         sdkScript.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
         sdkScript.onload = function () {

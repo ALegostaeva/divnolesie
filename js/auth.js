@@ -16,7 +16,7 @@ if ('VKIDSDK' in window) {
     console.log('vk auth2');
   
     oneTap.render({
-      container: document.currentScript.parentElement,
+      container: document.getElementById('vk_container'), 
       scheme: 'dark',
       showAlternativeLogin: true
     })
