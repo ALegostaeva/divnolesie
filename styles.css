@@ -6,9 +6,23 @@
     background: rgb(27, 27, 27);
   }
   #map #list #bodyAdmin {
-    margin: 2px;
-    
+    margin: 2px
   }
+
+  #loginOverlay {
+    position: fixed;
+    z-index: 9999;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgb(18, 15, 23);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
   #mainCanvas{
     box-shadow: 5px 10px 5px rgb(27, 27, 27,10) inset;
     position: sticky;

@@ -38,27 +38,11 @@
         localStorage.removeItem('vk_user_time');
       
         // Показываем оверлей
-        const overlay = document.createElement('div');
-        overlay.id = 'loginOverlay';
-        overlay.style = `
-          position: fixed;
-          z-index: 9999;
-          top: 0; left: 0;
-          width: 100vw; height: 100vh;
-          background: rgba(0, 0, 0, 0.9);
-          color: white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-direction: column;
-        `;
+        const overlay = document.getElementById('loginOverlay');
+        overlay.style.display = 'flex';
 
-        const message = document.createElement('p');
-        message.innerText = 'Для продолжения авторизуйтесь через ВКонтакте';
-        message.style = 'margin-bottom: 2em; font-size: 1.2em;';
 
-        const vkContainer = document.createElement('div');
-        vkContainer.id = 'vk_container';
+        const vkContainer = document.getElementById('vk_container');
 
         const sdkScript = document.createElement('script');
         sdkScript.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
@@ -67,10 +51,6 @@
         const authScript = document.createElement('script');
         authScript.src = 'js/auth.js';
         vkContainer.appendChild(authScript);
-
-        overlay.appendChild(message);
-        overlay.appendChild(vkContainer);
-        document.body.appendChild(overlay);
     
         console.log('here2');
       }      
