@@ -41,15 +41,16 @@
         const overlay = document.getElementById('loginOverlay');
         overlay.style.display = 'flex';
 
-
         const vkContainer = document.getElementById('vk_container');
 
         const sdkScript = document.createElement('script');
         sdkScript.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
+        sdkScript.defer = true;
         vkContainer.appendChild(sdkScript);
 
         const authScript = document.createElement('script');
         authScript.src = 'js/auth.js';
+        authScript.defer = true;
         vkContainer.appendChild(authScript);
     
         console.log('here2');

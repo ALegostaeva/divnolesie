@@ -18,18 +18,18 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ruslan Display">
         <title>Дивнолесье</title>
 
-        
     </head>
 
     <body>
-        <script src="js/checkAuth.js"></script>
         <div id="loginOverlay" style="display: none;">
             <p style="margin-bottom: 2em; font-size: 1.2em;">Для продолжения авторизуйтесь через ВКонтакте</p>
-            <div id="vk_container"></div>
+            <div id="vk_container">
+                <script src="https://unpkg.com/@vkid/sdk@<3.0.0/dist-sdk/umd/index.js"></script>
+                <script src="js/auth.js"></script>
+            </div>
         </div>
-        
-        <header>
-            
+
+        <header>       
             <nav class="site-menu">
                 <button class="site-menu__button" data-js-menu="">
                     <i class="fa fa-bars"></i>
@@ -87,14 +87,9 @@
         </footer>
 
         <script src="main.js?v=1234" defer></script>
-        <script src="./js/menu.js" defer></script>
+        <script src="js/menu.js" defer></script>
         
         <noscript>Sorry, your browser does not support JavaScript!</noscript>
     </body>
 
-
-    
-
-
-    
 </html>
