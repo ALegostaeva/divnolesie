@@ -62,12 +62,11 @@
 
         const sdkScript = document.createElement('script');
         sdkScript.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
-        sdkScript.onload = function () {
-          const authScript = document.createElement('script');
-          authScript.src = 'js/auth.js';
-          vkContainer.appendChild(authScript);
-        };
         vkContainer.appendChild(sdkScript);
+
+        const authScript = document.createElement('script');
+        authScript.src = 'js/auth.js';
+        vkContainer.appendChild(authScript);
 
         overlay.appendChild(message);
         overlay.appendChild(vkContainer);

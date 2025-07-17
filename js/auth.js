@@ -17,9 +17,11 @@ if ('VKIDSDK' in window) {
 
     // Получение контейнера из разметки.
     const container = document.getElementById('vk_container');
+    console.log('vk_container',container);
 
     // Проверка наличия кнопки в разметке.
     if (container) {
+      console.log('container');
       oneTap.render({
         container: container, 
         scheme: 'dark',
@@ -36,12 +38,14 @@ if ('VKIDSDK' in window) {
         });
   
     async function vkidOnSuccess(data) {
-      console.log('vk auth3');
+      console.log('vkidOnSuccess');
       const vkid = data.user.id;
+      console.log('user id', vkid);
   
       try {
-        const res = await fetch('/static/stats.json');
+        const res = await fetch('static/stats.json');
         const stats = await res.json();
+        console.log('stats',stats);
   
         const user = stats.find(p => p.vk_id === vkid);
         if (user && user.is_participant) {
