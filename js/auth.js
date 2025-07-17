@@ -77,4 +77,4 @@ if ('VKIDSDK' in window) {
       `;
     }
   }
-  
+}
