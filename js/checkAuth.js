@@ -60,20 +60,19 @@
         const vkContainer = document.createElement('div');
         vkContainer.id = 'vk_container';
 
-        overlay.appendChild(message);
-        overlay.appendChild(vkContainer);
-        document.body.appendChild(overlay);
-
-        // Подключаем VK SDK
         const sdkScript = document.createElement('script');
         sdkScript.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
         sdkScript.onload = function () {
           const authScript = document.createElement('script');
           authScript.src = 'js/auth.js';
-          document.body.appendChild(authScript);
+          vkContainer.appendChild(authScript);
         };
-        document.body.appendChild(sdkScript);
+        vkContainer.appendChild(sdkScript);
 
+        overlay.appendChild(message);
+        overlay.appendChild(vkContainer);
+        document.body.appendChild(overlay);
+    
         console.log('here2');
       }      
   })();
