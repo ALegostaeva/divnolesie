@@ -1,8 +1,6 @@
 (function () {
-    console.log('vk auth checker');
     var userId = localStorage.getItem('vk_user_id');
     var lastAuthDate = localStorage.getItem('vk_user_date');
-    console.log('vk auth data:',userId, lastAuthDate);
   
     // Сезон считается с 1 числа: сентябрь, декабрь, март, июнь
     function isSeasonValid() {
@@ -13,13 +11,17 @@
         // Определяем начало сезона
         let seasonStart;
         if (month >= 8 && month <= 10) {
+          // Осень: сентябрь — ноябрь
           seasonStart = new Date(Date.UTC(now.getUTCFullYear(), 8, 1)); // 1 сентября
-        } else if (month >= 11 || month === 0) {
+        } else if (month >= 11 || month === 0 || month === 1) {
+          // Зима: декабрь — февраль
           seasonStart = new Date(Date.UTC(month === 11 ? now.getUTCFullYear() : now.getUTCFullYear() - 1, 11, 1)); // 1 декабря
-        } else if (month >= 1 && month <= 2) {
+        } else if (month >= 2 && month <= 4) {
+          // Весна: март — май
           seasonStart = new Date(Date.UTC(now.getUTCFullYear(), 2, 1)); // 1 марта
         } else {
-          seasonStart = new Date(Date.UTC(now.getUTCFullYear(), 6, 18)); // 1 июня
+          // Лето: июнь — август
+          seasonStart = new Date(Date.UTC(now.getUTCFullYear(), 5, 1)); // 1 июня
         }
     
         // Если время авторизации раньше текущего сезона — сброс
@@ -28,9 +30,6 @@
         console.log("time checker2", savedTime, seasonStart,savedTime >= seasonStart);
         return savedTime >= seasonStart;
       }
-    
-    console.log("Нужно ли показывать авторизацию?",!isSeasonValid(),!userId, !lastAuthDate );
-    console.log("Нужно ли показывать авторизацию?",isSeasonValid(),userId, lastAuthDate );
 
     // === Если авторизация НЕ нужна — выходим
     if (userId && lastAuthDate && isSeasonValid()) {
