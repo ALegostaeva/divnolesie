@@ -93,8 +93,15 @@
               });
         
           async function vkidOnSuccess(data) {
-            console.log('vkidOnSuccess');
+            console.log('vkidOnSuccess',data);
             const vkid = data.user.id;
+
+            if (!data || !data.user || !data.user.id) {
+              console.error('vkidOnSuccess: данные авторизации отсутствуют или некорректны', data);
+              showDeniedMessage();
+              return;
+            }
+
             console.log('user id', vkid);
         
             try {
