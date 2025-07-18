@@ -24,7 +24,7 @@
     
         // Если время авторизации раньше текущего сезона — сброс
         if (!lastAuthDate) return false;
-        const savedTime = new Date(parseInt(lastAuthDate, 10));
+        const savedTime = new Date(lastAuthDate);
         console.log("time checker2", savedTime, seasonStart,savedTime >= seasonStart);
         return savedTime >= seasonStart;
       }
