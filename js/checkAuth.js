@@ -94,9 +94,9 @@
         
           async function vkidOnSuccess(data) {
             console.log('vkidOnSuccess',data);
-            const vkid = data.user.id;
+            const vkid = data.user_id;
 
-            if (!data || !data.user || !data.user.id) {
+            if (!data || !data.user_id) {
               console.error('vkidOnSuccess: данные авторизации отсутствуют или некорректны', data);
               showDeniedMessage();
               return;
