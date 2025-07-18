@@ -30,7 +30,8 @@
         return savedTime >= seasonStart;
       }
     
-    console.log("here1",!isSeasonValid(),!userId, !lastAuthDate );
+    console.log("Нужно ли показывать авторизацию?",!isSeasonValid(),!userId, !lastAuthDate );
+    console.log("Нужно ли показывать авторизацию? данные",isSeasonValid(),userId, lastAuthDate );
 
     // === Если авторизация НЕ нужна — выходим
     if (userId && lastAuthDate && isSeasonValid()) {
