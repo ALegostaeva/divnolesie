@@ -23,15 +23,14 @@
         }
     
         // Если время авторизации раньше текущего сезона — сброс
-        const savedTimestamp = localStorage.getItem('vk_user_time');
-        if (!savedTimestamp) return false;
-        const savedTime = new Date(parseInt(savedTimestamp, 10));
-        console.log("time checker", savedTime, seasonStart,savedTime >= seasonStart)
+        if (!lastAuthDate) return false;
+        const savedTime = new Date(parseInt(lastAuthDate, 10));
+        console.log("time checker2", savedTime, seasonStart,savedTime >= seasonStart);
         return savedTime >= seasonStart;
       }
     
     console.log("Нужно ли показывать авторизацию?",!isSeasonValid(),!userId, !lastAuthDate );
-    console.log("Нужно ли показывать авторизацию? данные",isSeasonValid(),userId, lastAuthDate );
+    console.log("Нужно ли показывать авторизацию?",isSeasonValid(),userId, lastAuthDate );
 
     // === Если авторизация НЕ нужна — выходим
     if (userId && lastAuthDate && isSeasonValid()) {
