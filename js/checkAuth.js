@@ -19,7 +19,7 @@
         } else if (month >= 1 && month <= 2) {
           seasonStart = new Date(Date.UTC(now.getUTCFullYear(), 2, 1)); // 1 марта
         } else {
-          seasonStart = new Date(Date.UTC(now.getUTCFullYear(), 5, 1)); // 1 июня
+          seasonStart = new Date(Date.UTC(now.getUTCFullYear(), 6, 18)); // 1 июня
         }
     
         // Если время авторизации раньше текущего сезона — сброс
@@ -34,7 +34,6 @@
 
     // === Если авторизация НЕ нужна — выходим
     if (userId && lastAuthDate && isSeasonValid()) {
-      console.log('авторизация не нужна');
       return;
     }
   
@@ -53,9 +52,7 @@
         sdkScript.src = 'https://unpkg.com/@vkid/sdk@3.0.0/dist-sdk/umd/index.js';
         vkContainer.appendChild(sdkScript);
     
-        console.log('here2');
         if ('VKIDSDK' in window) {
-          console.log('vk auth');
           const VKID = window.VKIDSDK;
     
           VKID.Config.init({
@@ -65,18 +62,14 @@
             source: VKID.ConfigSource.LOWCODE,
             scope: '',
           });
-          console.log('vk auth1');
 
           const oneTap = new VKID.OneTap();
-          console.log('vk auth2');
 
           // Получение контейнера из разметки.
           const container = document.getElementById('VkIdSdkOneTap');
-          console.log('VkIdSdkOneTap',container);
 
           // Проверка наличия кнопки в разметке.
           if (container) {
-            console.log('container');
             oneTap.render({
               container: container, 
               scheme: 'dark',
@@ -100,20 +93,16 @@
               showDeniedMessage();
               return;
             }
-
-            console.log('user id', vkid);
         
             try {
               const res = await fetch('static/stats.json');
               const stats = await res.json();
         
               const user = stats.find(p => Number(p.vk_id) === vkid);
-              console.log('user fond', user);
               if (user && user.is_participant) {
                 const now = new Date();
                 localStorage.setItem('vk_user_id', vkid);
                 localStorage.setItem('vk_user_date', now.toISOString());
-                console.log('user authorized', vkid, now.toISOString())
                 window.location.href = './index.html';
               } else {
                 showDeniedMessage();
@@ -125,7 +114,6 @@
           }
         
           function vkidOnError(error) {
-            console.error('VK ERROR', error);
             showDeniedMessage();
           }
         

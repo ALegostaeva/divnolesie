@@ -198,7 +198,6 @@ async function drawMap(lines, colomns, r, withText, paths) {
     const statsRes = await fetch('./static/stats.json');
     if (!statsRes.ok) throw new Error('Ошибка при загрузке stats.json');
     stats = await statsRes.json();
-    console.log('Статистика:', stats);
     statsData = stats;
     if (Array.isArray(stats)) {
       for (const p of stats) {
@@ -290,7 +289,6 @@ const btnContact = document.querySelector('#contact');
 
 // HOVER (десктоп)
 canvas.addEventListener('mousemove', (e) => {
-  console.log('mouse hover')
   const rect = canvas.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
   const mouseY = e.clientY - rect.top;
@@ -302,7 +300,6 @@ canvas.addEventListener('mousemove', (e) => {
     const distance = Math.sqrt(dx * dx + dy * dy);
     if (distance <= r) {
       const playersOnHex = statsData.filter(p => p.current_cell === hex.name && p.is_participant);
-      console.log('participants on hex', playersOnHex);
       if (playersOnHex.length > 0) {
         const html = playersOnHex.map(p => `🦄 ${p.first_name} ${p.last_name}`).join('<br>');
         showTooltip(html, e.pageX, e.pageY);
