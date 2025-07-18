@@ -107,7 +107,7 @@
               const res = await fetch('static/stats.json');
               const stats = await res.json();
         
-              const user = stats.find(p => String(p.vk_id) === vkid);
+              const user = stats.find(p => Number(p.vk_id) === vkid);
               console.log('user fond', user);
               if (user && user.is_participant) {
                 const now = new Date();
