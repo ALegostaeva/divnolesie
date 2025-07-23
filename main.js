@@ -259,7 +259,8 @@ function openDescription(address){
 
 async function drawMap(lines, colomns, r, withText, paths) {
 
-  const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
+  //const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
+  const res = await fetch(`./data/db.json`);
   cells = await res.json();
 
   activeCells.clear(); // очищаем старые активные клетки
