@@ -5,6 +5,7 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
 
         <meta property="og:title" content="Дивнолесье: книжный квест">
         <meta property="og:type" content="website">
@@ -27,7 +28,7 @@
             </div>
             <script src="https://unpkg.com/@vkid/sdk@<3.0.0/dist-sdk/umd/index.js"></script>
         </div>
-        <script type="text/javascript" src="js/checkAuth.js"></script>
+        <!--<script type="text/javascript" src="js/checkAuth.js"></script> -->
 
         <header>       
             <nav class="site-menu">
@@ -62,20 +63,47 @@
             </div>
         </div>
 
-        <div class="checkbox-group">
-            <label class="styled-checkbox">
-              <input type="checkbox" class="addLabels" id="addLabels">
-              <span>Показать названия ячеек</span>
-            </label>
-            <label class="styled-checkbox">
-              <input type="checkbox" class="showPaths" id="showPaths">
-              <span>Показать торговые пути</span>
-            </label>
-            <label class="styled-checkbox">
-                <input type="checkbox" class="toggleCampfires" id="toggleCampfires" checked>
-                <span>Отобразить других путников</span>
-            </label>
-          </div>
+        <div id="toggle-ui-wrapper">
+            <button id="toggleUIRow" class="toggle-ui-button" aria-label="Скрыть панель">▲</button>
+        </div>
+
+        <div class="ui-row">
+            <div class="checkbox-group">
+                <label class="styled-checkbox">
+                    <input type="checkbox" class="showMyLocation" id="showMyLocation" checked>
+                    <label for="showMyLocation">Показать где я</label>
+                </label>
+                <label class="styled-checkbox">
+                    <input type="checkbox" id="showMyPath" disabled>
+                    <span>Показать мой путь (этот сезон)</span>
+                </label>
+                <label class="styled-checkbox">
+                    <input type="checkbox" class="addLabels" id="addLabels">
+                    <span>Показать названия ячеек</span>
+                </label>
+                <label class="styled-checkbox">
+                    <input type="checkbox" class="showPaths" id="showPaths">
+                    <span>Показать торговые пути</span>
+                </label>
+                <label class="styled-checkbox">
+                    <input type="checkbox" class="toggleCampfires" id="toggleCampfires">
+                    <span>Отобразить других путников</span>
+                </label>
+            </div>
+
+            <div class="wedding-banner">
+                <div class="wedding-title">💍 Свадьба в Дивнолесье!</div>
+                <div id="wedding-text">Сердечно поздравляем нашу Аннушку и Женю! Пусть лес шепчет вам благословения, а звёзды хранят ваш союз сквозь века. </div>
+                <img src="/assets/wedding.png" alt="Свадьба в Дивнолесье">
+            </div>
+
+            <div id="seasonInfoBox" style="display: none;" class="season-box">
+                <div id="currentSeasonText">Текущий сезон №: <strong ><span id="currentSeasonValue"></span></strong></div>
+                <div id="daysToNextSeasonText">До следующего сезона: <span id="daysToNextSeasonValue"></span> д.</div>
+            </div>
+              
+        </div>
+        
 
         <img class="imgMap" src="assets/map.jpg" width="1400" height="870">
         <canvas id="mainCanvas" width="1400" height="870"></canvas>

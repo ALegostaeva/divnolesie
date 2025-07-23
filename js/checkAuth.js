@@ -1,42 +1,26 @@
 (function () {
     var userId = localStorage.getItem('vk_user_id');
     var lastAuthDate = localStorage.getItem('vk_user_date');
+
+    async function isParticipant(id) {
+      try {
+        const res = await fetch('static/stats.json');
+        const stats = await res.json();
   
-    // Сезон считается с 1 числа: сентябрь, декабрь, март, июнь
-    function isSeasonValid() {
-        const now = new Date();
-        const month = now.getUTCMonth(); // 0 — январь
-        const day = now.getUTCDate();
-    
-        // Определяем начало сезона
-        let seasonStart;
-        if (month >= 8 && month <= 10) {
-          // Осень: сентябрь — ноябрь
-          seasonStart = new Date(Date.UTC(now.getUTCFullYear(), 8, 1)); // 1 сентября
-        } else if (month >= 11 || month === 0 || month === 1) {
-          // Зима: декабрь — февраль
-          seasonStart = new Date(Date.UTC(month === 11 ? now.getUTCFullYear() : now.getUTCFullYear() - 1, 11, 1)); // 1 декабря
-        } else if (month >= 2 && month <= 4) {
-          // Весна: март — май
-          seasonStart = new Date(Date.UTC(now.getUTCFullYear(), 2, 1)); // 1 марта
-        } else {
-          // Лето: июнь — август
-          seasonStart = new Date(Date.UTC(now.getUTCFullYear(), 5, 1)); // 1 июня
-        }
-    
-        // Если время авторизации раньше текущего сезона — сброс
-        if (!lastAuthDate) return false;
-        const savedTime = new Date(lastAuthDate);
-        console.log("time checker2", savedTime, seasonStart,savedTime >= seasonStart);
-        return savedTime >= seasonStart;
+        const user = stats.find(p => Number(p.vk_id) === id);
+        return (user && user.is_participant) 
+      } catch (err) {
+        console.error('Ошибка при загрузке stats:', err);
       }
+    }
+
 
     // === Если авторизация НЕ нужна — выходим
-    if (userId && lastAuthDate && isSeasonValid()) {
+    if (isParticipant(userId) && lastAuthDate) {
       return;
     }
   
-    if (!userId || !lastAuthDate || !isSeasonValid()) {
+    if (!userId || !lastAuthDate) {
         localStorage.removeItem('vk_user_id');
         localStorage.removeItem('vk_user_date');
         localStorage.removeItem('vk_user_time');

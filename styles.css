@@ -64,13 +64,13 @@
   color: #f5f0dc;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  flex-shrink: 0;
   padding: 20px;
+  gap: 10px;
   background-color: rgba(27, 27, 27, 0.8);
   border: 1px solid #8a7f5a;
   border-radius: 8px;
   max-width: 300px;
-  margin: 0 auto;
 }
 
 /* Стилизация одной строки */
@@ -107,6 +107,18 @@
   border-color: #e9d8a6;
 }
 
+/* Стили для отключённого чекбокса */
+.styled-checkbox input[type="checkbox"]:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Стили для текста лейбла, когда чекбокс отключен */
+.styled-checkbox input[type="checkbox"]:disabled + label {
+  color: #999;
+  cursor: not-allowed;
+}
+
 /* Галочка (псевдоэлемент) */
 .styled-checkbox input[type="checkbox"]:checked::after {
   content: '✓';
@@ -116,6 +128,52 @@
   color: #1b1b1b;
   font-size: 16px;
   font-weight: bold;
+}
+
+/* Инфо о текущем сезоне */
+.season-box {
+  border: 1px solid #8a7f5a;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: 'Georgia', serif;
+  color: #f5f0dc;
+  font-size: 16px;
+  max-width: 250px;
+}
+
+.season-box strong {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.toggle-ui-wrapper {
+  width: 100vw; /* на всю ширину окна */
+  color: #e9d8a6;
+  border: 1px solid #e9d8a6;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;  /* центрирует кнопку по горизонтали */
+  align-items: center;
+  padding: 2px 0;
+  margin-bottom: 8px;
+}
+
+.toggle-ui-button {
+  display: block;
+  color: #e9d8a6;
+  background: none;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-ui-button:hover {
+  background-color: #1a1a1a;
+  box-shadow: 0 0 10px rgba(233, 216, 166, 0.4);
+}
+
+.ui-row.hidden {
+  display: none !important;
 }
 
 
@@ -173,7 +231,7 @@ body.-menu-open .site-menu__content {
 }
 .site-menu__item {
   text-decoration: none;
-  color: #fff;
+  color: rgb(245, 240, 220);
   font-weight: 200;
   font-size: 2rem;
   line-height: 2em;
@@ -183,7 +241,7 @@ body.-menu-open .site-menu__content {
   display: block;
 }
 .site-menu__item:first-child {
-  border-top: 1px solid #fff;
+  border-top: 1px solid rgb(245, 240, 220);
   margin-top: 1rem;
 }
 body.-menu-open .site-menu__item {
@@ -243,6 +301,17 @@ body.-menu-open .site-menu__item {
 }
 #contact:hover:after {
   width: 100%;
+}
+
+/** Отображение маркера игрока **/
+#myLocationMarker {
+  width: 16px;
+  height: 16px;
+  background: red;
+  border-radius: 50%;
+  position: absolute;
+  pointer-events: none;
+  z-index: 1001;
 }
 
 /** details **/
@@ -376,7 +445,7 @@ body.-menu-open .site-menu__item {
   position: absolute;
   width: 174px;
   height: 174px;
-  border: 2px solid #8c97ac;
+  border: 2px solid rgb(138, 127, 90);
   border-radius: 100%;
   box-sizing: border-box;
   clip-path: inset(0px 135px 135px 0px);
@@ -414,7 +483,7 @@ body.-menu-open .site-menu__item {
   position: absolute;
   width: 40px;
   height: 23px;
-  background-color: #79859e;
+  background-color: rgb(138, 127, 90);
   transform: scale(1.02);
   transform-origin: center;
 }
@@ -428,7 +497,7 @@ body.-menu-open .site-menu__item {
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-bottom: 11.5px solid #79859e;
+  border-bottom: 11.5px solid rgb(138, 127, 90);
 }
 
 .hex-loader-block::after {
@@ -440,7 +509,7 @@ body.-menu-open .site-menu__item {
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-top: 11.5px solid #79859e;
+  border-top: 11.5px solid rgb(138, 127, 90);
 }
 
 .hex-loader-block:nth-child(1) {
@@ -527,6 +596,7 @@ body.-menu-open .site-menu__item {
 /** Общие правила **/
 .about{
   margin: 2rem;
+  color:rgb(245, 240, 220);
 }
 .cover{
   align-content: center;
@@ -550,6 +620,8 @@ body.-menu-open .site-menu__item {
   border-radius: 14px;
   width: 20rem;
   margin: 1rem;
+  background-color: rgb(245, 240, 220);
+  color: rgb(27, 27, 27);
 }
 .artefact-price{
   background: #deb890;
@@ -571,13 +643,13 @@ body.-menu-open .site-menu__item {
 .artefact-name{
   font-size: 1.5rem;
   font-weight: 500;
-  color: #0d0d0d;
+  color: rgb(27, 27, 27);
   margin-bottom: 1.5rem;
   padding: 5px;
 }
 .artefact-description{
   padding: 5px;
-  color:#222831;
+  color:rgb(27, 27, 27);
 }
 
 /** snow **/
@@ -1947,9 +2019,9 @@ body.-menu-open .site-menu__item {
 .unicorn {
   margin-top: 30px;
   margin-left: 10px;
-  background-color: rgb(21, 22, 23);
+  background-color: rgb(27, 27, 27);
   box-shadow: 5px 5px 10px #4d4d4d17, -5px -5px 10px #4545450e;
-  color: whitesmoke;
+  color: rgb(245, 240, 220);
   /*display: inline-flex;*/
   align-items: center;
 }
@@ -1969,4 +2041,91 @@ body.-menu-open .site-menu__item {
   height: 50vh;
 }
 
+.ui-row {
+  display: flex;
+  align-items: stretch; /* Выравнивает по высоте */
+  gap: 20px;
+  padding: 20px;
+  position: relative;
+}
+
+.wedding-banner {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: linear-gradient(#1b1b1b, #1b1b1b) padding-box,
+              linear-gradient(90deg, #ffccf9, #ccffff, #ffc2e2, #ccffcc, #ffccf9) border-box;
+  background-size: 300% 300%;
+  animation: shimmer 8s linear infinite;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+  text-align: center;
+  font-family: 'Cinzel', serif;
+}
+
+.wedding-title {
+  background-color: #1b1b1b;
+  color: #f5f0dc;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: -20px;
+  margin-bottom: 10px;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  z-index: 2;
+  position: relative;
+}
+
+#wedding-text {
+  color: #f5f0dc;
+  display: inline-block;
+  padding: 4px 12px;
+  position: relative;
+  max-width: 200px;
+  font-size: 0.6rem;
+}
+
+.wedding-banner img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+  max-height: 290px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@media screen and (max-width: 768px) {
+  .ui-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .wedding-banner {
+    position: static;
+    width: 90%;
+    max-width: 340px;
+    margin: 20px auto;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  }
+
+  .wedding-banner img {
+    height: auto;
+    max-height: 300px;
+  }
+
+  .wedding-title {
+    font-size: 1rem;
+  }
+}
 
