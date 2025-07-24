@@ -4,7 +4,7 @@ const id = new URLSearchParams(window.location.search).get('id');
 const container = document.querySelector('.details');
 
 const getDetails = async () => {
-    const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
+    const res = await fetch(`../data/db.json`);
     const cells = await res.json();
     let cell = await cells.find( cell => cell.name === id);
     
