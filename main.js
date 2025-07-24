@@ -29,7 +29,7 @@ async function loadSeasonInfo() {
   const daysEl = document.getElementById('daysToNextSeasonValue');
 
   try {
-    const res = await fetch('/static/info_marathon.json');
+    const res = await fetch('./static/info_marathon.json');
     if (!res.ok) throw new Error('Ошибка при загрузке current_season');
 
     const data = await res.json();
@@ -300,7 +300,7 @@ async function drawMap(lines, colomns, r, withText, paths) {
     document.getElementById('showMyLocation').disabled = true;
   }
 
-  const currentSeason = await fetch('./static/info-marathon.json')
+  const currentSeason = await fetch('./static/info_marathon.json')
   .then(res => res.ok ? res.json() : null)
   .then(data => data?.current_season)
   .catch(() => null);
