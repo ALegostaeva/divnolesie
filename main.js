@@ -29,7 +29,7 @@ async function loadSeasonInfo() {
   const daysEl = document.getElementById('daysToNextSeasonValue');
 
   try {
-    const res = await fetch('/static/info-marathon.json');
+    const res = await fetch('/static/info_marathon.json');
     if (!res.ok) throw new Error('Ошибка при загрузке current_season');
 
     const data = await res.json();
