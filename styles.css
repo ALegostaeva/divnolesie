@@ -249,6 +249,42 @@ body.-menu-open .site-menu__item {
   opacity: 1;
 }
 
+/* Кнопка Профиль*/
+
+.profile-button-wrapper {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.profile-button {
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid #e9d8a6;
+  border-radius: 12px;
+  background-color: transparent;
+  color: #e9d8a6;
+  text-decoration: none;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.profile-button:hover {
+  background-color: #2e2e2e;
+}
+
+.profile-button .icon {
+  font-size: 18px;
+}
+
+@media (max-width: 480px) {
+  .profile-button .text {
+    display: none;
+  }
+}
+
 /**  **/
 #contact {
   box-sizing: border-box;

@@ -1,0 +1,80 @@
+h1 {
+    color: rgb(233, 216, 166);
+    text-decoration-line: overline;
+    margin: 0;
+    padding-left: 10px;
+    font-size: 2rem;
+    align-self: center;
+  }
+
+  /** Menu **/
+body {
+    margin: 0;
+    font: 400 16px/1.5 "Source Sans Pro", "Segoe UI", "Helvetica Neue", Roboto, Arial, sans-serif;
+    min-height: 100vh;
+  }
+  .sr-only {
+    width: 1px;
+    height: 1px;
+    visibility: hidden;
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+    line-height: 0;
+    text-decoration: none;
+  }
+  
+  body.-menu-open .hero__image {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  .site-menu__button {
+    border: 0;
+    background: transparent;
+    color: rgb(233, 216, 166);
+    font-size: 3rem;
+    cursor: pointer;
+    outline: 0;
+    justify-self: right;
+  }
+  body.-menu-open .site-menu__button {
+    position: relative;
+    z-index: 1000;
+  }
+  .site-menu__content {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.55);
+    padding: 4rem 2rem 2rem;
+    transition: 0.25s ease;
+    z-index: -1;
+    visibility: hidden;
+    opacity: 0;
+  }
+  body.-menu-open .site-menu__content {
+    opacity: 1;
+    visibility: visible;
+    z-index: 999;
+  }
+  .site-menu__item {
+    text-decoration: none;
+    color: rgb(245, 240, 220);
+    font-weight: 200;
+    font-size: 2rem;
+    line-height: 2em;
+    transition: 0.25s ease 0.25s;
+    transform: translateX(45px);
+    opacity: 0;
+    display: block;
+  }
+  .site-menu__item:first-child {
+    border-top: 1px solid rgb(245, 240, 220);
+    margin-top: 1rem;
+  }
+  body.-menu-open .site-menu__item {
+    transform: translateX(0);
+    opacity: 1;
+  }

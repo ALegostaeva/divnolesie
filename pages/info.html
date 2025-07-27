@@ -22,6 +22,14 @@
     </head>
 
     <body>
+        <div id="loginOverlay" style="display: none;">
+            <p style="margin-bottom: 2em; font-size: 1.2em;">Для продолжения авторизуйтесь через ВКонтакте</p>
+            <div id="VkIdSdkOneTap">
+            </div>
+            <script src="https://unpkg.com/@vkid/sdk@<3.0.0/dist-sdk/umd/index.js"></script>
+        </div>
+        <script type="text/javascript" src="../js/checkAuth.js"></script>
+        
         <header>
             
             <nav class="site-menu">
@@ -31,6 +39,7 @@
                 </button>
                 <div class="site-menu__content">
                     <a class="site-menu__item" href="../index.html">Карта</a>
+                    <a class="site-menu__item" href="profile.html">Профиль</a>
                     <a class="site-menu__item" href="rules.html">Правила</a>
                     <a class="site-menu__item" href="quests.html">Квесты</a>
                     <a class="site-menu__item" href="artefacts.html">Артефакты</a>

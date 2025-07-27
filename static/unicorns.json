@@ -1,0 +1,164 @@
+[
+    {
+        "id": 1,
+        "type": "kamen",
+        "name": "Яйцо каменного города",
+        "stage": "eggs",
+        "img":"../assets/unicorns/egg_stone.png",
+        "price_exp": 0,
+        "price_coins": 0
+    },
+    {
+        "id": 2,
+        "type": "kamen",
+        "name": "Каменный единорог",
+        "stage": "unicorns_baby",
+        "img":"../assets/unicorns/uni_baby_stone.png",
+        "price_exp": 15,
+        "price_coins": 0
+    },
+    {
+        "id": 3,
+        "type": "kamen",
+        "name": "Каменный взрослый единорог",
+        "img":"../assets/unicorns/unicorn_stone.png",
+        "stage": "unicorns",
+        "price_exp": 15,
+        "price_coins": 50
+    },
+    {
+        "id": 4,
+        "type": "snow",
+        "name": "Яйцо снежного перевала",
+        "stage": "eggs",
+        "img":"../assets/unicorns/egg_snow.png",
+        "price_exp": 0,
+        "price_coins": 0
+    },
+    {
+        "id": 5,
+        "type": "snow",
+        "name": "Снежный единорог",
+        "stage": "unicorns_baby",
+        "img":"../assets/unicorns/uni_baby_snow.png",
+        "price_exp": 15,
+        "price_coins": 0
+    },
+    {
+        "id": 6,
+        "type": "snow",
+        "name": "Снежный взрослый единорог",
+        "stage": "unicorns",
+        "img":"../assets/unicorns/unicorn_snow.png",
+        "price_exp": 15,
+        "price_coins": 50
+    },
+    {
+        "id": 7,
+        "type": "pustyn",
+        "name": "Яйцо пустыни",
+        "stage": "eggs",
+        "img":"../assets/unicorns/egg_desert.png",
+        "price_exp": 0,
+        "price_coins": 0
+    },
+    {
+        "id": 8,
+        "type": "pustyn",
+        "name": "Пустынный единорог",
+        "stage": "unicorns_baby",
+        "img":"../assets/unicorns/uni_baby_desert.png",
+        "price_exp": 15,
+        "price_coins": 0
+    },
+    {
+        "id": 9,
+        "type": "pustyn",
+        "name": "Пустынный взрослый единорог",
+        "stage": "unicorns",
+        "img":"../assets/unicorns/unicorn_desert.png",
+        "price_exp": 15,
+        "price_coins": 50
+    },
+    {
+        "id": 10,
+        "type": "les",
+        "name": "Яйцо междумирья",
+        "stage": "eggs",
+        "img":"../assets/unicorns/egg_les.png",
+        "price_exp": 0,
+        "price_coins": 0
+    },
+    {
+        "id": 11,
+        "type": "les",
+        "name": "Лесной единорог",
+        "stage": "unicorns_baby",
+        "img":"../assets/unicorns/uni_baby_les.png",
+        "price_exp": 15,
+        "price_coins": 0
+    },
+    {
+        "id": 12,
+        "type": "les",
+        "name": "Лесной взрослый единорог",
+        "stage": "unicorns",
+        "img":"../assets/unicorns/unicorn_les.png",
+        "price_exp": 15,
+        "price_coins": 50
+    },
+    {
+        "id": 13,
+        "type": "boloto",
+        "name": "Яйцо болотных топей",
+        "stage": "eggs",
+        "img":"../assets/unicorns/egg_boloto.png",
+        "price_exp": 0,
+        "price_coins": 0
+    },
+    {
+        "id": 14,
+        "type": "boloto",
+        "name": "Болотный единорог",
+        "stage": "unicorns_baby",
+        "img":"../assets/unicorns/uni_baby_boloto.png",
+        "price_exp": 15,
+        "price_coins": 0
+    },
+    {
+        "id": 15,
+        "type": "boloto",
+        "name": "Болотный взрослый единорог",
+        "stage": "unicorns",
+        "img":"../assets/unicorns/unicorn_boloto.png",
+        "price_exp": 15,
+        "price_coins": 50
+    },
+    {
+        "id": 16,
+        "type": "king",
+        "name": "Яйцо королевского единорога",
+        "stage": "eggs",
+        "img":"../assets/unicorns/egg_king.png",
+        "price_exp": 0,
+        "price_coins": 0
+    },
+    {
+        "id": 17,
+        "type": "king",
+        "name": "Королевский единорог",
+        "stage": "unicorns_baby",
+        "img":"../assets/unicorns/uni_baby_king.png",
+        "price_exp": 15,
+        "price_coins": 0
+    },
+    {
+        "id": 18,
+        "type": "king",
+        "name": "Королевский взрослый единорог",
+        "stage": "unicorns",
+        "img":"../assets/unicorns/unicorn_king.png",
+        "price_exp": 15,
+        "price_coins": 50
+    }
+]

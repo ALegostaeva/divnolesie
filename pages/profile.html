@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="Дивнолесье: книжный квест">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vk.com/polkasknigami">
+  <meta property="og:description" content="Дивнолесье: книжный квест. Путешествие для больших ценителей чтения.">
+  <meta property="og:image" content="logo.png">
+  <link rel="icon" type="image/x-icon" href="../assets/logo.png">
+  <title>Профиль</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ruslan Display">
+  <link rel="stylesheet" href="../static/styles_profile.css?v=1234" />
+  <link rel="stylesheet" type="text/css" href="../static/style_menu.css">
+</head>
+<body>
+    <div id="loginOverlay" style="display: none;">
+        <p style="margin-bottom: 2em; font-size: 1.2em;">Для продолжения авторизуйтесь через ВКонтакте</p>
+        <div id="VkIdSdkOneTap">
+        </div>
+        <script src="https://unpkg.com/@vkid/sdk@<3.0.0/dist-sdk/umd/index.js"></script>
+    </div>
+    <script type="text/javascript" src="../js/checkAuth.js"></script>
+
+    <header>
+            
+        <nav class="site-menu">
+            <button class="site-menu__button" data-js-menu="">
+                <i class="fa fa-bars"></i>
+                <span class="sr-only">Menu</span>
+            </button>
+            <div class="site-menu__content">
+                <a class="site-menu__item" href="../index.html">Карта</a>
+                <a class="site-menu__item" href="profile.html">Профиль</a>
+                <a class="site-menu__item" href="rules.html">Правила</a>
+                <a class="site-menu__item" href="quests.html">Квесты</a>
+                <a class="site-menu__item" href="artefacts.html">Артефакты</a>
+                <a class="site-menu__item" href="unicorns.html">Единороги</a>
+                <a class="site-menu__item" href="dark_market.html">Черный рынок Залесья</a>
+                <a class="site-menu__item" href="about.html">Об Авторах</a>
+            </div>
+        </nav>
+
+        <h1 style="font-family: 'Ruslan Display'; font-weight: bold;">Дивнолесье</h1>
+
+    </header>
+  <div class="profile-container" id="profile"></div>
+  <script src="../js/profile.js?v=1234" defer></script>
+  <script src="../js/menu.js" defer></script>
+  
+</body>
+</html>

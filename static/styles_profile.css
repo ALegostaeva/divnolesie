@@ -1,0 +1,292 @@
+body {
+  font-family: 'Georgia', serif;
+  background: linear-gradient(#021017, #042029);
+  color: #f7f2e7;
+  margin: 0;
+  padding: 1em;
+}
+
+#loginOverlay {
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgb(18, 15, 23);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 4em;
+  z-index: 99;
+  margin-top: 0px;
+}
+h1 {
+  color: rgb(233, 216, 166);
+  text-decoration-line: overline;
+  margin: 0;
+  padding-left: 10px;
+  font-size: 2rem;
+  align-self: center;
+}
+
+.profile-container {
+  max-width: 800px;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 2em;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+h1, h2, h3 {
+  margin-top: 0;
+}
+
+h2, h3 {
+  text-align: center;
+}
+
+.coin {
+  width: 20px;
+}
+
+.section {
+  margin-top: 1.5em;
+}
+
+.line {
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+}
+
+.egg, .unicorn {
+  margin-left: 1em;
+}
+
+.group {
+  margin-bottom: 1em;
+}
+
+.artifact-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin-top: 1em;
+}
+
+.artifact-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 0.5px solid #e9d8a6;
+  border-radius: 8px;
+  padding: 1em;
+  width: 110px;
+  text-align: center;
+  position: relative;
+}
+
+.artifact-img {
+  width: 60px;
+  height: 60px;
+  border: 0.5px solid #e9d8a6;
+  border-radius: 8px;
+}
+
+.artifact-qty {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #c59c6c;
+  color: #000;
+  font-size: 0.8em;
+  padding: 0.2em 0.4em;
+  border-radius: 0 8px 0 8px;
+}
+
+@media (max-width: 600px) {
+  .profile-container {
+    padding: 1em;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  .artifact-card {
+    width: 90px;
+    padding: 0.5em;
+  }
+
+  .artifact-img {
+    width: 50px;
+    height: 50px;
+  }
+}
+.egg-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+
+.egg-exp {
+  border: 1px solid #c1ab7a;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.egg-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  padding-top: 8px;
+}
+
+.egg-card {
+  width: 120px;
+  text-align: center;
+  position: relative;
+  border: 1px solid #c59c6c;
+  border-radius: 12px;
+}
+
+.egg-img {
+  width: 120px;
+  height: 120px;
+}
+
+.uni-count {
+  position: absolute;
+  top: 0;
+  right: 0px;
+  background: #c59c6c;
+  color: rgb(27,27,27);
+  padding: 2px 6px;
+  border-radius: 0px 8px 0px 8px;
+  font-size: 18px;
+}
+
+.egg-label {
+  margin-top: 0.2em;
+  font-size: 0.85em;
+  padding: 8px;
+}
+
+@media (max-width: 600px) {
+  .egg-card {
+    width: 70px;
+  }
+
+  .egg-img {
+    width: 60px;
+    height: 60px;
+  }
+}
+.unicorn-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start;
+  margin-top: 8px;
+}
+
+.unicorn-card {
+  position: relative;
+  width: 200px;
+  text-align: center;
+  padding: 0px;
+  border-radius: 12px;
+  font-size: 13px;
+  border: 1px solid #c59c6c;
+}
+
+.unicorn-img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+}
+
+.unicorn-label {
+  margin-top: 4px;
+  font-weight: 500;
+  padding: 8px;
+}
+
+.unicorn-exp {
+  border-top: 2px solid rgba(0, 0, 0, 0.1);
+  padding: 8px 8px;
+  border-radius: 0 0 8px 8px;
+  font-size: 0.9em;
+  font-weight: 500;
+  color: rgb(27,27,27);
+  text-align: center;
+  margin-top: auto;
+  width: 100%;
+  box-sizing: border-box;
+  background: #c59c6c;
+}
+
+/* Адаптив */
+@media (max-width: 500px) {
+  .unicorn-card {
+    width: 90px;
+    font-size: 12px;
+  }
+  .unicorn-img {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.trophy-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: start;
+  align-items: flex-start;
+  margin-top: 16px;
+}
+
+.trophy-card {
+  position: relative;
+  width: 100px;
+  height: 130px;
+  padding: 12px 8px 24px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.trophy-icon {
+  width: 80px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
+  z-index: 1;
+}
+
+.trophy-label {
+  position: absolute;
+  bottom: 8px;
+  background:  #f5e199;
+  color: #3b2c00;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 8px 8px;
+  margin: 0px 0px 8px 0px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border-radius: 0px 0px 12px 12px;
+  text-align: center;
+  min-width: 80%;
+}

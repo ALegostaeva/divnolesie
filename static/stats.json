@@ -160,7 +160,7 @@
             3,
             12
         ],
-        "exp_egg": 0,
+        "exp_egg": 10,
         "exp_boloto": 60,
         "exp_snow": 60,
         "exp_les": 45,
@@ -168,7 +168,7 @@
         "exp_pustyn": 60,
         "won_seasons": [
             15,
-            17
+            17,20,19
         ],
         "notifications": true
     },

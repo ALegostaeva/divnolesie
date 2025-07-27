@@ -268,7 +268,8 @@ async function drawMap(lines, colomns, r, withText, paths) {
 
   let stats = {};
   try {
-    const statsRes = await fetch('./static/stats.json');
+    //const statsRes = await fetch('https://sashadiv.pythonanywhere.com/static/stats.json',{ cache: 'no-cache' });
+    const statsRes = await fetch('./static/stats.json',{ cache: 'no-cache' });
     if (!statsRes.ok) throw new Error('Ошибка при загрузке stats.json');
     stats = await statsRes.json();
     statsData = stats;
