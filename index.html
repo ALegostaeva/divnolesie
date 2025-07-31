@@ -22,13 +22,24 @@
     </head>
 
     <body>
+        <div class="hex-loader">
+            <div class="hex-loader-blocks">
+              <div class="hex-loader-block"></div>
+              <div class="hex-loader-block"></div>
+              <div class="hex-loader-block"></div>
+              <div class="hex-loader-block"></div>
+              <div class="hex-loader-block"></div>
+              <div class="hex-loader-block"></div>
+              <div class="hex-loader-block"></div>
+            </div>
+        </div>
         <div id="loginOverlay" style="display: none;">
             <p style="margin-bottom: 2em; font-size: 1.2em;">Для продолжения авторизуйтесь через ВКонтакте</p>
             <div id="VkIdSdkOneTap">
             </div>
             <script src="https://unpkg.com/@vkid/sdk@<3.0.0/dist-sdk/umd/index.js"></script>
         </div>
-        <script type="text/javascript" src="js/checkAuth.js"></script>
+        <script type="text/javascript" src="js/checkAuth.js?v=1234"></script>
 
         <header>       
             <nav class="site-menu">
@@ -58,18 +69,6 @@
               </div>
 
         </header>
-
-        <div class="hex-loader">
-            <div class="hex-loader-blocks">
-              <div class="hex-loader-block"></div>
-              <div class="hex-loader-block"></div>
-              <div class="hex-loader-block"></div>
-              <div class="hex-loader-block"></div>
-              <div class="hex-loader-block"></div>
-              <div class="hex-loader-block"></div>
-              <div class="hex-loader-block"></div>
-            </div>
-        </div>
 
         <div id="toggle-ui-wrapper" class="toggle-ui-wrapper">
             <span id="toggleUIRow" class="toggle-ui-button" aria-label="Скрыть панель">▲</span>
@@ -123,7 +122,7 @@
         </footer>
 
         <script src="main.js?v=1234" defer></script>
-        <script src="js/menu.js" defer></script>
+        <script src="./js/menu.js?v=1234" defer></script>
         
         <noscript>Sorry, your browser does not support JavaScript!</noscript>
     </body>

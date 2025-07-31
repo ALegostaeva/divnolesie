@@ -123,7 +123,7 @@ let Hexes = [];
 let cells = [];
 let showLabels = false;
 let showPaths = false;
-let showCampfires = true; // по умолчанию костёрки включены
+let showCampfires = false; // по умолчанию костёрки выключены
 
 let activeCells = new Set(); // клетки, где есть игроки
 let statsData = []; // Массив с игроками, нужен для поиска по cellName
@@ -352,8 +352,13 @@ async function drawMap(lines, colomns, r, withText, paths) {
 
 //drawScreen
 window.onload = function(){  
-    drawMap(canvas.width, canvas.height, r, showLabels, showPaths); 
-    loadSeasonInfo();
+  console.log('Все ресурсы загружены — отрисовываем карту');
+
+  drawMap(canvas.width, canvas.height, r, showLabels, showPaths);
+
+  // Скрываем лоадер
+  const loader = document.querySelector('.hex-loader');
+  if (loader) loader.style.display = 'none';
 };
 
 const toggleButton = document.getElementById('toggleUIRow');
@@ -487,10 +492,4 @@ canvas.addEventListener('touchend', () => {
   tooltip.style.display = 'none';
 });
 
-window.addEventListener('load', function () {
-  const loader = document.getElementsByClassName('hex-loader')[0];
-  console.log('loader hide', loader);
-  if (loader) {
-    loader.style.display = 'none';
-  }
-});
+

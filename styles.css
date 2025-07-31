@@ -474,6 +474,7 @@ body.-menu-open .site-menu__item {
   height: 170px;
   border: 2px solid #ebedf1;
   border-radius: 100%;
+  z-index: 9999;
 }
 
 .hex-loader::before {
@@ -489,7 +490,7 @@ body.-menu-open .site-menu__item {
   top: -2px;
   left: -2px;
   animation: rotateSmall 2s linear infinite;
-  z-index: 99;
+  z-index: 9999;
 }
 
 .hex-loader::after {

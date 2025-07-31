@@ -4,10 +4,10 @@ async function loadProfile() {
 
     try {
         [stats, info, artefactsDict, unicornData] = await Promise.all([
-            //fetch('https://sashadiv.pythonanywhere.com/static/stats.json');
+            //fetch('https://sashadiv.pythonanywhere.com/static/stats.json', { cache: 'no-cache' });
             //fetch('https://sashadiv.pythonanywhere.com/static/info_marathon.json');
             //fetch('https://sashadiv.pythonanywhere.com/static/artefacts.json');
-            fetch('../static/stats.json').then(r => r.json()),
+            fetch('../static/stats.json', { cache: 'no-cache' }).then(r => r.json()),
             fetch('../static/info_marathon.json').then(r => r.json()),
             fetch('../static/artefacts.json').then(r => r.ok ? r.json() : {}),
             fetch('../static/unicorns.json').then(r => r.ok ? r.json() : [])
@@ -72,7 +72,7 @@ async function loadProfile() {
   }
   
   function renderArtefacts(counts, dict) {
-    if (!Object.keys(counts).length) return '<p>пусто</p>';
+    if (!Object.keys(counts).length) return '<p>Пока здесь пусто</p>';
     return Object.entries(counts).map(([id, count]) => {
       const a = dict[id] || { name: `Арт. #${id}`, img: '../assets/artefacts/default.png', description: '' };
       return `
@@ -105,11 +105,10 @@ async function loadProfile() {
         <h3>Волшебные яйца</h3>
         <div class="egg-exp">ОПЫТ <span>${exp || 0}</span></div>
       </div>
-      <div class="egg-grid">${eggList || '<p>Здесь пусто</p>'}</div>`;
+      <div class="egg-grid">${eggList || '<p>Пока здесь пусто</p>'}</div>`;
   }
   
   function renderUnicorns(list = [], unicornData = [], stage = 'baby',currentUser) {
-    console.log(currentUser);
     const counts = list.reduce((acc, id) => {
       acc[id] = (acc[id] || 0) + 1;
       return acc;
@@ -132,7 +131,6 @@ async function loadProfile() {
       if (stage === 'baby') {
         const type = u?.type;
         const expField = type ? `exp_${type}` : null;
-        console.log("exp",currentUser[expField]);
         const expValue = expField && currentUser[expField];
         expLine = `<div class="unicorn-exp">ОПЫТ: ${expValue}</div>`;
       }
@@ -149,14 +147,14 @@ async function loadProfile() {
   
     return `
       <div class="unicorn-grid">
-        ${grid || '<p>Здесь пусто</p>'}
+        ${grid || '<p>Пока здесь пусто</p>'}
       </div>
     `;
   }
 
   function renderWonSeasons(seasons = []) {
     if (!Array.isArray(seasons) || seasons.length === 0) {
-      return '<p>пусто</p>';
+      return '<p>Пока здесь пусто</p>';
     }
   
     return `

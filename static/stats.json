@@ -129,36 +129,13 @@
         },
         "admin": true,
         "artefacts": [
-            1,
-            3,
-            4,
-            5,
-            7,
-            8,
-            9,
-            5,
-            6,
-            5
         ],
         "coins": 402,
         "eggs": [
-            13,
-            7,
-            4,
-            13
         ],
         "unicorns_baby": [
-            5,
-            2,
-            8,
-            11,
-            2,
-            11,
-            11
         ],
         "unicorns": [
-            3,
-            12
         ],
         "exp_egg": 10,
         "exp_boloto": 60,
@@ -167,8 +144,6 @@
         "exp_kamen": 20,
         "exp_pustyn": 60,
         "won_seasons": [
-            15,
-            17,20,19
         ],
         "notifications": true
     },
