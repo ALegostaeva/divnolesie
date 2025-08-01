@@ -23,7 +23,8 @@ async function isParticipant() {
   
   try {
     var id = localStorage.getItem('vk_user_id');
-    const res = await fetch('../static/stats.json', { cache: 'no-cache' } );
+    const res = await fetch('https://sashadiv.pythonanywhere.com/static/stats.json',{ cache: 'no-cache' });
+    //const res = await fetch('../static/stats.json', { cache: 'no-cache' } );
     if (!res.ok) {
       showLostConnectionMessage();
       return false;

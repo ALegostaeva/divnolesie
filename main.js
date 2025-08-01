@@ -268,8 +268,8 @@ async function drawMap(lines, colomns, r, withText, paths) {
 
   let stats = {};
   try {
-    //const statsRes = await fetch('https://sashadiv.pythonanywhere.com/static/stats.json',{ cache: 'no-cache' });
-    const statsRes = await fetch('./static/stats.json',{ cache: 'no-cache' });
+    const statsRes = await fetch('https://sashadiv.pythonanywhere.com/static/stats.json',{ cache: 'no-cache' });
+    //const statsRes = await fetch('./static/stats.json',{ cache: 'no-cache' });
     if (!statsRes.ok) throw new Error('Ошибка при загрузке stats.json');
     stats = await statsRes.json();
     statsData = stats;
@@ -301,7 +301,8 @@ async function drawMap(lines, colomns, r, withText, paths) {
     document.getElementById('showMyLocation').disabled = true;
   }
 
-  const currentSeason = await fetch('./static/info_marathon.json')
+  const currentSeason = await fetch('https://sashadiv.pythonanywhere.com/static/info_marathon.json')
+  //const currentSeason = await fetch('./static/info_marathon.json')
   .then(res => res.ok ? res.json() : null)
   .then(data => data?.current_season)
   .catch(() => null);
@@ -352,8 +353,6 @@ async function drawMap(lines, colomns, r, withText, paths) {
 
 //drawScreen
 window.onload = function(){  
-  console.log('Все ресурсы загружены — отрисовываем карту');
-
   drawMap(canvas.width, canvas.height, r, showLabels, showPaths);
 
   // Скрываем лоадер
