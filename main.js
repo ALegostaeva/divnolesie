@@ -121,6 +121,7 @@ const linesABC = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'];
 
 let Hexes = [];
 let cells = [];
+let seasonInfo = [];
 let showLabels = false;
 let showPaths = false;
 let showCampfires = false; // по умолчанию костёрки выключены
@@ -148,6 +149,22 @@ tooltip.style.pointerEvents = 'none';
 tooltip.style.display = 'none';
 tooltip.style.zIndex = 1000;
 document.body.appendChild(tooltip);
+
+
+async function loadResources() {
+    try {
+      [statsData, cells, seasonInfo] = await Promise.all([
+        fetch('https://sashadiv.pythonanywhere.com/static/stats.json', { cache: 'no-cache' }).then(r => r.json()),
+        fetch(`https://divnolesie.pages.dev/data/db.json`).then(r => r.json()),
+        fetch('https://sashadiv.pythonanywhere.com/static/info_marathon.json').then(r => r.json()),
+        //fetch('./static/stats.json', { cache: 'no-cache' }).then(r => r.json()),
+        //fetch('./data/db.json').then(r => r.json()),
+        //fetch('./static/info_marathon.json').then(r => r.json())s
+      ]);
+    } catch (e) {
+      console.error('Ошибка загрузки ресурсов:', e);
+    }
+}
 
 // Функция для отрисовки одного гексагона
 function drawHex(hex, x, y, no, withText, paths, isPath, strangers = false, isPlayerHere = false, isVisited = false) {
@@ -259,38 +276,15 @@ function openDescription(address){
 
 async function drawMap(lines, colomns, r, withText, paths) {
 
-  //const res = await fetch(`https://divnolesie.pages.dev/data/db.json`);
-  const res = await fetch(`./data/db.json`);
-  cells = await res.json();
-
   activeCells.clear(); // очищаем старые активные клетки
   let currentUser = null; 
-
-  let stats = {};
-  try {
-    const statsRes = await fetch('https://sashadiv.pythonanywhere.com/static/stats.json',{ cache: 'no-cache' });
-    //const statsRes = await fetch('./static/stats.json',{ cache: 'no-cache' });
-    if (!statsRes.ok) throw new Error('Ошибка при загрузке stats.json');
-    stats = await statsRes.json();
-    statsData = stats;
-    if (Array.isArray(stats)) {
-      for (const p of stats) {
-        if (p.is_participant && p.current_cell) {
-          activeCells.add(p.current_cell);
-        }
-      }
-    }
-
-  } catch (err) {
-    console.error('Ошибка при загрузке статистики:', err);
-  }
 
   // Отображение игрока на карте
   const userId = localStorage.getItem('vk_user_id');
   myCurrentCell = null; // сбрасываем
 
-  if (userId && Array.isArray(stats)) {
-    currentUser = stats.find(p => Number(p.vk_id) === Number(userId));
+  if (userId && Array.isArray(statsData)) {
+    currentUser = statsData.find(p => Number(p.vk_id) === Number(userId));
     if (currentUser && currentUser.current_cell) {
       myCurrentCell = currentUser.current_cell;
       document.getElementById('showMyLocation').disabled = false;
@@ -301,18 +295,22 @@ async function drawMap(lines, colomns, r, withText, paths) {
     document.getElementById('showMyLocation').disabled = true;
   }
 
-  const currentSeason = await fetch('https://sashadiv.pythonanywhere.com/static/info_marathon.json')
-  //const currentSeason = await fetch('./static/info_marathon.json')
-  .then(res => res.ok ? res.json() : null)
-  .then(data => data?.current_season)
-  .catch(() => null);
+  if (Array.isArray(statsData)) {
+    for (const p of statsData) {
+      if (p.is_participant && p.current_cell) {
+        activeCells.add(p.current_cell);
+      }
+    }
+  }
+
+  currentSeason = seasonInfo?.current_season
 
   // Сброс пути
   visitedThisSeason.clear();
   showMyPathCheckbox.disabled = true;
 
-  if (userId && currentSeason && Array.isArray(stats)) {
-    currentUser = stats.find(p => Number(p.vk_id) === Number(userId));
+  if (userId && currentSeason && Array.isArray(statsData)) {
+    currentUser = statsData.find(p => Number(p.vk_id) === Number(userId));
     if (currentUser?.visited_cells?.[currentSeason]) {
       const allVisited = currentUser.visited_cells[currentSeason];
       const uniqueVisited = [...new Set(allVisited)];
@@ -338,7 +336,7 @@ async function drawMap(lines, colomns, r, withText, paths) {
         isPath = false;
       }
       const hasStrangers = activeCells.has(cellName);
-      const isPlayerHere = currentUser?.current_cell === cellName;
+      const isPlayerHere = (currentUser?.current_cell === cellName) && showMyLocation;
       const isVisited = showMyPath && visitedThisSeason.has(cellName) && !isPlayerHere;
 
       drawHex(hexCurrent, x, y, cellName, withText, paths, isPath, showCampfires && hasStrangers, isPlayerHere, isVisited);
@@ -352,7 +350,8 @@ async function drawMap(lines, colomns, r, withText, paths) {
 
 
 //drawScreen
-window.onload = function(){  
+window.onload = async function(){  
+  await loadResources();
   drawMap(canvas.width, canvas.height, r, showLabels, showPaths);
 
   // Скрываем лоадер
@@ -360,15 +359,16 @@ window.onload = function(){
   if (loader) loader.style.display = 'none';
 };
 
+const toggleWrapper = document.getElementById('toggle-ui-wrapper');
 const toggleButton = document.getElementById('toggleUIRow');
 const uiRow = document.querySelector('.ui-row');
 let isHidden = false;
 
-toggleButton.addEventListener('click', () => {
+toggleWrapper.addEventListener('click', () => {
   isHidden = !isHidden;
   uiRow.classList.toggle('hidden', isHidden);
   toggleButton.innerHTML = isHidden ? '▼' : '▲';
-  toggleButton.setAttribute('aria-label', isHidden ? 'Показать панель' : 'Скрыть панель');
+  toggleWrapper.setAttribute('aria-label', isHidden ? 'Показать панель' : 'Скрыть панель');
 });
 
 
@@ -428,10 +428,6 @@ showMyPathCheckbox.addEventListener('change', () => {
   drawMap(canvas.width, canvas.height, r, showLabels, showPaths);
 });
 
-const btnContact = document.querySelector('#contact');
-
-//btnContact.addEventListener ('click', () => {})
-
 // HOVER (десктоп)
 canvas.addEventListener('mousemove', (e) => {
   const rect = canvas.getBoundingClientRect();
@@ -489,6 +485,12 @@ canvas.addEventListener('touchstart', (e) => {
 canvas.addEventListener('touchend', () => {
   clearTimeout(touchTimeout);
   tooltip.style.display = 'none';
+});
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  // Удаляем данные авторизации
+  localStorage.removeItem('vk_user_id');
+  window.location.href = '/index.html';
 });
 
 
