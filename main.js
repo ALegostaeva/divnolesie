@@ -278,6 +278,7 @@ async function drawMap(lines, colomns, r, withText, paths) {
 
   activeCells.clear(); // очищаем старые активные клетки
   let currentUser = null; 
+  Hexes = [];
 
   // Отображение игрока на карте
   const userId = localStorage.getItem('vk_user_id');
@@ -323,6 +324,7 @@ async function drawMap(lines, colomns, r, withText, paths) {
 
   var no = 1;
   var abcNo = 0;
+
   for (let y = r+13; y + r * Math.sin(a) < colomns; y += 38+r * Math.cos(a)) {
     y += r * Math.sin(a);
     for (let x = r + 20, j = 1; x + r * (1 + Math.cos(a)) < lines ; x += r * (1 + Math.cos(a)), y += (-1) ** j++ * r * Math.sin(a)) {
@@ -330,11 +332,8 @@ async function drawMap(lines, colomns, r, withText, paths) {
       hexCurrent = new Hex(r,cellName, no, linesABC[abcNo], x, y);
       Hexes.push(hexCurrent);
       let cCell = cells.find(cell => cell.name === cellName);
-      if (cCell.isPath == true) {
-        isPath = true;
-      } else {
-        isPath = false;
-      }
+      const isPath = cCell?.isPath || false;
+
       const hasStrangers = activeCells.has(cellName);
       const isPlayerHere = (currentUser?.current_cell === cellName) && showMyLocation;
       const isVisited = showMyPath && visitedThisSeason.has(cellName) && !isPlayerHere;
