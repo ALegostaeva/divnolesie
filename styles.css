@@ -691,7 +691,7 @@ body.-menu-open .site-menu__item {
 
 /** snow **/
 .snow, .snow:before, .snow:after {
-  position: absolute;
+  position: fixed;
   top: -600px;
   left: 0;
   bottom: 0;
@@ -700,6 +700,7 @@ body.-menu-open .site-menu__item {
   background-size: 600px 600px;
   animation: snow 3s linear infinite;
   content: "";
+  pointer-events: none;
 }
 
 .snow:after {
