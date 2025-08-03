@@ -298,7 +298,7 @@ async function drawMap(lines, colomns, r, withText, paths) {
 
   if (Array.isArray(statsData)) {
     for (const p of statsData) {
-      if (p.is_participant && p.current_cell) {
+      if (p.is_participant && p.current_cell && Number(p.vk_id) !== 5649984) {
         activeCells.add(p.current_cell);
       }
     }
@@ -439,7 +439,9 @@ canvas.addEventListener('mousemove', (e) => {
     const dy = mouseY - hex.centerY;
     const distance = Math.sqrt(dx * dx + dy * dy);
     if (distance <= r) {
-      const playersOnHex = statsData.filter(p => p.current_cell === hex.name && p.is_participant);
+      const playersOnHex = statsData.filter(
+        p => p.current_cell === hex.name && p.is_participant && Number(p.vk_id) !== 5649984
+      );      
       if (playersOnHex.length > 0) {
         const html = playersOnHex.map(p => `🦄 ${p.first_name} ${p.last_name}`).join('<br>');
         showTooltip(html, e.pageX, e.pageY);
