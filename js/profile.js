@@ -5,7 +5,7 @@ async function loadProfile() {
     try {
         [stats, info, artefactsDict, unicornData] = await Promise.all([
             fetch('https://sashadiv.pythonanywhere.com/static/stats.json', { cache: 'no-cache' }).then(r => r.json()),
-            fetch('https://sashadiv.pythonanywhere.com/static/info_marathon.json').then(r => r.json()),
+            fetch('https://sashadiv.pythonanywhere.com/static/info-marathon.json').then(r => r.json()),
             fetch('https://sashadiv.pythonanywhere.com/static/artefacts.json').then(r => r.ok ? r.json() : {}),
             //fetch('../static/stats.json', { cache: 'no-cache' }).then(r => r.json()),
             //fetch('../static/info_marathon.json').then(r => r.json()),
