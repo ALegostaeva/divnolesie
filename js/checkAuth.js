@@ -134,6 +134,5 @@ window.addEventListener('DOMContentLoaded', async () => {
     showLoginOverlay();
     return false;
   }
-  loadSeasonInfo();
   return true;  
 });
